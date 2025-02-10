@@ -1,6 +1,6 @@
 ---@class module<T>: {[string]: function}
 do
-  local curr_res = GetCurrentResourceName() or GetInvokingResource()
+  local curr_res = GetCurrentResourceName()
   local get_res_state = GetResourceState
   local debug_mode = GetResourceMetadata('bridge', 'debug_mode', 0) == 'true'
   local _require = require
