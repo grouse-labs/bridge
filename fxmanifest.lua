@@ -8,7 +8,7 @@ url ''
 
 debug_mode 'true'
 
-shared_script 'init.lua'
+shared_scripts {'shared/*.lua', 'init.lua'}
 
 files {'modules/**/shared.lua', 'modules/**/client.lua'}
 
