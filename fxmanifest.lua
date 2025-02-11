@@ -12,6 +12,6 @@ framework 'qb-core'
 
 shared_scripts {'shared/*.lua', 'init.lua'}
 
-files {'modules/**/shared.lua', 'modules/**/client.lua'}
+files {'shared/*.lua', 'modules/**/shared.lua', 'modules/**/client.lua'}
 
 lua54 'yes'
