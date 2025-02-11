@@ -56,9 +56,7 @@ local function add_box_zone(data, options)
 end
 
 ---@param box_zone integer|string The ID of the box zone to remove.
-local function remove_box_zone(box_zone)
-  ox_target:removeZone(box_zone)
-end
+local function remove_box_zone(box_zone) ox_target:removeZone(box_zone) end
 
 --------------------- OBJECT ---------------------
 
