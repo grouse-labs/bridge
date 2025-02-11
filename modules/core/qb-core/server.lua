@@ -121,9 +121,9 @@ local function remove_money(player, money_type, amount)
   if type(money_type) ~= 'string' then error('bad argument #2 to \'removeplayermoney\' (string expected, got '..type(money_type)..')', 2) end
   if type(amount) ~= 'number' then error('bad argument #3 to \'removeplayermoney\' (number expected, got '..type(amount)..')', 2) end
   money_type = money_type == 'money' and 'cash' or money_type
-  local prev = get_money(player, money_type)
   local Player = get_player(player)
   if not Player then error('error calling \'removeplayermoney\' (player not found)', 2) end
+  local prev = get_money(player, money_type)
   Player.Functions.RemoveMoney(money_type:lower(), amount, 'bridge removed money: '..amount)
   return get_money(player, money_type) == prev - amount
 end
