@@ -41,7 +41,7 @@ function ConvertJobData(data)
   if data.job_type then return data end
   local grade_type = type(data.grade)
   return {
-    name = data.name,
+    name = data.name or 'unemployed',
     label = data.label,
     grade = grade_type ~= 'table' and data.grade or data.grade.level,
     grade_name = grade_type ~= 'table' and data.grade_name or data.grade.name,
@@ -58,9 +58,9 @@ function ConvertGangData(data)
   if data.grade_name then return data end
   local grade_type = type(data.grade)
   return {
-    name = data.name,
+    name = data.name or 'none',
     label = data.label,
-    grade = grade_type ~= 'table' and data.grade or data.grade.level,
+    grade = grade_type ~= 'table' and data.grade or data.grade.level or 0,
     grade_name = grade_type ~= 'table' and data.grade_name or data.grade.name
   }
 end
