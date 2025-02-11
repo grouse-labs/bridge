@@ -1,10 +1,11 @@
 local framework = 'qb-core'
-
+if framework ~= GetResourceMetadata('bridge', 'framework', 0) then return end
 if not IsResourceValid(framework) then return end
 if IsResourceValid('qbx_core') then return end
 
-local QBCore = exports[framework]:GetCoreObject()
+local QBCore = exports[framework]:GetCoreObject({'Functions', 'Shared'})
 local version = GetResourceMetadata(framework, 'version', 0)
+if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
 
 local function get_framework() return framework end
 
@@ -61,17 +62,12 @@ local function has_group(player, groups)
   if not IsSrcValid(player) then error('bad argument #1 to \'doesplayerhavegroup\' (number expected, got '..type(player)..')', 2) end
   local group_type = type(groups)
   if group_type ~= 'string' and group_type ~= 'table' then error('bad argument #2 to \'doesplayerhavegroup\' (string or table expected, got '..group_type..')', 2) end
-  local job_data = get_job(player)
-  local gang_data = get_gang(player)
-  if not job_data or not next(job_data) then return false end
-  if not gang_data or not next(gang_data) then return false end
-  local job_name, job_label, job_type, gang_name, gang_label = job_data.name, job_data.label, job_data.job_type, gang_data.name, gang_data.label
-  if group_type == 'string' then
-    return job_name == groups or job_label == groups or job_type == groups or gang_name == groups or gang_label == groups
-  end
+  local job = get_job(player)
+  local gang = get_gang(player)
   for i = 1, #groups do
     local group = groups[i]
-    if job_name == group or job_label == group or job_type == group or gang_name == group or gang_label == group then return true end
+    if job and (job.name == group or job.label == group or job.job_type == group) then return true end
+    if gang and (gang.name == group or gang.label == group) then return true end
   end
   return false
 end
