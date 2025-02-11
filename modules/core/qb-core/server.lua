@@ -29,22 +29,27 @@ end
 ---@return string identifier
 local function get_identifier(player_src)
   if not IsSrcValid(player_src) then error('bad argument #1 to \'getplayeridentifier\' (number expected, got '..type(player_src)..')', 2) end
-  return QBCore.Functions.GetPlayer(player_src).PlayerData.citizenid
+  local Player = get_player(player_src)
+  if not Player then error('error calling \'getplayeridentifier\' (player not found)', 2) end
+  return Player.PlayerData.citizenid
 end
 
 ---@param player_src integer|string?
 ---@return string name
 local function get_name(player_src)
   if not IsSrcValid(player_src) then error('bad argument #1 to \'getplayername\' (number expected, got '..type(player_src)..')', 2) end
-  local PlayerData = QBCore.Functions.GetPlayer(player_src).PlayerData
-  return PlayerData.firstname..' '..PlayerData.lastname
+  local Player = get_player(player_src)
+  if not Player then error('error calling \'getplayername\' (player not found)', 2) end
+  return Player.PlayerData.firstname..' '..Player.PlayerData.lastname
 end
 
 ---@param player integer|string? The `player` to retrieve the job data for. <br> If `player` is nil, the source is used.
 ---@return {name: string, label: string, grade: number, grade_name: string, grade_label: string, job_type: string, salary: number} job_data The job data for the `player`.
 local function get_job(player)
   if not IsSrcValid(player) then error('bad argument #1 to \'getplayerjob\' (number expected, got '..type(player)..')', 2) end
-  local data = ConvertJobData(QBCore.Functions.GetPlayer(player).PlayerData.job)
+  local Player = get_player(player)
+  if not Player then error('error calling \'getplayerjob\' (player not found)', 2) end
+  local data = ConvertJobData(Player.PlayerData.job)
   if not data or not next(data) then error('error calling \'getplayerjob\' (job data not found)', 2) end
   return data
 end
@@ -53,7 +58,9 @@ end
 ---@return {name: string, label: string, grade: number, grade_name: string} gang_data The gang data for the `player`.
 local function get_gang(player)
   if not IsSrcValid(player) then error('bad argument #1 to \'getplayergang\' (number expected, got '..type(player)..')', 2) end
-  local data = ConvertGangData(QBCore.Functions.GetPlayer(player).PlayerData.gang)
+  local Player = get_player(player)
+  if not Player then error('error calling \'getplayergang\' (player not found)', 2) end
+  local data = ConvertGangData(Player.PlayerData.gang)
   if not data or not next(data) then error('error calling \'getplayergang\' (gang data not found)', 2) end
   return data
 end
@@ -82,8 +89,9 @@ local function get_money(player, money_type)
   if not IsSrcValid(player) then error('bad argument #1 to \'getplayermoney\' (number expected, got '..type(player)..')', 2) end
   if type(money_type) ~= 'string' then error('bad argument #2 to \'getplayermoney\' (string expected, got '..type(money_type)..')', 2) end
   money_type = money_type == 'money' and 'cash' or money_type
-  local PlayerData = QBCore.Functions.GetPlayer(player).PlayerData
-  return PlayerData.money[money_type:lower()]
+  local Player = get_player(player)
+  if not Player then error('error calling \'getplayermoney\' (player not found)', 2) end
+  return Player.PlayerData.money[money_type:lower()]
 end
 
 ---@param player integer|string? The `player` to add money to. <br> If `player` is nil, the source is used.
@@ -96,8 +104,9 @@ local function add_money(player, money_type, amount)
   if type(amount) ~= 'number' then error('bad argument #3 to \'addplayermoney\' (number expected, got '..type(amount)..')', 2) end
   money_type = money_type == 'money' and 'cash' or money_type
   local prev = get_money(player, money_type)
-  local PlayerData = QBCore.Functions.GetPlayer(player).PlayerData
-  PlayerData.Functions.AddMoney(money_type:lower(), amount, 'bridge added money: '..amount)
+  local Player = get_player(player)
+  if not Player then error('error calling \'addplayermoney\' (player not found)', 2) end
+  Player.Functions.AddMoney(money_type:lower(), amount, 'bridge added money: '..amount)
   return get_money(player, money_type) == prev + amount
 end
 
@@ -111,8 +120,9 @@ local function remove_money(player, money_type, amount)
   if type(amount) ~= 'number' then error('bad argument #3 to \'removeplayermoney\' (number expected, got '..type(amount)..')', 2) end
   money_type = money_type == 'money' and 'cash' or money_type
   local prev = get_money(player, money_type)
-  local PlayerData = QBCore.Functions.GetPlayer(player).PlayerData
-  PlayerData.Functions.RemoveMoney(money_type:lower(), amount, 'bridge removed money: '..amount)
+  local Player = get_player(player)
+  if not Player then error('error calling \'removeplayermoney\' (player not found)', 2) end
+  Player.Functions.RemoveMoney(money_type:lower(), amount, 'bridge removed money: '..amount)
   return get_money(player, money_type) == prev - amount
 end
 
@@ -120,7 +130,9 @@ end
 ---@return boolean is_downed Whether the `player` is downed.
 local function is_downed(player)
   if not IsSrcValid(player) then error('bad argument #1 to \'isplayerdowned\' (number expected, got '..type(player)..')', 2) end
-  local metadata = QBCore.Functions.GetPlayer(player).PlayerData.metadata
+  local Player = get_player(player)
+  if not Player then error('error calling \'isplayerdowned\' (player not found)', 2) end
+  local metadata = Player.PlayerData.metadata
   if not metadata or not next(metadata) then error('error calling \'isplayerdowned\' (metadata not found)', 2) end
   return metadata.inlaststand or metadata.isdowned
 end
@@ -130,8 +142,10 @@ end
 local function get_inventory(player)
   if not IsSrcValid(player) then error('bad argument #1 to \'getplayerinventory\' (number expected, got '..type(player)..')', 2) end
   local inventory = {}
-  local PlayerData = QBCore.Functions.GetPlayer(player).PlayerData
-  for name, item in pairs(PlayerData.items) do
+  local Player = get_player(player)
+  if not Player then error('error calling \'getplayerinventory\' (player not found)', 2) end
+  local PlayerItems = QBCore.Functions.GetPlayer(player).PlayerData.items
+  for name, item in pairs(PlayerItems) do
     inventory[name] = {
       name = item.name,
       label = item.label,
@@ -151,8 +165,9 @@ local function has_item(player, item_name, amount)
   if not IsSrcValid(player) then error('bad argument #1 to \'doesplayerhaveitem\' (number expected, got '..type(player)..')', 2) end
   if type(item_name) ~= 'string' then error('bad argument #2 to \'doesplayerhaveitem\' (string expected, got '..type(item_name)..')', 2) end
   if amount and type(amount) ~= 'number' then error('bad argument #3 to \'doesplayerhaveitem\' (number expected, got '..type(amount)..')', 2) end
-  local PlayerData = QBCore.Functions.GetPlayer(player).PlayerData
-  local item = PlayerData.items[item_name]
+  local Player = get_player(player)
+  if not Player then error('error calling \'doesplayerhaveitem\' (player not found)', 2) end
+  local item = Player.PlayerData.items[item_name]
   if not item then return false end
   return amount and item.amount >= amount or item.amount > 0
 end
@@ -165,8 +180,9 @@ local function add_item(player, item_name, amount)
   if not IsSrcValid(player) then error('bad argument #1 to \'addplayeritem\' (number expected, got '..type(player)..')', 2) end
   if type(item_name) ~= 'string' then error('bad argument #2 to \'addplayeritem\' (string expected, got '..type(item_name)..')', 2) end
   if amount and type(amount) ~= 'number' then error('bad argument #3 to \'addplayeritem\' (number expected, got '..type(amount)..')', 2) end
-  local PlayerData = QBCore.Functions.GetPlayer(player).PlayerData
-  PlayerData.Functions.AddItem(item_name, amount or 1)
+  local Player = get_player(player)
+  if not Player then error('error calling \'addplayeritem\' (player not found)', 2) end
+  Player.Functions.AddItem(item_name, amount or 1)
   return has_item(player, item_name, amount)
 end
 
@@ -178,8 +194,9 @@ local function remove_item(player, item_name, amount)
   if not IsSrcValid(player) then error('bad argument #1 to \'removeplayeritem\' (number expected, got '..type(player)..')', 2) end
   if type(item_name) ~= 'string' then error('bad argument #2 to \'removeplayeritem\' (string expected, got '..type(item_name)..')', 2) end
   if amount and type(amount) ~= 'number' then error('bad argument #3 to \'removeplayeritem\' (number expected, got '..type(amount)..')', 2) end
-  local PlayerData = QBCore.Functions.GetPlayer(player).PlayerData
-  PlayerData.Functions.RemoveItem(item_name, amount or 1)
+  local Player = get_player(player)
+  if not Player then error('error calling \'removeplayeritem\' (player not found)', 2) end
+  Player.Functions.RemoveItem(item_name, amount or 1)
   return not has_item(player, item_name, amount)
 end
 
