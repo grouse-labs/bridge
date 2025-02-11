@@ -1,7 +1,7 @@
----@class Core
----@field _FRAMEWORK 'qb-core'
+---@class CFramework
+---@field _FRAMEWORK 'qb-core'|'es_extended'|'qbx_core'
 ---@field _VERSION string
----@field getframework fun(): 'qb-core'
+---@field getframework fun(): 'qb-core'|'es_extended'|'qbx_core'
 ---@field getversion fun(): string
 ---@field getobject fun(): table
 ---@field getplayer fun(player: integer|string?): Player: table **Note:** Player is a server-side only argument.
@@ -11,13 +11,13 @@
 ---@field getplayergang fun(player: integer|string?): gang_data: {name: string, label: string, grade: number, grade_name: string} **Note:** Player is a server-side only argument.
 ---@field doesplayerhavegroup fun(player: integer|string?, group: string|string[]): has_group: boolean **Note:** Player is a server-side only argument.
 ---@field getplayermoney fun(player: integer|string?, money_type: 'money'|'cash'|'bank'): money: integer **Note:** Player is a server-side only argument.
----@field addplayermoney fun(player: integer|string, money_type: 'money'|'cash'|'bank', amount: number): added: boolean
----@field removeplayermoney fun(player: integer|string, money_type: 'money'|'cash'|'bank', amount: number): removed: boolean
+---@field addplayermoney fun(player: integer|string, money_type: 'money'|'cash'|'bank', amount: number): added: boolean **Note:** This is a server-side only function.
+---@field removeplayermoney fun(player: integer|string, money_type: 'money'|'cash'|'bank', amount: number): removed: boolean **Note:** This is a server-side only function.
 ---@field isplayerdowned fun(player: integer|string): is_downed: boolean **Note:** Player is a server-side only argument.
----@field getplayerinventory fun(player: integer|string): inventory: {[string]: {name: string, label: string, weight: number, useable: boolean, unique: boolean}}
----@field doesplayerhaveitem fun(player: integer|string, item_name: string, amount: number?): has_item: boolean
----@field addplayeritem fun(player: integer|string, item_name: string, amount: number?): added: boolean
----@field removeplayeritem fun(player: integer|string, item_name: string, amount: number?): removed: boolean
----@field getitems fun(): {[string]: {name: string, label: string, weight: number, useable: boolean, unique: boolean}}
----@field getitem fun(item_name: string): item_data: {name: string, label: string, weight: number, useable: boolean, unique: boolean}
----@field createusableitem fun(item_name: string, cb: fun(player: integer|string))
+---@field getplayerinventory fun(player: integer|string): inventory: {[string]: {name: string, label: string, weight: number, useable: boolean, unique: boolean}} **Note:** This is a server-side only function.
+---@field doesplayerhaveitem fun(player: integer|string, item_name: string, amount: number?): has_item: boolean **Note:** This is a server-side only function.
+---@field addplayeritem fun(player: integer|string, item_name: string, amount: number?): added: boolean **Note:** This is a server-side only function.
+---@field removeplayeritem fun(player: integer|string, item_name: string, amount: number?): removed: boolean **Note:** This is a server-side only function.
+---@field getitems fun(): {[string]: {name: string, label: string, weight: number, useable: boolean, unique: boolean}} **Note:** This is a server-side only function.
+---@field getitem fun(item_name: string): item_data: {name: string, label: string, weight: number, useable: boolean, unique: boolean} **Note:** This is a server-side only function.
+---@field createusableitem fun(item_name: string, cb: fun(player: integer|string)) **Note:** This is a server-side only function.
