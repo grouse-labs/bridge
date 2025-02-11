@@ -86,6 +86,7 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
 end)
 
 RegisterNetEvent('QBCore:Client:OnJobUpdate', function(data)
+  if not next(PlayerData) then return end
   PlayerData.job = ConvertJobData(data)
 end)
 
