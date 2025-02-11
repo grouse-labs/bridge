@@ -71,6 +71,11 @@ local function get_money(money_type)
   return get_player().accounts[money_type:lower()]
 end
 
+---@return boolean is_downed Whether the `player` is downed.
+local function is_downed()
+  return get_player().dead
+end
+
 --------------------- EVENTS ---------------------
 
 RegisterNetEvent('esx:playerLoaded', function()
@@ -104,5 +109,6 @@ return {
   getplayerjob = get_job,
   -- getplayergang = get_gang,
   doesplayerhavegroup = has_group,
-  getplayermoney = get_money
+  getplayermoney = get_money,
+  isplayerdowned = is_downed
 }
