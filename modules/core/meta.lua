@@ -4,13 +4,13 @@
 ---@field getframework fun(): 'qb-core'
 ---@field getversion fun(): string
 ---@field getobject fun(): table
----@field getplayer fun(player: integer|string): Player: table
----@field getplayeridentifier fun(player: integer|string): identifier: string
----@field getplayername fun(player: integer|string): name: string
----@field getplayerjob fun(player: integer|string): job_data: {name: string, label: string, grade: number, grade_name: string, grade_label: string, job_type: string, salary: number}
----@field getplayergang fun(player: integer|string): gang_data: {name: string, label: string, grade: number, grade_name: string}
----@field doesplayerhavegroup fun(player: integer|string, group: string|string[]): has_group: boolean
----@field getplayermoney fun(player: integer|string, money_type: 'money'|'cash'|'bank'): money: integer
+---@field getplayer fun(player: integer|string?): Player: table **Note:** Player is a server-side only argument.
+---@field getplayeridentifier fun(player: integer|string?): identifier: string **Note:** Player is a server-side only argument.
+---@field getplayername fun(player: integer|string?): name: string **Note:** Player is a server-side only argument.
+---@field getplayerjob fun(player: integer|string?): job_data: {name: string, label: string, grade: number, grade_name: string, grade_label: string, job_type: string, salary: number} **Note:** Player is a server-side only argument.
+---@field getplayergang fun(player: integer|string?): gang_data: {name: string, label: string, grade: number, grade_name: string} **Note:** Player is a server-side only argument.
+---@field doesplayerhavegroup fun(player: integer|string?, group: string|string[]): has_group: boolean **Note:** Player is a server-side only argument.
+---@field getplayermoney fun(player: integer|string?, money_type: 'money'|'cash'|'bank'): money: integer **Note:** Player is a server-side only argument.
 ---@field addplayermoney fun(player: integer|string, money_type: 'money'|'cash'|'bank', amount: number): added: boolean
 ---@field removeplayermoney fun(player: integer|string, money_type: 'money'|'cash'|'bank', amount: number): removed: boolean
 ---@field isplayerdowned fun(player: integer|string): is_downed: boolean
