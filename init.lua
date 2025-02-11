@@ -1,16 +1,24 @@
 local res = 'bridge'
 local get_res_meta = GetResourceMetadata
-local version, url, des, debug_mode = get_res_meta(res, 'version', 0), get_res_meta(res, 'url', 0), get_res_meta(res, 'description', 0), get_res_meta(res, 'debug_mode', 0) == 'true'
+local version, url, des = get_res_meta(res, 'version', 0), get_res_meta(res, 'url', 0), get_res_meta(res, 'description', 0)
+local debug_mode = get_res_meta(res, 'debug_mode', 0) == 'true'
+local framework = get_res_meta(res, 'framework', 0)
 local load, load_resource_file = load, LoadResourceFile
 local export = exports[res]
 local is_server = IsDuplicityVersion() == 1
 local context = is_server and 'server' or 'client'
 
+---@return string?
+local function get_core_name()
+  if not IsResourceValid then load(load_resource_file('bridge', 'shared/main.lua'), '@bridge/shared/main.lua', 't', _ENV)() end
+  return IsResourceValid(framework) and framework or nil
+end
+
 ---@param bridge CBridge
 ---@param module string
 ---@return function?
 local function import(bridge, module)
-  local dir = 'modules/'..module..'/'
+  local dir = module == 'core' and 'modules/core/'..get_core_name()..'/' or 'modules/'..module..'/'
   local file = load_resource_file(res, dir..'shared.lua')
   dir = not file and dir..context..'.lua' or dir
   file = not file and load_resource_file(res, dir) or file
@@ -41,6 +49,7 @@ end
 ---@field _URL string
 ---@field _DESCRIPTION string
 ---@field _DEBUG boolean
+---@field core Core
 ---@field require fun(module: string): module Returns the module if it was found and could be loaded. <br> `mod_name` needs to be a dot seperated path from resource to module. <br> Credits to [Lua Modules Loader](http://lua-users.org/wiki/LuaModulesLoader) by @lua-users & ox_lib's [`require`](https://github.com/overextended/ox_lib/blob/cdf840fc68ace1f4befc78555a7f4f59d2c4d020/imports/require/shared.lua#L149).
 local bridge = {_VERSION = version, _URL = url, _DESCRIPTION = des, _DEBUG = debug_mode}
 setmetatable(bridge, {__index = call, __call = call})
