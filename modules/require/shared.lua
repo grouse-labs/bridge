@@ -1,4 +1,5 @@
 ---@class module<T>: {[string]: function}
+---@type fun(module_name: string): module: module|function|table
 do
   local curr_res = GetCurrentResourceName()
   local get_res_state = GetResourceState
