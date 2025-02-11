@@ -8,6 +8,8 @@ url ''
 
 debug_mode 'true'
 
+framework 'qb-core'
+
 shared_scripts {'shared/*.lua', 'init.lua'}
 
 files {'modules/**/shared.lua', 'modules/**/client.lua'}
