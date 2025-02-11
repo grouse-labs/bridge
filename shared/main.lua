@@ -9,13 +9,8 @@ local resource_states = {
 ---@return boolean valid
 function IsResourceValid(resource_name)
   local state = get_resource_state(resource_name)
-  return not resource_states.invalid[state] and resource_states.valid[state]
+  return resource_states.valid[state] and not resource_states.invalid[state]
 end
-
-Core =  {
-  _FRAMEWORK = '',
-  _VERSION = '',
-}
 
 function IsSrcValid(src)
   src = src or source
