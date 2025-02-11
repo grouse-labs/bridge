@@ -64,3 +64,53 @@ function ConvertGangData(data)
     grade_name = grade_type ~= 'table' and data.grade_name or data.grade.name
   }
 end
+
+---@param arr1 any[]|any? The first array to merge.
+---@param arr2 any[]|any? The second array to merge.
+---@return any[]|any merged The merged array. 
+local function merge_arrays(arr1, arr2)
+  if not arr1 or not arr2 then return arr1 or arr2 end
+  arr1 = type(arr1) ~= 'table' and {arr1} or arr1
+  arr2 = type(arr2) ~= 'table' and {arr2} or arr2
+  for i = 1, #arr2 do arr1[#arr1 + 1] = arr2[i] end
+  return arr1
+end
+
+local target = GetResourceMetadata('bridge', 'target', 0)
+
+---@param options {name: string?, label: string, icon: string?, distance: number?, item: string?, canInteract: fun(entity: integer, distance: number)?, onSelect: fun()?, event_type: string?, event: string?, jobs: string|string[]?, gangs: string|string[]?}[] The options for the target.
+---@return table[]? converted_options The converted options for the target.
+function ConvertTargetOptions(options)
+  if not options then return end
+  local converted_options = {}
+  for i = 1, #options do
+    local option = options[i]
+    if not option then error('invalid target option at index '..i, 3) end
+    local label = option.label
+    if not label or type(label) ~= 'string' then error('invalid target option label at index '..i, 3) end
+    converted_options[i] = target == 'ox_target' and {
+      name = option.name or label,
+      label = label,
+      icon = option.icon,
+      distance = option.distance or 2.5,
+      items = option.item,
+      canInteract = option.canInteract,
+      onSelect = option.onSelect,
+      event = option.event_type == 'client' and option.event or nil,
+      serverEvent = option.event_type == 'server' and option.event or nil,
+      command = option.event_type == 'command' and option.event or nil,
+      groups = merge_arrays(option.jobs, option.gangs)
+    } or {
+      type = option.event_type,
+      event = option.event,
+      icon = option.icon,
+      label = label,
+      item = option.item,
+      canInteract = option.canInteract,
+      action = option.onSelect,
+      job = option.jobs,
+      gang = option.gangs
+    }
+  end
+  return converted_options
+end
