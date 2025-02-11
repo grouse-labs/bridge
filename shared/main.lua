@@ -114,3 +114,138 @@ function ConvertTargetOptions(options)
   end
   return converted_options
 end
+
+---@type {[string]: [string, string|fun(tag, text): string][]} The HTML to Markdown conversion table.
+local HTML_TO_MD <const> = {
+  ['TEXT'] = {
+    {'<pre>%s?(.-)%s?</pre>', '```\n%1\n```'},
+    {'<(h[1-6])>%s?(.-)%s?</%1>', function(tag, text)
+      local level = tonumber(tag:sub(2)) or 1
+      return string.rep('#', level)..' '..text
+    end},
+    {'<b>%s?(.-)%s?</b>', '**%1**'},
+    {'<strong>%s?(.-)%s?</strong>', '**%1**'},
+    {'<i>%s?(.-)%s?</i>', '*%1*'},
+    {'<em>%s?(.-)%s?</em>', '*%1*'},
+    {'<tt>%s?(.-)%s?</tt>', '`%1`'},
+    {'<code>%s?(.-)%s?</code>', '```\n%1\n```'}
+  },
+  ['LINK'] = {
+    {'<a href=%p?(.-)%p?>(.-)</a>', '[%2](%1)'}
+  },
+  ['LIST'] = {
+    {'<ul>(.-)</ul>', '%1'},
+    {'<li>(.-)</li>', '- %1'}
+  },
+  ['BLOCKQUOTE'] = {
+    {'<blockquote>(.-)</blockquote>', '> %1'}
+  },
+  ['IMAGE'] = {
+    {'<img src=%p?(.-)%p? alt=%p?(.-)%p?>', '![%2](%1)'},
+    {'<img src=%p?(.-)%p? width=%p?%w+%%?%p? height=%p?%w+%%?%p?>', '![image](%1)'}
+  },
+  ['FORMAT'] = {
+    {'<p>(.-)</p>', '%1'},
+    {'<center>(.-)</center>', '%1'},
+    {'<br>', '\n'}
+  }
+}
+
+---@type {[string]: [string, string|fun(tag, text): string][]} The Markdown to HTML conversion table.
+local MD_TO_HTML <const> = {
+  ['TEXT'] = {
+    {'```(.-)```', '<pre>%1</pre>'},
+    {'#%s?(.-)\n', '<h1>%1</h1>\n'},
+    {'##%s?(.-)\n', '<h2>%1</h2>\n'},
+    {'###%s?(.-)\n', '<h3>%1</h3>\n'},
+    {'####%s?(.-)\n', '<h4>%1</h4>\n'},
+    {'#####%s?(.-)\n', '<h5>%1</h5>\n'},
+    {'######%s?(.-)\n', '<h6>%1</h6>\n'},
+    {'%*%*%s?(.-)%s?%*%*', '<strong>%1</strong>'},
+    {'%*%s?(.-)%s?%*', '<em>%1</em>'},
+    {'__%s?(.-)%s?__', '<u>%1</u>'},
+    {'~~%s?(.-)%s?~~', '<s>%1</s>'}
+  },
+  ['LINK'] = {
+    {'%[(.-)%]%((.-)%)', '<a href="%2">%1</a>'}
+  },
+  ['LIST'] = {
+    {'\n%- (.-)', '<li>%1</li>'},
+    {'<li>(.-)</li>', '<ul>%1</ul>'}
+  },
+  ['BLOCKQUOTE'] = {
+    {'\n> (.-)', '<blockquote>%1</blockquote>'},
+    {'<blockquote>(.-)</blockquote>', '<blockquote>%1</blockquote>'}
+  },
+  ['IMAGE'] = {
+    {'!%[(.-)%]%((.-)%)', '<img src="%2" alt="%1">'}
+  },
+  ['FORMAT'] = {
+    {'\n', '<br>'}
+  }
+}
+
+local menu = GetResourceMetadata('bridge', 'menu', 0)
+
+---@param tag string The tag to check.
+---@return boolean is_html_tag The tag is an HTML tag.
+local function is_html_tag(tag) return tag:match('^<%a+>$') end
+
+---@param text string The text to convert.
+---@param format 'HTML'|'MD'? The format to convert to. <br> If `nil`, the format is determined by the text and resource manifest.
+---@return string? converted_text The converted text.
+function ConvertMDHTML(text, format)
+  if not text then return end
+  if not format then format = menu == 'ox_lib' and 'MD' or 'HTML' end
+  if (is_html_tag(text) and format == 'HTML') or (not is_html_tag(text) and format == 'MD') then return text end
+  local pattern_table = format == 'HTML' and MD_TO_HTML or HTML_TO_MD
+  for _, patterns in pairs(pattern_table) do
+    for i = 1, #patterns do
+      local pattern = patterns[i]
+      text = text:gsub(pattern[1], pattern[2])
+    end
+  end
+  return text
+end
+
+---@param options {header: string, description: string, icon: string, istitle: boolean?, disabled: boolean?, hasSubMenu: boolean?, onSelect: fun()?, event_type: string?, event: string?, args: table?}[] The options for the menu.
+---@return table[]? converted_options The converted options for the menu.
+function ConvertMenuOptions(options)
+  if not options then return end
+  local converted_options = {}
+  for i = 1, #options do
+    local option = options[i]
+    if not option then error('invalid menu option at index '..i, 3) end
+    local header = option.header
+    if not header or type(header) ~= 'string' then error('invalid menu option header at index '..i, 3) end
+    local description = option.description
+    if not description or type(description) ~= 'string' then error('invalid menu option description at index '..i, 3) end
+    converted_options[i] = menu == 'ox_lib' and {
+      title = ConvertMDHTML(header),
+      description = ConvertMDHTML(description),
+      icon = option.icon,
+      isTitle = option.istitle,
+      disabled = option.disabled,
+      hasSubMenu = option.hasSubMenu,
+      onSelect = option.onSelect,
+      event = option.event_type == 'client' and option.event or nil,
+      serverEvent = option.event_type == 'server' and option.event or nil,
+      command = option.event_type == 'command' and option.event or nil,
+      args = option.args
+    } or {
+      header = ConvertMDHTML(header),
+      txt = ConvertMDHTML(description),
+      icon = option.icon,
+      isMenuHeader = option.istitle,
+      disabled = option.disabled,
+      params = {
+        isAction = option.onSelect ~= nil,
+        action = option.onSelect,
+        event = option.event,
+        isServer = option.event and option.event_type == 'server',
+        args = option.args
+      }
+    }
+  end
+  return converted_options
+end
