@@ -5,7 +5,9 @@ if IsResourceValid('qbx_core') then return end
 
 local qbx = exports[framework]
 local version = GetResourceMetadata(framework, 'version', 0)
-if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
+-- if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
+
+--------------------- FUNCTIONS ---------------------
 
 ---@return 'qbx_core'
 local function get_framework() return framework end
@@ -19,7 +21,7 @@ local function get_object()
   return exports['qb-core']:GetCoreObject()
 end
 
--- Player Methods
+--------------------- PLAYER ---------------------
 
 ---@param player_src integer|string?
 ---@return table Player
@@ -201,7 +203,7 @@ local function remove_item(player, item_name, amount)
   return ox_inventory:RemoveItem(player --[[@as string|integer]], item_name, amount or 1) or false
 end
 
--- Item Methods
+--------------------- INVENTORY ---------------------
 
 ---@return {[string]: {name: string, label: string, weight: number, useable: boolean, unique: boolean}} Items A table of all items available in the inventory system.
 local function get_items()

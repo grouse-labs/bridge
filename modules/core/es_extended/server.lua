@@ -6,6 +6,8 @@ local ESX = exports[framework]:getSharedObject()
 local version = GetResourceMetadata(framework, 'version', 0)
 if version:gsub('%D', '') < ('1.12.4'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.12.4 or higher, got '..version..')', 0) end
 
+--------------------- FUNCTIONS ---------------------
+
 ---@return 'es_extended'
 local function get_framework() return framework end
 
@@ -15,7 +17,7 @@ local function get_version() return version end
 ---@return table ESX
 local function get_object() return ESX end
 
--- Player Methods
+--------------------- PLAYER ---------------------
 
 ---@param player_src integer|string?
 ---@return table Player
@@ -196,7 +198,7 @@ local function remove_item(player, item_name, amount)
   return not Player.hasItem(item_name, amount or 1)
 end
 
--- Item Methods
+--------------------- INVENTORY ---------------------
 
 local function is_item_useable(item_name) return ESX.GetUsableItems()[item_name] ~= nil end
 

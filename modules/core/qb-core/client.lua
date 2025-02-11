@@ -8,6 +8,7 @@ local PlayerData = {}
 local version = GetResourceMetadata(framework, 'version', 0)
 if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
 
+--------------------- FUNCTIONS ---------------------
 
 ---@return 'qb-core'
 local function get_framework() return framework end
