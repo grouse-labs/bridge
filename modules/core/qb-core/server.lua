@@ -120,3 +120,126 @@ local function is_downed(player)
   if not metadata or not next(metadata) then error('error calling \'IsDowned\' (metadata not found)', 2) end
   return metadata.inlaststand or metadata.isdowned
 end
+
+---@param player integer|string? The `player` to retrieve the inventory for. <br> If `player` is nil, the source is used.
+---@return {[string]: {name: string, label: string, weight: number, useable: boolean, unique: boolean}} inventory The inventory for the `player`.
+local function get_inventory(player)
+  if not IsSrcValid(player) then error('bad argument #1 to \'getplayerinventory\' (number expected, got '..type(player)..')', 2) end
+  local inventory = {}
+  local PlayerData = QBCore.Functions.GetPlayer(player).PlayerData
+  for name, item in pairs(PlayerData.items) do
+    inventory[name] = {
+      name = item.name,
+      label = item.label,
+      weight = item.weight,
+      useable = item.useable,
+      unique = item.unique
+    }
+  end
+  return inventory
+end
+
+---@param player integer|string? The `player` to check has the item for. <br> If `player` is nil, the source is used.
+---@param item_name string The `item_name` to check for.
+---@param amount number? The amount of the item to check for. <br> If `amount` is nil, the default amount is 1.
+---@return boolean has_item Whether the `player` has the specified `item`.
+local function has_item(player, item_name, amount)
+  if not IsSrcValid(player) then error('bad argument #1 to \'doesplayerhaveitem\' (number expected, got '..type(player)..')', 2) end
+  if type(item_name) ~= 'string' then error('bad argument #2 to \'doesplayerhaveitem\' (string expected, got '..type(item_name)..')', 2) end
+  if amount and type(amount) ~= 'number' then error('bad argument #3 to \'doesplayerhaveitem\' (number expected, got '..type(amount)..')', 2) end
+  local PlayerData = QBCore.Functions.GetPlayer(player).PlayerData
+  local item = PlayerData.items[item_name]
+  if not item then return false end
+  return amount and item.amount >= amount or item.amount > 0
+end
+
+---@param player integer|string? The `player` to add the item to. <br> If `player` is nil, the source is used.
+---@param item_name string The `item_name` to add.
+---@param amount number? The amount of the item to add. <br> If `amount` is nil, the default amount is 1.
+---@return boolean added Whether the item was added to the `player`.
+local function add_item(player, item_name, amount)
+  if not IsSrcValid(player) then error('bad argument #1 to \'addplayeritem\' (number expected, got '..type(player)..')', 2) end
+  if type(item_name) ~= 'string' then error('bad argument #2 to \'addplayeritem\' (string expected, got '..type(item_name)..')', 2) end
+  if amount and type(amount) ~= 'number' then error('bad argument #3 to \'addplayeritem\' (number expected, got '..type(amount)..')', 2) end
+  local PlayerData = QBCore.Functions.GetPlayer(player).PlayerData
+  PlayerData.Functions.AddItem(item_name, amount or 1)
+  return has_item(player, item_name, amount)
+end
+
+---@param player integer|string? The `player` to remove the item from. <br> If `player` is nil, the source is used.
+---@param item_name string The `item_name` to remove.
+---@param amount number? The amount of the item to remove. <br> If `amount` is nil, the default amount is 1.
+---@return boolean removed Whether the item was removed from the `player`.
+local function remove_item(player, item_name, amount)
+  if not IsSrcValid(player) then error('bad argument #1 to \'removeplayeritem\' (number expected, got '..type(player)..')', 2) end
+  if type(item_name) ~= 'string' then error('bad argument #2 to \'removeplayeritem\' (string expected, got '..type(item_name)..')', 2) end
+  if amount and type(amount) ~= 'number' then error('bad argument #3 to \'removeplayeritem\' (number expected, got '..type(amount)..')', 2) end
+  local PlayerData = QBCore.Functions.GetPlayer(player).PlayerData
+  PlayerData.Functions.RemoveItem(item_name, amount or 1)
+  return not has_item(player, item_name, amount)
+end
+
+-- Item Methods
+
+---@return {[string]: {name: string, label: string, weight: number, useable: boolean, unique: boolean}} Items A table of all items available in the inventory system.
+local function get_items()
+  local Items = {}
+  for name, item in pairs(QBCore.Shared.Items) do
+    Items[name] = {
+      name = item.name,
+      label = item.label,
+      weight = item.weight,
+      useable = item.useable,
+      unique = item.unique
+    }
+  end
+  return Items
+end
+
+---@param item_name string The name of the item to get the data for.
+---@return {name: string, label: string, weight: number, useable: boolean, unique: boolean} item_data The data for the specified item.
+local function get_item(item_name)
+  if type(item_name) ~= 'string' then error('bad argument #1 to \'getitem\' (string expected, got '..type(item_name)..')', 2) end
+  local item = QBCore.Shared.Items[item_name]
+  if not item or not next(item) then error('error calling \'getitem\' (item data not found)', 2) end
+  return {
+    name = item.name,
+    label = item.label,
+    weight = item.weight,
+    useable = item.useable,
+    unique = item.unique
+  }
+end
+
+---@param item_name string The `item_name` to create a useable item callback for.
+---@param cb fun(src: number|string) The function to call when the item is used.
+local function create_useable_item(item_name, cb)
+  if type(item_name) ~= 'string' then error('bad argument #1 to \'createuseableitem\' (string expected, got '..type(item_name)..')', 2) end
+  if type(cb) ~= 'function' then error('bad argument #2 to \'createuseableitem\' (function expected, got '..type(cb)..')', 2) end
+  QBCore.Functions.CreateUseableItem(item_name, cb)
+end
+
+return {
+  _FRAMEWORK = framework,
+  _VERSION = version,
+  getframework = get_framework,
+  getversion = get_version,
+  getobject = get_object,
+  getplayer = get_player,
+  getplayeridentifier = get_identifier,
+  getplayername = get_name,
+  getplayerjob = get_job,
+  getplayergang = get_gang,
+  doesplayerhavegroup = has_group,
+  getplayermoney = get_money,
+  addplayermoney = add_money,
+  removeplayermoney = remove_money,
+  isplayerdowned = is_downed,
+  getplayerinventory = get_inventory,
+  doesplayerhaveitem = has_item,
+  addplayeritem = add_item,
+  removeplayeritem = remove_item,
+  getitems = get_items,
+  getitem = get_item,
+  createuseableitem = create_useable_item
+}
