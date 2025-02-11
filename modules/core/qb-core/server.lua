@@ -220,6 +220,11 @@ local function create_useable_item(item_name, cb)
   QBCore.Functions.CreateUseableItem(item_name, cb)
 end
 
+
+RegisterNetEvent('QBCore:Server:UpdateObject', function()
+  QBCore = exports['qb-core']:GetCoreObject({'Functions', 'Shared'})
+end)
+
 return {
   _FRAMEWORK = framework,
   _VERSION = version,
