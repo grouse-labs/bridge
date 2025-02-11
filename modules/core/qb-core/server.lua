@@ -103,9 +103,9 @@ local function add_money(player, money_type, amount)
   if type(money_type) ~= 'string' then error('bad argument #2 to \'addplayermoney\' (string expected, got '..type(money_type)..')', 2) end
   if type(amount) ~= 'number' then error('bad argument #3 to \'addplayermoney\' (number expected, got '..type(amount)..')', 2) end
   money_type = money_type == 'money' and 'cash' or money_type
-  local prev = get_money(player, money_type)
   local Player = get_player(player)
   if not Player then error('error calling \'addplayermoney\' (player not found)', 2) end
+  local prev = get_money(player, money_type)
   Player.Functions.AddMoney(money_type:lower(), amount, 'bridge added money: '..amount)
   return get_money(player, money_type) == prev + amount
 end
@@ -138,7 +138,7 @@ local function is_downed(player)
 end
 
 ---@param player integer|string? The `player` to retrieve the inventory for. <br> If `player` is nil, the source is used.
----@return {[string]: {name: string, label: string, weight: number, useable: boolean, unique: boolean}} inventory The inventory for the `player`.
+---@return {[string]: {name: string, label: string, weight: number, useable: boolean, unique: boolean, amount: integer?}} inventory The inventory for the `player`.
 local function get_inventory(player)
   if not IsSrcValid(player) then error('bad argument #1 to \'getplayerinventory\' (number expected, got '..type(player)..')', 2) end
   local inventory = {}
@@ -151,7 +151,8 @@ local function get_inventory(player)
       label = item.label,
       weight = item.weight,
       useable = item.useable,
-      unique = item.unique
+      unique = item.unique,
+      amount = not item.unique and item.amount or nil
     }
   end
   return inventory
