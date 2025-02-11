@@ -4,13 +4,11 @@ if not IsResourceValid(framework) then return end
 if IsResourceValid('qbx_core') then return end
 
 local QBCore = exports[framework]:GetCoreObject()
+local version = GetResourceMetadata(framework, 'version', 0)
 
-Core._FRAMEWORK = framework
-Core._VERSION = GetResourceMetadata(framework, 'version', 0)
+local function get_framework() return framework end
 
-local function get_framework() return Core._FRAMEWORK end
-
-local function get_version() return Core._VERSION end
+local function get_version() return version end
 
 local function get_object() return QBCore end
 
