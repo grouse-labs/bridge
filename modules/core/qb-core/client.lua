@@ -85,8 +85,8 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
   PlayerData = {}
 end)
 
-RegisterNetEvent('QBCore:Client:OnJobUpdate', function()
-  PlayerData.job = ConvertJobData(QBCore.Functions.GetPlayerData().job)
+RegisterNetEvent('QBCore:Client:OnJobUpdate', function(data)
+  PlayerData.job = ConvertJobData(data)
 end)
 
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(data)
