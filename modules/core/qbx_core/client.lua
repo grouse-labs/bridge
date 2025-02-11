@@ -1,7 +1,7 @@
 local framework = 'qbx_core'
 if framework ~= GetResourceMetadata('bridge', 'framework', 0) then return end
 if not IsResourceValid(framework) then return end
-if IsResourceValid('qbx_core') then return end
+if IsResourceValid('qb-core') then return end
 
 local qbx = exports[framework]
 local PlayerData = {}
