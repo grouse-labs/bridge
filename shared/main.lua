@@ -68,7 +68,7 @@ end
 ---@param arr1 any[]|any? The first array to merge.
 ---@param arr2 any[]|any? The second array to merge.
 ---@return any[]|any merged The merged array. 
-local function merge_arrays(arr1, arr2)
+function MergeArrays(arr1, arr2)
   if not arr1 or not arr2 then return arr1 or arr2 end
   arr1 = type(arr1) ~= 'table' and {arr1} or arr1
   arr2 = type(arr2) ~= 'table' and {arr2} or arr2
@@ -99,7 +99,7 @@ function ConvertTargetOptions(options)
       event = option.event_type == 'client' and option.event or nil,
       serverEvent = option.event_type == 'server' and option.event or nil,
       command = option.event_type == 'command' and option.event or nil,
-      groups = merge_arrays(option.jobs, option.gangs)
+      groups = MergeArrays(option.jobs, option.gangs)
     } or {
       type = option.event_type,
       event = option.event,
