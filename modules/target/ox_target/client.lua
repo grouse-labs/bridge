@@ -4,7 +4,7 @@ if not IsResourceValid(target) then return end
 
 local ox_target = exports[target] --[[@as ox_target]]
 local version = GetResourceMetadata(target, 'version', 0)
--- if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
+if version:gsub('%D', '') < ('1.17.1'):gsub('%D', '') then error('incompatible version of '..target..' detected (expected 1.17.1 or higher, got '..version..')', 0) end
 
 --------------------- FUNCTIONS ---------------------
 
