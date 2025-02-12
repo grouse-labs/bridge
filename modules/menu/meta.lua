@@ -1,0 +1,9 @@
+---@class CMenu
+---@field _MENU 'ox_lib'
+---@field _VERSION string
+---@field getmenu fun(): 'ox_lib'
+---@field getversion fun(): string
+---@field getobject fun(): table
+---@field registermenu fun(menu_id: string, title: string, options: {header: string, description: string, icon: string, istitle: boolean?, disabled: boolean?, hasSubMenu: boolean?, onSelect: fun()?, event_type: string?, event: string?, args: table?}[])
+---@field openmenu fun(menu_id: string)
+---@field closemenu fun()
