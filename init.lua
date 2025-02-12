@@ -3,6 +3,7 @@ local get_res_meta = GetResourceMetadata
 local version, url, des = get_res_meta(res, 'version', 0), get_res_meta(res, 'url', 0), get_res_meta(res, 'description', 0)
 local debug_mode = get_res_meta(res, 'debug_mode', 0) == 'true'
 local framework = get_res_meta(res, 'framework', 0)
+local menu = get_res_meta(res, 'menu', 0)
 local target = get_res_meta(res, 'target', 0)
 local load, load_resource_file = load, LoadResourceFile
 local export = exports[res]
@@ -10,10 +11,10 @@ local is_server = IsDuplicityVersion() == 1
 local context = is_server and 'server' or 'client'
 if not IsResourceValid then load(load_resource_file('bridge', 'shared/main.lua'), '@bridge/shared/main.lua', 't', _ENV)() end
 
----@param module_type 'core'|'target'
+---@param module_type 'core'|'menu'|'target'
 ---@return string?
 local function get_module_name(module_type)
-  local module = module_type == 'core' and framework or target
+  local module = module_type == 'core' and framework or module_type == 'menu' and menu or target
   return IsResourceValid(module) and module or nil
 end
 
@@ -53,6 +54,7 @@ end
 ---@field _DESCRIPTION string
 ---@field _DEBUG boolean
 ---@field core CFramework
+---@field menu CMenu
 ---@field target CTarget
 ---@field require fun(module_name: string): module: module|function|table Returns the module if it was found and could be loaded. <br> `mod_name` needs to be a dot seperated path from resource to module. <br> Credits to [Lua Modules Loader](http://lua-users.org/wiki/LuaModulesLoader) by @lua-users & ox_lib's [`require`](https://github.com/overextended/ox_lib/blob/cdf840fc68ace1f4befc78555a7f4f59d2c4d020/imports/require/shared.lua#L149).
 local bridge = {_VERSION = version, _URL = url, _DESCRIPTION = des, _DEBUG = debug_mode}
