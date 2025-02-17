@@ -12,6 +12,8 @@ function IsResourceValid(resource_name)
   return resource_states.valid[state] and not resource_states.invalid[state]
 end
 
+---@param src integer|string? The source to check.
+---@return boolean valid
 function IsSrcValid(src)
   src = src or source
   local src_type = type(src)
