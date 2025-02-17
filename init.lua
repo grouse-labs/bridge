@@ -54,11 +54,13 @@ end
 ---@field _DESCRIPTION string
 ---@field _DEBUG boolean
 ---@field core CFramework
+---@field callback CCallback
 ---@field menu CMenu
 ---@field target CTarget
 ---@field require fun(module_name: string): module: module|function|table Returns the module if it was found and could be loaded. <br> `mod_name` needs to be a dot seperated path from resource to module. <br> Credits to [Lua Modules Loader](http://lua-users.org/wiki/LuaModulesLoader) by @lua-users & ox_lib's [`require`](https://github.com/overextended/ox_lib/blob/cdf840fc68ace1f4befc78555a7f4f59d2c4d020/imports/require/shared.lua#L149).
 local bridge = {_VERSION = version, _URL = url, _DESCRIPTION = des, _DEBUG = debug_mode}
 setmetatable(bridge, {__index = call, __call = call})
 _ENV.bridge = bridge
+_ENV.require = bridge.require
 
 return bridge
