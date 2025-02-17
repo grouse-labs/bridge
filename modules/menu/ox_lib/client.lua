@@ -4,7 +4,7 @@ if not IsResourceValid(menu) then return end
 
 local load, load_resource_file = load, LoadResourceFile
 if not lib then load(load_resource_file('ox_lib', 'init.lua'), '@ox_lib/init.lua', 't', _ENV)() end
-local lib = _ENV.lib 
+local lib = _ENV.lib
 local version = GetResourceMetadata(menu, 'version', 0)
 if version:gsub('%D', '') < ('3.29.0'):gsub('%D', '') then error('incompatible version of '..menu..' detected (expected 3.29.0 or higher, got '..version..')', 0) end
 
@@ -42,6 +42,8 @@ local function close_menu() lib.hideContext() end
 --------------------- OBJECT ---------------------
 
 return {
+  _MENU = menu,
+  _VERSION = version,
   getmenu = get_menu,
   getversion = get_version,
   getobject = get_object,

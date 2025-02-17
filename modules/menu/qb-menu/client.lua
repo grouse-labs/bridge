@@ -40,6 +40,8 @@ local function close_menu() qb_menu:closeMenu() end
 --------------------- OBJECT ---------------------
 
 return {
+  _MENU = menu,
+  _VERSION = version,
   getmenu = get_menu,
   getversion = get_version,
   getobject = get_object,
