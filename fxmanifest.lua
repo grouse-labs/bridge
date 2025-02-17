@@ -10,6 +10,8 @@ debug_mode 'true'
 
 framework 'qb-core'
 
+callback 'ox_lib'
+
 target 'ox_target'
 
 menu 'ox_lib'
