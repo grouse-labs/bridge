@@ -2,8 +2,6 @@ local callback = 'es_extended'
 if callback ~= GetResourceMetadata('bridge', 'callback', 0) then return end
 if not IsResourceValid(callback) then return end
 
-if not IsResourceValid(callback) then return end
-
 local ESX = exports[callback]:getSharedObject()
 local version = GetResourceMetadata(callback, 'version', 0)
 if version:gsub('%D', '') < ('1.12.4'):gsub('%D', '') then error('incompatible version of '..callback..' detected (expected 1.12.4 or higher, got '..version..')', 0) end
