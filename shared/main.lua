@@ -33,6 +33,7 @@ end
 
 -- If the framework is ESX, the enum job_types below is used to determine the job type of the player.
 -- Add the job type to the job_types enum if it is not already present, as well as any additional jobs that should be considered part of that job type.
+---@diagnostic disable-next-line: duplicate-doc-alias
 ---@enum job_types
 local job_types = {['leo'] = {['police'] = true, ['fib'] = true, ['sheriff'] = true}, ['ems'] = {['ambulance'] = true, ['fire'] = true}}
 
