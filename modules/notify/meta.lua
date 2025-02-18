@@ -1,0 +1,3 @@
+---@class CNotify
+---@field text fun(text: string, notify_type: 'error'|'success'|'primary'?)
+---@field item fun(item: string, amount: integer?, text: string?)
