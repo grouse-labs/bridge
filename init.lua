@@ -6,7 +6,7 @@ local framework = get_res_meta(res, 'framework', 0)
 local menu = get_res_meta(res, 'menu', 0)
 local target = get_res_meta(res, 'target', 0)
 local load, load_resource_file = load, LoadResourceFile
-local export = exports[res]
+-- local export = exports[res]
 local is_server = IsDuplicityVersion() == 1
 local context = is_server and 'server' or 'client'
 if not IsResourceValid then load(load_resource_file('bridge', 'shared/main.lua'), '@bridge/shared/main.lua', 't', _ENV)() end
@@ -41,9 +41,10 @@ end
 local function call(bridge, index, ...)
   local module = rawget(bridge, index) or import(bridge, index)
   if not module then
-    local method = function(...) return export[index](nil, ...) end
-    if not ... then bridge[index] = method end
-    module = method
+    -- local method = function(...) return export[index](nil, ...) end
+    -- if not ... then bridge[index] = method end
+    -- module = method
+    error('module \''..index..'\' not found', 2)
   end
   return module
 end
