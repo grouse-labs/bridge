@@ -1,8 +1,6 @@
 local callback = 'qb-core'
 if callback ~= GetResourceMetadata('bridge', 'callback', 0) then return end
 if not IsResourceValid(callback) then return end
-
-if not IsResourceValid(callback) then return end
 if IsResourceValid('qbx_core') then return end
 
 local QBCore = exports[callback]:GetCoreObject({'Functions', 'Shared'})
