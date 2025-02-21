@@ -1,5 +1,5 @@
-local notify = 'native'
-if notify ~= GetResourceMetadata('bridge', 'notify', 0) then return end
+local NOTIFY <const> = 'native'
+if NOTIFY ~= GetResourceMetadata('bridge', 'notify', 0) then return end
 
 local txd = CreateRuntimeTxd('bridge_notify')
 local IMAGE_PATH <const> = 'qb-inventory/html/images/?.png;ox_inventory/web/images/?.png'
@@ -86,6 +86,7 @@ end
 --------------------- OBJECT ---------------------
 
 return {
+  _TYPE = NOTIFY,
   text = text_notify,
   item = item_notify
 }
