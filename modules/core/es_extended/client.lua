@@ -1,19 +1,28 @@
-local framework = 'es_extended'
-if framework ~= GetResourceMetadata('bridge', 'framework', 0) then return end
-if not IsResourceValid(framework) then return end
+local FRAMEWORK <const> = 'es_extended'
+if FRAMEWORK ~= GetResourceMetadata('bridge', 'framework', 0) then return end
+if not IsResourceValid(FRAMEWORK) then return end
+local version = GetResourceMetadata(FRAMEWORK, 'version', 0)
+if version:gsub('%D', '') < ('1.12.4'):gsub('%D', '') then error('incompatible version of '..FRAMEWORK..' detected (expected 1.12.4 or higher, got '..version..')', 0) end
 
-local ESX = exports[framework]:getSharedObject()
+local EVENTS <const> = {
+  load = 'esx:playerLoaded',
+  unload = 'esx:onPlayerLogout',
+  job = 'esx:setJob',
+  player = 'esx:setPlayerData'
+}
+local ESX = exports[FRAMEWORK]:getSharedObject()
 local PlayerData = {}
-local version = GetResourceMetadata(framework, 'version', 0)
-if version:gsub('%D', '') < ('1.12.4'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.12.4 or higher, got '..version..')', 0) end
 
 --------------------- FUNCTIONS ---------------------
 
 ---@return 'es_extended'
-local function get_framework() return framework end
+local function get_framework() return FRAMEWORK end
 
 ---@return string version
 local function get_version() return version end
+
+---@return {load: string, unload: string, job: string, player: string} Events
+local function get_events() return EVENTS end
 
 ---@return table ESX
 local function get_object() return ESX end
@@ -78,30 +87,29 @@ end
 
 --------------------- EVENTS ---------------------
 
-RegisterNetEvent('esx:playerLoaded', function()
-  PlayerData = ESX.GetPlayerData()
-end)
-
-RegisterNetEvent('esx:onPlayerLogout', function()
-  PlayerData = {}
-end)
-
-RegisterNetEvent('esx:setJob', function(data)
-  if not next(PlayerData) then return end
-  PlayerData.job = ConvertJobData(data)
-end)
-
-RegisterNetEvent('esx:setPlayerData', function(data)
-  PlayerData = data
-end)
+for event, name in pairs(EVENTS) do
+  RegisterNetEvent(name, function(data)
+    if event == 'load' then
+      PlayerData = ESX.GetPlayerData()
+    elseif event == 'unload' then
+      PlayerData = {}
+    elseif event == 'job' then
+      PlayerData.job = ConvertJobData(data)
+    elseif event == 'player' then
+      PlayerData = data
+    end
+  end)
+end
 
 --------------------- OBJECT ---------------------
 
 return {
-  _FRAMEWORK = framework,
+  _FRAMEWORK = FRAMEWORK,
   _VERSION = version,
+  _EVENTS = EVENTS,
   getframework = get_framework,
   getversion = get_version,
+  getevents = get_events,
   getobject = get_object,
   getplayer = get_player,
   getplayeridentifier = get_identifier,
