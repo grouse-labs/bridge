@@ -1,20 +1,29 @@
-local framework = 'qbx_core'
-if framework ~= GetResourceMetadata('bridge', 'framework', 0) then return end
-if not IsResourceValid(framework) then return end
+local FRAMEWORK <const> = 'qbx_core'
+if FRAMEWORK ~= GetResourceMetadata('bridge', 'framework', 0) then return end
+if not IsResourceValid(FRAMEWORK) then return end
 if IsResourceValid('qb-core') then return end
-
-local qbx = exports[framework]
-local PlayerData = {}
-local version = GetResourceMetadata(framework, 'version', 0)
+local version = GetResourceMetadata(FRAMEWORK, 'version', 0)
 -- if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
+
+local EVENTS <const> = {
+  load = 'QBCore:Client:OnPlayerLoaded',
+  unload = 'QBCore:Client:OnPlayerUnload',
+  job = 'QBCore:Client:OnJobUpdate',
+  player = 'QBCore:Player:SetPlayerData'
+}
+local qbx = exports[FRAMEWORK]
+local PlayerData = {}
 
 --------------------- FUNCTIONS ---------------------
 
 ---@return 'qbx_core'
-local function get_framework() return framework end
+local function get_framework() return FRAMEWORK end
 
 ---@return string version
 local function get_version() return version end
+
+---@return {load: string, unload: string, job: string, player: string} Events
+local function get_events() return EVENTS end
 
 ---@return table QBCore
 local function get_object()
@@ -74,30 +83,29 @@ end
 
 --------------------- EVENTS ---------------------
 
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-  PlayerData = qbx:GetPlayerData()
-end)
-
-RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
-  PlayerData = {}
-end)
-
-RegisterNetEvent('QBCore:Client:OnJobUpdate', function(data)
-  if not next(PlayerData) then return end
-  PlayerData.job = ConvertJobData(data)
-end)
-
-RegisterNetEvent('QBCore:Player:SetPlayerData', function(data)
-  PlayerData = data
-end)
+for event, name in pairs(EVENTS) do
+  RegisterNetEvent(name, function(data)
+    if event == 'load' then
+      PlayerData = qbx:GetPlayerData()
+    elseif event == 'unload' then
+      PlayerData = {}
+    elseif event == 'job' then
+      PlayerData.job = ConvertJobData(data)
+    elseif event == 'player' then
+      PlayerData = data
+    end
+  end)
+end
 
 --------------------- OBJECT ---------------------
 
 return {
-  _FRAMEWORK = framework,
+  _FRAMEWORK = FRAMEWORK,
   _VERSION = version,
+  _EVENTS = EVENTS,
   getframework = get_framework,
   getversion = get_version,
+  getevents = get_events,
   getobject = get_object,
   getplayer = get_player,
   getplayeridentifier = get_identifier,
