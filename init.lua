@@ -28,7 +28,6 @@ local function import(bridge, module)
   local file = load_resource_file(res, dir..'shared.lua')
   dir = not file and dir..context..'.lua' or dir
   file = not file and load_resource_file(res, dir) or file
-  print(dir)
   if not file then return end
   local result, err = load(file, '@@'..res..'/'..dir, 't', _ENV)
   if not result or err then return error('error occured loading module \''..module..'\''..(err and '\n\t'..err or ''), 3) end
