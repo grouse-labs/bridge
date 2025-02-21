@@ -18,6 +18,8 @@ menu 'ox_lib'
 
 notify 'native'
 
+client_script 'client/main.lua'
+
 files {
   'init.lua',
   'shared/*.lua',
