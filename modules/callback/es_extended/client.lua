@@ -1,15 +1,15 @@
-local callback = 'es_extended'
-if callback ~= GetResourceMetadata('bridge', 'callback', 0) then return end
-if not IsResourceValid(callback) then return end
+local CALLBACK <const> = 'es_extended'
+if CALLBACK ~= GetResourceMetadata('bridge', 'callback', 0) then return end
+if not IsResourceValid(CALLBACK) then return end
 
-local ESX = exports[callback]:getSharedObject()
-local version = GetResourceMetadata(callback, 'version', 0)
-if version:gsub('%D', '') < ('1.12.4'):gsub('%D', '') then error('incompatible version of '..callback..' detected (expected 1.12.4 or higher, got '..version..')', 0) end
+local ESX = exports[CALLBACK]:getSharedObject()
+local version = GetResourceMetadata(CALLBACK, 'version', 0)
+if version:gsub('%D', '') < ('1.12.4'):gsub('%D', '') then error('incompatible version of '..CALLBACK..' detected (expected 1.12.4 or higher, got '..version..')', 0) end
 
 --------------------- FUNCTIONS ---------------------
 
 ---@return 'es_extended'
-local function get_callback() return callback end
+local function get_callback() return CALLBACK end
 
 ---@return string version
 local function get_version() return version end
@@ -37,7 +37,7 @@ end
 --------------------- OBJECT ---------------------
 
 return {
-  _CALLBACK = callback,
+  _CALLBACK = CALLBACK,
   _VERSION = version,
   getcallback = get_callback,
   getversion = get_version,

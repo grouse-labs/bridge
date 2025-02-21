@@ -1,16 +1,16 @@
-local menu = 'qb-menu'
-if menu ~= GetResourceMetadata('bridge', 'menu', 0) then return end
-if not IsResourceValid(menu) then return end
+local MENU <const> = 'qb-menu'
+if MENU ~= GetResourceMetadata('bridge', 'menu', 0) then return end
+if not IsResourceValid(MENU) then return end
 
-local qb_menu = exports[menu]
-local version = GetResourceMetadata(menu, 'version', 0)
-if version:gsub('%D', '') < ('1.2.0'):gsub('%D', '') then error('incompatible version of '..menu..' detected (expected 1.2.0 or higher, got '..version..')', 0) end
+local qb_menu = exports[MENU]
+local version = GetResourceMetadata(MENU, 'version', 0)
+if version:gsub('%D', '') < ('1.2.0'):gsub('%D', '') then error('incompatible version of '..MENU..' detected (expected 1.2.0 or higher, got '..version..')', 0) end
 local RegisteredMenus = {}
 
 --------------------- FUNCTIONS ---------------------
 
 ---@return 'qb-menu'
-local function get_menu() return menu end
+local function get_menu() return MENU end
 
 ---@return string version
 local function get_version() return version end
@@ -40,7 +40,7 @@ local function close_menu() qb_menu:closeMenu() end
 --------------------- OBJECT ---------------------
 
 return {
-  _MENU = menu,
+  _MENU = MENU,
   _VERSION = version,
   getmenu = get_menu,
   getversion = get_version,

@@ -1,15 +1,15 @@
-local target = 'qb-target'
-if target ~= GetResourceMetadata('bridge', 'target', 0) then return end
-if not IsResourceValid(target) then return end
+local TARGET <const> = 'qb-target'
+if TARGET ~= GetResourceMetadata('bridge', 'target', 0) then return end
+if not IsResourceValid(TARGET) then return end
 
-local qb_target = exports[target]
-local version = GetResourceMetadata(target, 'version', 0)
+local qb_target = exports[TARGET]
+local version = GetResourceMetadata(TARGET, 'version', 0)
 -- if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
 
 --------------------- FUNCTIONS ---------------------
 
 ---@return 'qb-target'
-local function get_target() return target end
+local function get_target() return TARGET end
 
 ---@return string version
 local function get_version() return version end
@@ -69,7 +69,7 @@ local function remove_box_zone(box_zone) qb_target:RemoveZone(box_zone) end
 --------------------- OBJECT ---------------------
 
 return {
-  _TARGET = target,
+  _TARGET = TARGET,
   _VERSION = version,
   gettarget = get_target,
   getversion = get_version,

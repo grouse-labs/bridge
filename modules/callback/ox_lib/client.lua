@@ -1,17 +1,17 @@
-local callback = 'ox_lib'
-if callback ~= GetResourceMetadata('bridge', 'callback', 0) then return end
-if not IsResourceValid(callback) then return end
+local CALLBACK <const> = 'ox_lib'
+if CALLBACK ~= GetResourceMetadata('bridge', 'callback', 0) then return end
+if not IsResourceValid(CALLBACK) then return end
 
 local load, load_resource_file = load, LoadResourceFile
 if not lib then load(load_resource_file('ox_lib', 'init.lua'), '@ox_lib/init.lua', 't', _ENV)() end
 local lib = _ENV.lib
-local version = GetResourceMetadata(callback, 'version', 0)
-if version:gsub('%D', '') < ('3.29.0'):gsub('%D', '') then error('incompatible version of '..callback..' detected (expected 3.29.0 or higher, got '..version..')', 0) end
+local version = GetResourceMetadata(CALLBACK, 'version', 0)
+if version:gsub('%D', '') < ('3.29.0'):gsub('%D', '') then error('incompatible version of '..CALLBACK..' detected (expected 3.29.0 or higher, got '..version..')', 0) end
 
 --------------------- FUNCTIONS ---------------------
 
 ---@return 'ox_lib'
-local function get_callback() return callback end
+local function get_callback() return CALLBACK end
 
 ---@return string version
 local function get_version() return version end
@@ -39,7 +39,7 @@ end
 --------------------- OBJECT ---------------------
 
 return {
-  _CALLBACK = callback,
+  _CALLBACK = CALLBACK,
   _VERSION = version,
   getcallback = get_callback,
   getversion = get_version,

@@ -1,18 +1,18 @@
-local callback = 'qb-core'
-if callback ~= GetResourceMetadata('bridge', 'callback', 0) then return end
-if not IsResourceValid(callback) then return end
+local CALLBACK <const> = 'qb-core'
+if CALLBACK ~= GetResourceMetadata('bridge', 'callback', 0) then return end
+if not IsResourceValid(CALLBACK) then return end
 
-if not IsResourceValid(callback) then return end
+if not IsResourceValid(CALLBACK) then return end
 if IsResourceValid('qbx_core') then return end
 
-local QBCore = exports[callback]:GetCoreObject({'Functions', 'Shared'})
-local version = GetResourceMetadata(callback, 'version', 0)
-if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..callback..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
+local QBCore = exports[CALLBACK]:GetCoreObject({'Functions', 'Shared'})
+local version = GetResourceMetadata(CALLBACK, 'version', 0)
+if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..CALLBACK..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
 
 --------------------- FUNCTIONS ---------------------
 
 ---@return 'qb-core'
-local function get_callback() return callback end
+local function get_callback() return CALLBACK end
 
 ---@return string version
 local function get_version() return version end
@@ -42,7 +42,7 @@ end
 --------------------- OBJECT ---------------------
 
 return {
-  _CALLBACK = callback,
+  _CALLBACK = CALLBACK,
   _VERSION = version,
   getcallback = get_callback,
   getversion = get_version,

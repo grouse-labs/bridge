@@ -1,15 +1,15 @@
-local target = 'ox_target'
-if target ~= GetResourceMetadata('bridge', 'target', 0) then return end
-if not IsResourceValid(target) then return end
+local TARGET <const> = 'ox_target'
+if TARGET ~= GetResourceMetadata('bridge', 'target', 0) then return end
+if not IsResourceValid(TARGET) then return end
 
-local ox_target = exports[target] --[[@as ox_target]]
-local version = GetResourceMetadata(target, 'version', 0)
-if version:gsub('%D', '') < ('1.17.1'):gsub('%D', '') then error('incompatible version of '..target..' detected (expected 1.17.1 or higher, got '..version..')', 0) end
+local ox_target = exports[TARGET] --[[@as ox_target]]
+local version = GetResourceMetadata(TARGET, 'version', 0)
+if version:gsub('%D', '') < ('1.17.1'):gsub('%D', '') then error('incompatible version of '..TARGET..' detected (expected 1.17.1 or higher, got '..version..')', 0) end
 
 --------------------- FUNCTIONS ---------------------
 
 ---@return 'ox_target'
-local function get_target() return target end
+local function get_target() return TARGET end
 
 ---@return string version
 local function get_version() return version end
@@ -61,7 +61,7 @@ local function remove_box_zone(box_zone) ox_target:removeZone(box_zone) end
 --------------------- OBJECT ---------------------
 
 return {
-  _TARGET = target,
+  _TARGET = TARGET,
   _VERSION = version,
   gettarget = get_target,
   getversion = get_version,
