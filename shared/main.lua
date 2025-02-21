@@ -79,7 +79,7 @@ function MergeArrays(arr1, arr2)
   return arr1
 end
 
-local target = GetResourceMetadata('bridge', 'target', 0)
+local TARGET <const> = GetResourceMetadata('bridge', 'target', 0)
 
 ---@param options {name: string?, label: string, icon: string?, distance: number?, item: string?, canInteract: fun(entity: integer, distance: number)?, onSelect: fun()?, event_type: string?, event: string?, jobs: string|string[]?, gangs: string|string[]?}[] The options for the target.
 ---@return table[]? converted_options The converted options for the target.
@@ -91,7 +91,7 @@ function ConvertTargetOptions(options)
     if not option then error('invalid target option at index '..i, 3) end
     local label = option.label
     if not label or type(label) ~= 'string' then error('invalid target option label at index '..i, 3) end
-    converted_options[i] = target == 'ox_target' and {
+    converted_options[i] = TARGET == 'ox_target' and {
       name = option.name or label,
       label = label,
       icon = option.icon,
@@ -188,7 +188,7 @@ local MD_TO_HTML <const> = {
   }
 }
 
-local menu = GetResourceMetadata('bridge', 'menu', 0)
+local MENU <const> = GetResourceMetadata('bridge', 'menu', 0)
 
 ---@param tag string The tag to check.
 ---@return boolean is_html_tag The tag is an HTML tag.
@@ -199,7 +199,7 @@ local function is_html_tag(tag) return tag:match('^<%a+>$') end
 ---@return string? converted_text The converted text.
 function ConvertMDHTML(text, format)
   if not text then return end
-  if not format then format = menu == 'ox_lib' and 'MD' or 'HTML' end
+  if not format then format = MENU == 'ox_lib' and 'MD' or 'HTML' end
   if (is_html_tag(text) and format == 'HTML') or (not is_html_tag(text) and format == 'MD') then return text end
   local pattern_table = format == 'HTML' and MD_TO_HTML or HTML_TO_MD
   for _, patterns in pairs(pattern_table) do
@@ -223,7 +223,7 @@ function ConvertMenuOptions(options)
     if not header or type(header) ~= 'string' then error('invalid menu option header at index '..i, 3) end
     local description = option.description
     if not description or type(description) ~= 'string' then error('invalid menu option description at index '..i, 3) end
-    converted_options[i] = menu == 'ox_lib' and {
+    converted_options[i] = MENU == 'ox_lib' and {
       title = ConvertMDHTML(header),
       description = ConvertMDHTML(description),
       icon = option.icon,
