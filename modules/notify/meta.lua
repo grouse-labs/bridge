@@ -1,3 +1,5 @@
 ---@class CNotify
----@field text fun(text: string, notify_type: 'error'|'success'|'primary'?)
----@field item fun(item: string, amount: integer?, text: string?)
+---@field text fun(text: string, notify_type: 'error'|'success'|'primary'?) @client-side only
+---@field text fun(player: string|integer?, text: string, notify_type: 'error'|'success'|'primary'?) @server-side only
+---@field item fun(item: string, amount: integer?, text: string?) @client-side only
+---@field item fun(player: string|integer?, item: string, amount: integer?, text: string?) @server-side only
