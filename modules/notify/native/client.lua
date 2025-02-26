@@ -39,14 +39,20 @@ end
 
 ---@param text string
 ---@param notify_type 'error'|'success'|'primary'? @default 'primary'
-local function text_notify(text, notify_type)
+---@param time integer? @default 5000
+local function text_notify(text, notify_type, time)
   if not text or type(text) ~= 'string' then error('bad argument #1 to \'TextNotify\' (string expected, got '..type(text)..')', 2) end
   local handle = load_ped_headshot(PlayerPedId())
   if not handle then return end
   local headshot_txd = GetPedheadshotTxdString(handle)
   local title = notify_type == 'error' and '~r~Error~w~~s~' or notify_type == 'success' and '~g~Success~w~~s~' or 'Notification'
-  feed_post_msg_text(headshot_txd, headshot_txd, 1, title, text)
-  UnregisterPedheadshot(handle)
+  CreateThread(function()
+    ThefeedFreezeNextPost()
+    feed_post_msg_text(headshot_txd, headshot_txd, 1, title, text)
+    Wait(time or 5000)
+    ThefeedClearFrozenPost()
+    UnregisterPedheadshot(handle)
+  end)
 end
 
 ---@param item string
