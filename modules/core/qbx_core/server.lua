@@ -247,6 +247,17 @@ local function create_useable_item(item_name, cb)
   end)
 end
 
+--------------------- SHARED ---------------------
+
+local function get_jobs()
+  local found_jobs = qbx:GetJobs()
+  local jobs = {}
+  for k, v in pairs(found_jobs) do
+    jobs[k] = ConvertJobData(k, v)
+  end
+  return jobs
+end
+
 --------------------- OBJECT ---------------------
 
 return {
@@ -271,5 +282,6 @@ return {
   removeplayeritem = remove_item,
   getitems = get_items,
   getitem = get_item,
-  createuseableitem = create_useable_item
+  createuseableitem = create_useable_item,
+  getjobs = get_jobs
 }
