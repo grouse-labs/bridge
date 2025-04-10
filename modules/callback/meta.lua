@@ -5,5 +5,5 @@
 ---@field getversion fun(): string
 ---@field getobject fun(): table
 ---@field register fun(name: string, cb: fun(...): any)
----@field trigger fun(name: string, cb: fun(...): any, ...: any) @client-side only
----@field trigger fun(player: integer|string, name: string, cb: fun(...): any, ...: any) @server-side only
+---@field trigger fun(name: string, cb: (fun(...): any), ...: any) @client-side only
+---@field trigger fun(player: integer|string, name: string, cb: (fun(...): any), ...: any) @server-side only
