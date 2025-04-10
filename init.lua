@@ -13,11 +13,18 @@ local is_server = IsDuplicityVersion() == 1
 local context = is_server and 'server' or 'client'
 if not IsResourceValid then load(load_resource_file(res, 'shared/main.lua'), '@bridge/shared/main.lua', 't', _ENV)() end
 
+local module_names = {
+  core = framework,
+  callback = callback,
+  target = target,
+  menu = menu,
+  notify = notify
+}
+
 ---@param module_type 'core'|'callback'|'target'|'menu'|'notify'
 ---@return string?
 local function get_module_name(module_type)
-  local module = module_type == 'core' and framework or module_type == 'callback' and callback or module_type == 'target' and target or module_type == 'menu' and menu or module_type == 'notify' and notify or nil
-  return module
+  return module_names[module_type]
 end
 
 ---@param bridge CBridge
