@@ -18,7 +18,7 @@ function IsSrcValid(src)
   src = src or source
   local src_type = type(src)
   src = src_type == 'string' and tonumber(src) or src
-  return src_type == 'number' and src > 0
+  return src > 0
 end
 
 ---@param tbl table<any, any>|any? The table to iterate over.
