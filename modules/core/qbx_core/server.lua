@@ -1,16 +1,15 @@
-local framework = 'qbx_core'
-if framework ~= GetResourceMetadata('bridge', 'framework', 0) then return end
-if not IsResourceValid(framework) then return end
-if IsResourceValid('qb-core') then return end
+local FRAMEWORK <const> = 'qbx_core'
+if FRAMEWORK ~= GetResourceMetadata('bridge', 'framework', 0) then return end
+if not IsResourceValid(FRAMEWORK) and IsResourceValid('qb-core') then return end
 
-local qbx = exports[framework]
-local version = GetResourceMetadata(framework, 'version', 0)
+local qbx = exports[FRAMEWORK]
+local version = GetResourceMetadata(FRAMEWORK, 'version', 0)
 -- if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
 
 --------------------- FUNCTIONS ---------------------
 
 ---@return 'qbx_core'
-local function get_framework() return framework end
+local function get_framework() return FRAMEWORK end
 
 ---@return string version
 local function get_version() return version end
@@ -130,7 +129,7 @@ local function is_downed(player)
   if not IsSrcValid(player) then error('bad argument #1 to \'isplayerdowned\' (number expected, got '..type(player)..')', 2) end
   local Player = get_player(player)
   if not Player then error('error calling \'isplayerdowned\' (player not found)', 2) end
-  return qbx:GetMetaData(player, 'inlaststand') or qbx:GetMetaData(player, 'isdowned')
+  return Player.PlayerData.metadata['inlaststand'] or Player.PlayerData.metadata['isdowned']
 end
 
 local ox_inventory = exports.ox_inventory
@@ -251,7 +250,7 @@ end
 --------------------- OBJECT ---------------------
 
 return {
-  _FRAMEWORK = framework,
+  _FRAMEWORK = FRAMEWORK,
   _VERSION = version,
   getframework = get_framework,
   getversion = get_version,

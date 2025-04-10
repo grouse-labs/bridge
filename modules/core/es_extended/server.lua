@@ -1,15 +1,15 @@
-local framework = 'es_extended'
-if framework ~= GetResourceMetadata('bridge', 'framework', 0) then return end
-if not IsResourceValid(framework) then return end
+local FRAMEWORK <const> = 'es_extended'
+if FRAMEWORK ~= GetResourceMetadata('bridge', 'framework', 0) then return end
+if not IsResourceValid(FRAMEWORK) then return end
 
-local ESX = exports[framework]:getSharedObject()
-local version = GetResourceMetadata(framework, 'version', 0)
-if version:gsub('%D', '') < ('1.12.4'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.12.4 or higher, got '..version..')', 0) end
+local ESX = exports[FRAMEWORK]:getSharedObject()
+local version = GetResourceMetadata(FRAMEWORK, 'version', 0)
+if version:gsub('%D', '') < ('1.12.4'):gsub('%D', '') then error('incompatible version of '..FRAMEWORK..' detected (expected 1.12.4 or higher, got '..version..')', 0) end
 
 --------------------- FUNCTIONS ---------------------
 
 ---@return 'es_extended'
-local function get_framework() return framework end
+local function get_framework() return FRAMEWORK end
 
 ---@return string version
 local function get_version() return version end
@@ -240,8 +240,10 @@ local function create_useable_item(item_name, cb)
   ESX.RegisterUsableItem(item_name, cb)
 end
 
+--------------------- OBJECT ---------------------
+
 return {
-  _FRAMEWORK = framework,
+  _FRAMEWORK = FRAMEWORK,
   _VERSION = version,
   getframework = get_framework,
   getversion = get_version,

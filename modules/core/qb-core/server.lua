@@ -1,16 +1,15 @@
-local framework = 'qb-core'
-if framework ~= GetResourceMetadata('bridge', 'framework', 0) then return end
-if not IsResourceValid(framework) then return end
-if IsResourceValid('qbx_core') then return end
+local FRAMEWORK <const> = 'qb-core'
+if FRAMEWORK ~= GetResourceMetadata('bridge', 'framework', 0) then return end
+if not IsResourceValid(FRAMEWORK) and IsResourceValid('qbx_core') then return end
 
-local QBCore = exports[framework]:GetCoreObject({'Functions', 'Shared'})
-local version = GetResourceMetadata(framework, 'version', 0)
-if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
+local QBCore = exports[FRAMEWORK]:GetCoreObject({'Functions', 'Shared'})
+local version = GetResourceMetadata(FRAMEWORK, 'version', 0)
+if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..FRAMEWORK..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
 
 --------------------- FUNCTIONS ---------------------
 
 ---@return 'qb-core'
-local function get_framework() return framework end
+local function get_framework() return FRAMEWORK end
 
 ---@return string version
 local function get_version() return version end
@@ -252,7 +251,7 @@ end)
 --------------------- OBJECT ---------------------
 
 return {
-  _FRAMEWORK = framework,
+  _FRAMEWORK = FRAMEWORK,
   _VERSION = version,
   getframework = get_framework,
   getversion = get_version,
