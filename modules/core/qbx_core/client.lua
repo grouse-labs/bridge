@@ -1,7 +1,6 @@
 local FRAMEWORK <const> = 'qbx_core'
 if FRAMEWORK ~= GetResourceMetadata('bridge', 'framework', 0) then return end
-if not IsResourceValid(FRAMEWORK) then return end
-if IsResourceValid('qb-core') then return end
+if not IsResourceValid(FRAMEWORK) and IsResourceValid('qb-core') then print('Resource Not Valid)') return end
 local version = GetResourceMetadata(FRAMEWORK, 'version', 0)
 -- if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
 
@@ -83,11 +82,13 @@ end
 
 --------------------- EVENTS ---------------------
 
+AddEventHandler(EVENTS.load, function()
+  PlayerData = qbx:GetPlayerData()
+end)
+
 for event, name in pairs(EVENTS) do
   RegisterNetEvent(name, function(data)
-    if event == 'load' then
-      PlayerData = qbx:GetPlayerData()
-    elseif event == 'unload' then
+    if event == 'unload' then
       PlayerData = {}
     elseif event == 'job' then
       PlayerData.job = ConvertPlayerJobData(data)
