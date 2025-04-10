@@ -1,6 +1,7 @@
 ---@class CFramework
 ---@field _FRAMEWORK 'qb-core'|'es_extended'|'qbx_core'
 ---@field _VERSION string
+---@field _EVENTS {load: string, unload: string, job: string, player: string}
 ---@field getframework fun(): 'qb-core'|'es_extended'|'qbx_core'
 ---@field getversion fun(): string
 ---@field getobject fun(): table
@@ -13,7 +14,7 @@
 ---@field getplayermoney fun(player: integer|string?, money_type: 'money'|'cash'|'bank'): money: integer **Note:** Player is a server-side only argument.
 ---@field addplayermoney fun(player: integer|string, money_type: 'money'|'cash'|'bank', amount: number): added: boolean **Note:** This is a server-side only function.
 ---@field removeplayermoney fun(player: integer|string, money_type: 'money'|'cash'|'bank', amount: number): removed: boolean **Note:** This is a server-side only function.
----@field isplayerdowned fun(player: integer|string): is_downed: boolean **Note:** Player is a server-side only argument.
+---@field isplayerdowned fun(player: integer|string?): is_downed: boolean **Note:** Player is a server-side only argument.
 ---@field getplayerinventory fun(player: integer|string): inventory: {[string]: {name: string, label: string, weight: number, useable: boolean, unique: boolean}} **Note:** This is a server-side only function.
 ---@field doesplayerhaveitem fun(player: integer|string, item_name: string, amount: number?): has_item: boolean **Note:** This is a server-side only function.
 ---@field addplayeritem fun(player: integer|string, item_name: string, amount: number?): added: boolean **Note:** This is a server-side only function.
