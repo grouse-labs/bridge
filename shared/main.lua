@@ -39,12 +39,12 @@ local job_types = {['leo'] = {['police'] = true, ['fib'] = true, ['sheriff'] = t
 
 ---@param data table The job data to convert.
 ---@return {name: string, label: string, grade: number, grade_name: string, grade_label: string, job_type: string, salary: number}? job_data The converted job data.
-function ConvertJobData(data)
+function ConvertPlayerJobData(data)
   if not data then return end
   if data.job_type then return data end
   local grade_type = type(data.grade)
   return {
-    name = data.name or 'unemployed',
+    name = data.name or data.label:lower(),
     label = data.label,
     grade = grade_type ~= 'table' and data.grade or data.grade.level,
     grade_name = grade_type ~= 'table' and data.grade_name or data.grade.name,
@@ -65,6 +65,23 @@ function ConvertGangData(data)
     label = data.label,
     grade = grade_type ~= 'table' and data.grade or data.grade.level or 0,
     grade_name = grade_type ~= 'table' and data.grade_name or data.grade.name
+  }
+end
+
+---@param data table The job data to convert.
+---@return {name: string, label: string, _type: string, grades: {[number]: {label: string, salary: number}}}? job_data The converted job data.
+function ConvertJobData(data)
+  if not data then return end
+  local grades = {}
+  local fnd_grades = data.grades or data.grade
+  for k, v in pairs(fnd_grades) do
+    grades[tonumber(k)] = {label = v.name or v.label, salary = v.salary or v.payment}
+  end
+  return {
+    name = data.name or data.label:lower(),
+    label = data.label,
+    _type = data.type,
+    grades = grades
   }
 end
 
