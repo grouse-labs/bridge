@@ -33,7 +33,7 @@ end
 ---@param cb function The function to call when the callback is received.
 ---@param ... any Additional arguments to pass to the callback.
 local function trigger_callback(player, name, cb, ...)
-  if not IsSrcValid(player or source) then error('bad argument #1 to \'TriggerCallback\' (number or string expected, got '..type(player)..')', 2) end
+  if not IsSrcValid(player or source) then error('bad argument #1 to \'TriggerCallback\' (number or string expected, got '..player..')', 2) end
   if not name or type(name) ~= 'string' then error('bad argument #2 to \'TriggerCallback\' (string expected, got '..type(name)..')', 2) end
   if not cb or type(cb) ~= 'function' then error('bad argument #3 to \'TriggerCallback\' (function expected, got '..type(cb)..')', 2) end
   QBCore.Functions.TriggerClientCallback(name, player or source, cb, ...)
