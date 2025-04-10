@@ -1,10 +1,10 @@
 ---@class CFramework
 ---@field _FRAMEWORK 'qb-core'|'es_extended'|'qbx_core'
 ---@field _VERSION string
----@field _EVENTS {load: string, unload: string, job: string, player: string}
+---@field _EVENTS {load: string, unload: string, job: string, player: string}? **Note:** This is only available client side.
 ---@field getframework fun(): 'qb-core'|'es_extended'|'qbx_core'
 ---@field getversion fun(): string
----@field getobject fun(): table
+---@field getobject fun(): table `'qb-core'` - return: `QBCore` object. <br> `'es_extended'` - return: `ESX` object. <br> `'qbx_core'` & `qbx:enablebridge == 'true'` - return: `QBCore` object.
 ---@field getplayer fun(player: integer|string?): Player: table **Note:** Player is a server-side only argument.
 ---@field getplayeridentifier fun(player: integer|string?): identifier: string **Note:** Player is a server-side only argument.
 ---@field getplayername fun(player: integer|string?): name: string **Note:** Player is a server-side only argument.
