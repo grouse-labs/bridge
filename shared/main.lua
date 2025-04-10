@@ -43,13 +43,14 @@ function ConvertPlayerJobData(data)
   if not data then return end
   if data.job_type then return data end
   local grade_type = type(data.grade)
+  local name = data.name or data.label:lower()
   return {
-    name = data.name or data.label:lower(),
+    name = name,
     label = data.label,
     grade = grade_type ~= 'table' and data.grade or data.grade.level,
     grade_name = grade_type ~= 'table' and data.grade_name or data.grade.name,
     grade_label = grade_type ~= 'table' and data.grade_label or data.grade.name,
-    job_type = for_each(job_types, function(k, v) return v[data.name] and k end),
+    job_type = for_each(job_types, function(k, v) return v[name] and k end),
     salary = data.salary or data.payment
   }
 end
@@ -68,19 +69,22 @@ function ConvertGangData(data)
   }
 end
 
----@param data table The job data to convert.
+---@param name string The name of the job.
+---@param data {name: string?, label: string, payment: number?, salary: integer?, type: string?, grades: table<string|integer, {name: string?, label: string, salary: integer?, payment: integer}>?, grade: table<string|integer, {name: string?, label: string, salary: integer?, payment: integer}>} The job data to convert.
 ---@return {name: string, label: string, _type: string, grades: {[number]: {label: string, salary: number}}}? job_data The converted job data.
-function ConvertJobData(data)
+function ConvertJobData(name, data)
   if not data then return end
   local grades = {}
   local fnd_grades = data.grades or data.grade
   for k, v in pairs(fnd_grades) do
-    grades[tonumber(k)] = {label = v.name or v.label, salary = v.salary or v.payment}
+    local new_key = type(k) ~= 'number' and tonumber(k) and tonumber(k) or k
+    grades[new_key] = {label = v.name or v.label, salary = v.salary or v.payment}
   end
+  name = name or data.label:lower()
   return {
-    name = data.name or data.label:lower(),
+    name = name,
     label = data.label,
-    _type = data.type,
+    _type = data.type or for_each(job_types, function(k, v) return v[name] and k end),
     grades = grades
   }
 end
