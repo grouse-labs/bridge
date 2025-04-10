@@ -44,7 +44,7 @@ end
 
 ---@return {name: string, label: string, grade: number, grade_name: string, grade_label: string, job_type: string, salary: number} job_data The job data of the `player`.
 local function get_job()
-  local data = ConvertJobData(get_player().job)
+  local data = ConvertPlayerJobData(get_player().job)
   if not data or not next(data) then error('error calling \'getplayerjob\' (job data not found)', 2) end
   return data
 end
@@ -62,7 +62,7 @@ local function has_group(groups)
   if type(groups) == 'string' then groups = {groups} end
   if type(groups) ~= 'table' then error('bad argument #1 to \'hasgroup\' (string or table expected, got '..type(groups)..')', 2) end
   local player = get_player()
-  local job = ConvertJobData(player.job)
+  local job = ConvertPlayerJobData(player.job)
   -- local gang = ConvertGangData(player.gang)
   for i = 1, #groups do
     local group = groups[i]
@@ -94,7 +94,7 @@ for event, name in pairs(EVENTS) do
     elseif event == 'unload' then
       PlayerData = {}
     elseif event == 'job' then
-      PlayerData.job = ConvertJobData(data)
+      PlayerData.job = ConvertPlayerJobData(data)
     elseif event == 'player' then
       PlayerData = data
     end

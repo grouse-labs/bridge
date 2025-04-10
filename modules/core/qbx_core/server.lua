@@ -54,7 +54,7 @@ local function get_job(player)
   if not IsSrcValid(player) then error('bad argument #1 to \'getplayerjob\' (number expected, got '..type(player)..')', 2) end
   local Player = get_player(player)
   if not Player then error('error calling \'getplayerjob\' (player not found)', 2) end
-  local data = ConvertJobData(Player.PlayerData.job)
+  local data = ConvertPlayerJobData(Player.PlayerData.job)
   if not data or not next(data) then error('error calling \'getplayerjob\' (job data not found)', 2) end
   return data
 end
