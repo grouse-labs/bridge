@@ -1,5 +1,4 @@
----@class module<T>: {[string]: function}
----@type fun(module_name: string): module: module|function|table
+---@type fun(module_name: string): module: unknown
 do
   local curr_res = GetCurrentResourceName()
   local get_res_state = GetResourceState
@@ -99,7 +98,7 @@ do
   end
 
   ---@param mod_name string The name of the module to require. <br> This has to be a dot-separated path to the module. <br> For example, `bridge.init`.
-  ---@return module|function|table module Returns `module` if the file is a module or function.
+  ---@return unknown module Returns `module` if the file is a module or function.
   local function require(mod_name) -- Returns the module if it was found and could be loaded. <br> `mod_name` needs to be a dot seperated path from resource to module. <br> Credits to [Lua Modules Loader](http://lua-users.org/wiki/LuaModulesLoader) by @lua-users & ox_lib's [`require`](https://github.com/overextended/ox_lib/blob/cdf840fc68ace1f4befc78555a7f4f59d2c4d020/imports/require/shared.lua#L149).
     if type(mod_name) ~= 'string' then error('bad argument #1 to \'require\' (string expected, got '..type(mod_name)..')', 2) end
     local errmsg = 'bad argument #1 to \'require\' (module \''..mod_name..'\' not found)'
