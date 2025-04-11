@@ -1,3 +1,4 @@
+local RES_NAME <const> = GetCurrentResourceName()
 local res = 'bridge'
 local get_res_meta = GetResourceMetadata
 local version, url, des = get_res_meta(res, 'version', 0), get_res_meta(res, 'url', 0), get_res_meta(res, 'description', 0)
@@ -63,13 +64,25 @@ end
 ---@field _URL string
 ---@field _DESCRIPTION string
 ---@field _DEBUG boolean
+---@field _CURRENT_RESOURCE string
 ---@field core CFramework
 ---@field callback CCallback
 ---@field target CTarget
 ---@field menu CMenu
 ---@field notify CNotify
----@field require fun(module_name: string): module: module|function|table Returns the module if it was found and could be loaded. <br> `mod_name` needs to be a dot seperated path from resource to module. <br> Credits to [Lua Modules Loader](http://lua-users.org/wiki/LuaModulesLoader) by @lua-users & ox_lib's [`require`](https://github.com/overextended/ox_lib/blob/cdf840fc68ace1f4befc78555a7f4f59d2c4d020/imports/require/shared.lua#L149).
-local bridge = {_VERSION = version, _URL = url, _DESCRIPTION = des, _DEBUG = debug_mode}
+---@field print fun(...) Prints a message to the console with the resource name. <br> `...` is the message to print.
+---@field require fun(module_name: string): module: unknown Returns the module if it was found and could be loaded. <br> `mod_name` needs to be a dot seperated path from resource to module. <br> Credits to [Lua Modules Loader](http://lua-users.org/wiki/LuaModulesLoader) by @lua-users & ox_lib's [`require`](https://github.com/overextended/ox_lib/blob/cdf840fc68ace1f4befc78555a7f4f59d2c4d020/imports/require/shared.lua#L149).
+local bridge = {
+  _VERSION = version,
+  _URL = url,
+  _DESCRIPTION = des,
+  _DEBUG = debug_mode,
+  _CURRENT_RESOURCE = RES_NAME,
+  print = function(...)
+    if not debug_mode then return end
+    print('^3['..RES_NAME..']^7 - '..(...))
+  end
+}
 setmetatable(bridge, {__index = call, __call = call})
 _ENV.bridge = bridge
 _ENV.require = bridge.require
