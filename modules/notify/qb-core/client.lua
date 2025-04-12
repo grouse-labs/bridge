@@ -1,7 +1,7 @@
 local NOTIFY <const> = 'qb-core'
-if NOTIFY ~= GetResourceMetadata('bridge', 'notify', 0) then return end
-if not IsResourceValid(NOTIFY) then return end
-if IsResourceValid('qbx_core') then return end
+if NOTIFY ~= GetConvar('bridge:notify', 'native') then error('invalid notify resource name', 0) end
+if not IsResourceValid(NOTIFY) and IsResourceValid('qbx_core') then error('notify resource `'..NOTIFY..'` not valid', 0) end
+
 local version = GetResourceMetadata(NOTIFY, 'version', 0)
 if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..NOTIFY..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
 

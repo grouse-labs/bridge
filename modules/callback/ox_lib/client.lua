@@ -1,6 +1,6 @@
 local CALLBACK <const> = 'ox_lib'
-if CALLBACK ~= GetResourceMetadata('bridge', 'callback', 0) then return end
-if not IsResourceValid(CALLBACK) then return end
+if CALLBACK ~= GetConvar('bridge:callback', 'ox_lib') then error('invalid callback resource name', 0) end
+if not IsResourceValid(CALLBACK) then error('callback resource `'..CALLBACK..'` not valid', 0) end
 
 local load, load_resource_file = load, LoadResourceFile
 if not lib then load(load_resource_file('ox_lib', 'init.lua'), '@ox_lib/init.lua', 't', _ENV)() end

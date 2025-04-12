@@ -1,5 +1,5 @@
 local NOTIFY <const> = 'native'
-if NOTIFY ~= GetResourceMetadata('bridge', 'notify', 0) then return end
+if NOTIFY ~= GetConvar('bridge:notify', 'native') then error('invalid notify resource name', 0) end
 
 --------------------- FUNCTIONS ---------------------
 

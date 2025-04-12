@@ -1,6 +1,7 @@
 local FRAMEWORK <const> = 'es_extended'
-if FRAMEWORK ~= GetResourceMetadata('bridge', 'framework', 0) then return end
-if not IsResourceValid(FRAMEWORK) then return end
+if FRAMEWORK ~= GetConvar('bridge:framework', 'qbx_core') then error('invalid framework resource name', 0) end
+if not IsResourceValid(FRAMEWORK) then error('framework resource `'..FRAMEWORK..'` not valid', 0) end
+
 local version = GetResourceMetadata(FRAMEWORK, 'version', 0)
 if version:gsub('%D', '') < ('1.12.4'):gsub('%D', '') then error('incompatible version of '..FRAMEWORK..' detected (expected 1.12.4 or higher, got '..version..')', 0) end
 

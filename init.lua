@@ -1,25 +1,25 @@
 local RES_NAME <const> = GetCurrentResourceName()
-local res = 'bridge'
+local RESOURCE <const> = 'bridge'
 local get_res_meta = GetResourceMetadata
-local version, url, des = get_res_meta(res, 'version', 0), get_res_meta(res, 'url', 0), get_res_meta(res, 'description', 0)
-local debug_mode = get_res_meta(res, 'debug_mode', 0) == 'true'
-local framework = get_res_meta(res, 'framework', 0)
-local callback = get_res_meta(res, 'callback', 0)
-local target = get_res_meta(res, 'target', 0)
-local menu = get_res_meta(res, 'menu', 0)
-local notify = get_res_meta(res, 'notify', 0)
+local VERSION <const>, URL <const>, DES <const> = get_res_meta(RESOURCE, 'version', 0), get_res_meta(RESOURCE, 'url', 0), get_res_meta(RESOURCE, 'description', 0)
+local DEBUG_MODE <const> = GetConvar('bridge:debug', 'false') == 'true'
+local FRAMEWORK <const> = GetConvar('bridge:framework', 'qb-core')
+local CALLBACK <const> = GetConvar('bridge:callback', 'ox_lib')
+local TARGET <const> = GetConvar('bridge:target', 'ox_target')
+local MENU <const> = GetConvar('bridge:menu', 'ox_lib')
+local NOTIFY <const> = GetConvar('bridge:notify', 'native')
 local load, load_resource_file = load, LoadResourceFile
 -- local export = exports[res]
 local is_server = IsDuplicityVersion() == 1
 local context = is_server and 'server' or 'client'
-if not IsResourceValid then load(load_resource_file(res, 'shared/main.lua'), '@bridge/shared/main.lua', 't', _ENV)() end
+if not IsResourceValid then load(load_resource_file(RESOURCE, 'shared/main.lua'), '@bridge/shared/main.lua', 't', _ENV)() end
 
 local module_names = {
-  core = framework,
-  callback = callback,
-  target = target,
-  menu = menu,
-  notify = notify
+  core = FRAMEWORK,
+  callback = CALLBACK,
+  target = TARGET,
+  menu = MENU,
+  notify = NOTIFY
 }
 
 ---@param module_type 'core'|'callback'|'target'|'menu'|'notify'
@@ -33,14 +33,14 @@ end
 ---@return function?
 local function import(bridge, module)
   local dir = get_module_name(module) and 'modules/'..module..'/'..get_module_name(module)..'/' or 'modules/'..module..'/'
-  local file = load_resource_file(res, dir..'shared.lua')
+  local file = load_resource_file(RESOURCE, dir..'shared.lua')
   dir = not file and dir..context..'.lua' or dir
-  file = not file and load_resource_file(res, dir) or file
+  file = not file and load_resource_file(RESOURCE, dir) or file
   if not file then return end
-  local result, err = load(file, '@@'..res..'/'..dir, 't', _ENV)
+  local result, err = load(file, '@@'..RESOURCE..'/'..dir, 't', _ENV)
   if not result or err then return error('error occured loading module \''..module..'\''..(err and '\n\t'..err or ''), 3) end
   bridge[module] = result()
-  if debug_mode then print('^3[bridge]^7 - ^2loaded `bridge` module^7 ^5\''..module..'\'^7') end
+  if DEBUG_MODE then print('^3[bridge]^7 - ^2loaded `bridge` module^7 ^5\''..module..'\'^7') end
   return bridge[module]
 end
 
@@ -70,17 +70,20 @@ end
 ---@field target CTarget
 ---@field menu CMenu
 ---@field notify CNotify
----@field print fun(...) Prints a message to the console with the resource name. <br> `...` is the message to print.
+---@field print fun(...): msg: string Prints a message to the console. <br> If `bridge:debug` is set to `false`, it will not print the message. <br> Returns the message that was printed.
 ---@field require fun(module_name: string): module: unknown Returns the module if it was found and could be loaded. <br> `mod_name` needs to be a dot seperated path from resource to module. <br> Credits to [Lua Modules Loader](http://lua-users.org/wiki/LuaModulesLoader) by @lua-users & ox_lib's [`require`](https://github.com/overextended/ox_lib/blob/cdf840fc68ace1f4befc78555a7f4f59d2c4d020/imports/require/shared.lua#L149).
 local bridge = {
-  _VERSION = version,
-  _URL = url,
-  _DESCRIPTION = des,
-  _DEBUG = debug_mode,
+  _VERSION = VERSION,
+  _URL = URL,
+  _DESCRIPTION = DES,
+  _DEBUG = DEBUG_MODE,
   _CURRENT_RESOURCE = RES_NAME,
   print = function(...)
-    if not debug_mode then return end
-    print('^3['..RES_NAME..']^7 - '..(...))
+    local msg = '^3['..RES_NAME..']^7 - '..(...)
+    if DEBUG_MODE then
+      print(msg)
+    end
+    return msg
   end
 }
 setmetatable(bridge, {__index = call, __call = call})

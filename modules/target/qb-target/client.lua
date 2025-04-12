@@ -1,6 +1,6 @@
 local TARGET <const> = 'qb-target'
-if TARGET ~= GetResourceMetadata('bridge', 'target', 0) then return end
-if not IsResourceValid(TARGET) then return end
+if TARGET ~= GetConvar('bridge:target', 'native') then error('invalid target resource name', 0) end
+if not IsResourceValid(TARGET) and IsResourceValid('ox_target') then error('target resource `'..TARGET..'` not valid', 0) end
 
 local qb_target = exports[TARGET]
 local version = GetResourceMetadata(TARGET, 'version', 0)

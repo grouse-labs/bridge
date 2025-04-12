@@ -1,6 +1,6 @@
 local MENU <const> = 'ox_lib'
-if MENU ~= GetResourceMetadata('bridge', 'menu', 0) then return end
-if not IsResourceValid(MENU) then return end
+if MENU ~= GetConvar('bridge:menu', 'ox_lib') then error('invalid menu resource name', 0) end
+if not IsResourceValid(MENU) then error('menu resource `'..MENU..'` not valid', 0) end
 
 local load, load_resource_file = load, LoadResourceFile
 if not lib then load(load_resource_file('ox_lib', 'init.lua'), '@ox_lib/init.lua', 't', _ENV)() end

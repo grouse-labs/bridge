@@ -1,6 +1,6 @@
 local FRAMEWORK <const> = 'qbx_core'
-if FRAMEWORK ~= GetResourceMetadata('bridge', 'framework', 0) then return end
-if not IsResourceValid(FRAMEWORK) and IsResourceValid('qb-core') then print('Resource Not Valid)') return end
+if FRAMEWORK ~= GetConvar('bridge:framework', 'qbx_core') then error('invalid framework resource name', 0) end
+if not IsResourceValid(FRAMEWORK) and IsResourceValid('qb-core') then error('framework resource `'..FRAMEWORK..'` not valid', 0) end
 local version = GetResourceMetadata(FRAMEWORK, 'version', 0)
 -- if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
 

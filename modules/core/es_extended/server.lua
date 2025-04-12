@@ -1,6 +1,6 @@
 local FRAMEWORK <const> = 'es_extended'
-if FRAMEWORK ~= GetResourceMetadata('bridge', 'framework', 0) then return end
-if not IsResourceValid(FRAMEWORK) then return end
+if FRAMEWORK ~= GetConvar('bridge:framework', 'qbx_core') then error('invalid framework resource name', 0) end
+if not IsResourceValid(FRAMEWORK) then error('framework resource `'..FRAMEWORK..'` not valid', 0) end
 
 local ESX = exports[FRAMEWORK]:getSharedObject()
 local version = GetResourceMetadata(FRAMEWORK, 'version', 0)

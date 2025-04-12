@@ -1,6 +1,6 @@
 local MENU <const> = 'qb-menu'
-if MENU ~= GetResourceMetadata('bridge', 'menu', 0) then return end
-if not IsResourceValid(MENU) then return end
+if MENU ~= GetConvar('bridge:menu', 'ox_lib') then error('invalid menu resource name', 0) end
+if not IsResourceValid(MENU) then error('menu resource `'..MENU..'` not valid', 0) end
 
 local qb_menu = exports[MENU]
 local version = GetResourceMetadata(MENU, 'version', 0)
