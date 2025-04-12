@@ -23,19 +23,17 @@ end
 
 ---@param tbl table<any, any>|any? The table to iterate over.
 ---@param fn fun(key: any, value: any?): boolean The evaluation function.
----@return any value The value that matches the evaluation function.
+---@return any, any value The value that matches the evaluation function.
 local function for_each(tbl, fn)
   tbl = type(tbl) ~= 'table' and {tbl} or tbl
   for k, v in pairs(tbl) do
-    if fn(k, v) then return v end
+    if fn(k, v) then return k, v end
   end
 end
 
--- If the framework is ESX, the enum job_types below is used to determine the job type of the player.
--- Add the job type to the job_types enum if it is not already present, as well as any additional jobs that should be considered part of that job type.
 ---@diagnostic disable-next-line: duplicate-doc-alias
 ---@enum job_types
-local job_types = {['leo'] = {['police'] = true, ['fib'] = true, ['sheriff'] = true}, ['ems'] = {['ambulance'] = true, ['fire'] = true}}
+local job_types = {[GetResourceMetadata('bridge', 'job_types', 0)] = json.decode(GetResourceMetadata('bridge', 'job_types_extra', 0)), [GetResourceMetadata('bridge', 'job_types', 1)] = json.decode(GetResourceMetadata('bridge', 'job_types_extra', 1))}
 
 ---@param data table The job data to convert.
 ---@return {name: string, label: string, grade: number, grade_name: string, grade_label: string, job_type: string, salary: number}? job_data The converted job data.
