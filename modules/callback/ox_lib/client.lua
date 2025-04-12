@@ -33,7 +33,15 @@ end
 local function trigger_callback(name, cb, ...)
   if not name or type(name) ~= 'string' then error('bad argument #1 to \'TriggerCallback\' (string expected, got '..type(name)..')', 2) end
   if not cb or type(cb) ~= 'function' then error('bad argument #2 to \'TriggerCallback\' (function expected, got '..type(cb)..')', 2) end
-  lib.callback(name, false, cb, ...)
+  return lib.callback(name, false, cb, ...)
+end
+
+---@param name string The name of the callback to trigger.
+---@param ... any Additional arguments to pass to the callback.
+---@return ... result
+local function await_callback(name, ...)
+  if not name or type(name) ~= 'string' then error('bad argument #1 to \'AwaitCallback\' (string expected, got '..type(name)..')', 2) end
+  return lib.callback.await(name, false, ...)
 end
 
 --------------------- OBJECT ---------------------
@@ -45,5 +53,6 @@ return {
   getversion = get_version,
   getobject = get_object,
   register = register_callback,
-  trigger = trigger_callback
+  trigger = trigger_callback,
+  await = await_callback
 }

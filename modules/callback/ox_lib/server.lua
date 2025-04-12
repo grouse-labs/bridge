@@ -38,6 +38,16 @@ local function trigger_callback(player, name, cb, ...)
   lib.callback(name, player or source, cb, ...)
 end
 
+---@param player integer|string? The `player` to trigger the callback for. <br> If `nil`, the callback will be triggered for the function source.
+---@param name string The name of the callback to trigger.
+---@param ... any Additional arguments to pass to the callback.
+---@return ... result
+local function await_callback(player, name, ...)
+  if not IsSrcValid(player or source) then error('bad argument #1 to \'AwaitCallback\' (number or string expected, got '..player..')', 2) end
+  if not name or type(name) ~= 'string' then error('bad argument #2 to \'AwaitCallback\' (string expected, got '..type(name)..')', 2) end
+  return lib.callback.await(name, player or source, ...)
+end
+
 --------------------- OBJECT ---------------------
 
 return {
@@ -47,5 +57,6 @@ return {
   getversion = get_version,
   getobject = get_object,
   register = register_callback,
-  trigger = trigger_callback
+  trigger = trigger_callback,
+  await = await_callback
 }

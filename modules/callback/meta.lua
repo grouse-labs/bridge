@@ -6,4 +6,6 @@
 ---@field getobject fun(): table
 ---@field register fun(name: string, cb: fun(...): any)
 ---@field trigger fun(name: string, cb: (fun(...): any), ...: any) @client-side only
+---@field await fun(name: string, ...: any): ... @client-side only
 ---@field trigger fun(player: integer|string, name: string, cb: (fun(...): any), ...: any) @server-side only
+---@field await fun(player: integer|string, name: string, ...: any): ... @server-side only
