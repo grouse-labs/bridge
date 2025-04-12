@@ -5,8 +5,8 @@ if not IsResourceValid(CALLBACK) then error('callback resource `'..CALLBACK..'` 
 local load, load_resource_file = load, LoadResourceFile
 if not lib then load(load_resource_file('ox_lib', 'init.lua'), '@ox_lib/init.lua', 't', _ENV)() end
 local lib = _ENV.lib
-local version = GetResourceMetadata(CALLBACK, 'version', 0)
-if version:gsub('%D', '') < ('3.29.0'):gsub('%D', '') then error('incompatible version of '..CALLBACK..' detected (expected 3.29.0 or higher, got '..version..')', 0) end
+local VERSION <const> = GetResourceMetadata(CALLBACK, 'version', 0)
+if VERSION:gsub('%D', '') < ('3.29.0'):gsub('%D', '') then error('incompatible version of '..CALLBACK..' detected (expected 3.29.0 or higher, got '..VERSION..')', 0) end
 
 --------------------- FUNCTIONS ---------------------
 
@@ -14,7 +14,7 @@ if version:gsub('%D', '') < ('3.29.0'):gsub('%D', '') then error('incompatible v
 local function get_callback() return CALLBACK end
 
 ---@return string version
-local function get_version() return version end
+local function get_version() return VERSION end
 
 ---@return table
 local function get_object() return lib end
@@ -48,7 +48,7 @@ end
 
 return {
   _CALLBACK = CALLBACK,
-  _VERSION = version,
+  _VERSION = VERSION,
   getcallback = get_callback,
   getversion = get_version,
   getobject = get_object,

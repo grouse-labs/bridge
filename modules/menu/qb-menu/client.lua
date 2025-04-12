@@ -3,8 +3,9 @@ if MENU ~= GetConvar('bridge:menu', 'ox_lib') then error('invalid menu resource 
 if not IsResourceValid(MENU) then error('menu resource `'..MENU..'` not valid', 0) end
 
 local qb_menu = exports[MENU]
-local version = GetResourceMetadata(MENU, 'version', 0)
-if version:gsub('%D', '') < ('1.2.0'):gsub('%D', '') then error('incompatible version of '..MENU..' detected (expected 1.2.0 or higher, got '..version..')', 0) end
+local VERSION <const> = GetResourceMetadata(MENU, 'version', 0)
+if VERSION:gsub('%D', '') < ('1.2.0'):gsub('%D', '') then error('incompatible version of '..MENU..' detected (expected 1.2.0 or higher, got '..VERSION..')', 0) end
+
 local RegisteredMenus = {}
 
 --------------------- FUNCTIONS ---------------------
@@ -13,7 +14,7 @@ local RegisteredMenus = {}
 local function get_menu() return MENU end
 
 ---@return string version
-local function get_version() return version end
+local function get_version() return VERSION end
 
 ---@return table
 local function get_object() return lib end
@@ -41,7 +42,7 @@ local function close_menu() qb_menu:closeMenu() end
 
 return {
   _MENU = MENU,
-  _VERSION = version,
+  _VERSION = VERSION,
   getmenu = get_menu,
   getversion = get_version,
   getobject = get_object,

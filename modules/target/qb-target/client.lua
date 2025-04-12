@@ -3,8 +3,8 @@ if TARGET ~= GetConvar('bridge:target', 'native') then error('invalid target res
 if not IsResourceValid(TARGET) and IsResourceValid('ox_target') then error('target resource `'..TARGET..'` not valid', 0) end
 
 local qb_target = exports[TARGET]
-local version = GetResourceMetadata(TARGET, 'version', 0)
--- if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
+local VERSION <const> = GetResourceMetadata(TARGET, 'version', 0)
+-- if VERSION:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.3.0 or higher, got '..VERSION..')', 0) end
 
 --------------------- FUNCTIONS ---------------------
 
@@ -12,7 +12,7 @@ local version = GetResourceMetadata(TARGET, 'version', 0)
 local function get_target() return TARGET end
 
 ---@return string version
-local function get_version() return version end
+local function get_version() return VERSION end
 
 ---@return ox_target
 local function get_object() return qb_target end
@@ -70,7 +70,7 @@ local function remove_box_zone(box_zone) qb_target:RemoveZone(box_zone) end
 
 return {
   _TARGET = TARGET,
-  _VERSION = version,
+  _VERSION = VERSION,
   gettarget = get_target,
   getversion = get_version,
   getobject = get_object,

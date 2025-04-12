@@ -1,8 +1,9 @@
 local FRAMEWORK <const> = 'qbx_core'
 if FRAMEWORK ~= GetConvar('bridge:framework', 'qbx_core') then error('invalid framework resource name', 0) end
 if not IsResourceValid(FRAMEWORK) and IsResourceValid('qb-core') then error('framework resource `'..FRAMEWORK..'` not valid', 0) end
-local version = GetResourceMetadata(FRAMEWORK, 'version', 0)
--- if version:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.3.0 or higher, got '..version..')', 0) end
+
+local VERSION <const> = GetResourceMetadata(FRAMEWORK, 'version', 0)
+-- if VERSION:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.3.0 or higher, got '..VERSION..')', 0) end
 
 local EVENTS <const> = {
   load = 'QBCore:Client:OnPlayerLoaded',
@@ -19,7 +20,7 @@ local PlayerData = {}
 local function get_framework() return FRAMEWORK end
 
 ---@return string version
-local function get_version() return version end
+local function get_version() return VERSION end
 
 ---@return {load: string, unload: string, job: string, player: string} Events
 local function get_events() return EVENTS end
@@ -102,7 +103,7 @@ end
 
 return {
   _FRAMEWORK = FRAMEWORK,
-  _VERSION = version,
+  _VERSION = VERSION,
   _EVENTS = EVENTS,
   getframework = get_framework,
   getversion = get_version,

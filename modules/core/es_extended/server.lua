@@ -3,8 +3,8 @@ if FRAMEWORK ~= GetConvar('bridge:framework', 'qbx_core') then error('invalid fr
 if not IsResourceValid(FRAMEWORK) then error('framework resource `'..FRAMEWORK..'` not valid', 0) end
 
 local ESX = exports[FRAMEWORK]:getSharedObject()
-local version = GetResourceMetadata(FRAMEWORK, 'version', 0)
-if version:gsub('%D', '') < ('1.12.4'):gsub('%D', '') then error('incompatible version of '..FRAMEWORK..' detected (expected 1.12.4 or higher, got '..version..')', 0) end
+local VERSION <const> = GetResourceMetadata(FRAMEWORK, 'version', 0)
+if VERSION:gsub('%D', '') < ('1.12.4'):gsub('%D', '') then error('incompatible version of '..FRAMEWORK..' detected (expected 1.12.4 or higher, got '..VERSION..')', 0) end
 
 --------------------- FUNCTIONS ---------------------
 
@@ -12,7 +12,7 @@ if version:gsub('%D', '') < ('1.12.4'):gsub('%D', '') then error('incompatible v
 local function get_framework() return FRAMEWORK end
 
 ---@return string version
-local function get_version() return version end
+local function get_version() return VERSION end
 
 ---@return table ESX
 local function get_object() return ESX end
@@ -256,7 +256,7 @@ end
 
 return {
   _FRAMEWORK = FRAMEWORK,
-  _VERSION = version,
+  _VERSION = VERSION,
   getframework = get_framework,
   getversion = get_version,
   getobject = get_object,
