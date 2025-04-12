@@ -3,7 +3,6 @@
 ---@field _VERSION string
 ---@field getcallback fun(): 'ox_lib'|'qb-core'|'es_extended'
 ---@field getversion fun(): string
----@field getobject fun(): table
 ---@field register fun(name: string, cb: fun(...): any)
 ---@field trigger fun(name: string, cb: (fun(...): any), ...: any) @client-side only
 ---@field await fun(name: string, ...: any): ... @client-side only

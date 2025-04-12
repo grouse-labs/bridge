@@ -16,9 +16,6 @@ local function get_callback() return CALLBACK end
 ---@return string version
 local function get_version() return VERSION end
 
----@return table
-local function get_object() return lib end
-
 ---@param name string The name of the callback to create.
 ---@param cb function The function to call when the callback is triggered.
 local function register_callback(name, cb)
@@ -55,7 +52,6 @@ return {
   _VERSION = VERSION,
   getcallback = get_callback,
   getversion = get_version,
-  getobject = get_object,
   register = register_callback,
   trigger = trigger_callback,
   await = await_callback
