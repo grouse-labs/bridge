@@ -1,7 +1,7 @@
 ---@class CCallback
----@field _CALLBACK 'ox_lib'|'qb-core'|'es_extended'
+---@field _CALLBACK 'ox_lib'|'native'
 ---@field _VERSION string
----@field getcallback fun(): 'ox_lib'|'qb-core'|'es_extended'
+---@field getcallback fun(): 'ox_lib'|'native'
 ---@field getversion fun(): string
 ---@field register fun(name: string, cb: fun(...): any)
 ---@field trigger fun(name: string, cb: (fun(...): any), ...: any) @client-side only
