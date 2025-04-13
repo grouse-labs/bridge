@@ -24,9 +24,9 @@ client_script 'client/main.lua'
 files {
   'init.lua',
   'shared/*.lua',
-  'modules/**/shared.lua',
-  'modules/**/**/shared.lua',
-  'modules/**/**/client.lua'
+  'src/**/shared.lua',
+  'src/**/**/shared.lua',
+  'src/**/**/client.lua'
 }
 
 lua54 'yes'

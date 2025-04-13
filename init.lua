@@ -32,7 +32,7 @@ end
 ---@param module string
 ---@return function?
 local function import(bridge, module)
-  local dir = get_module_name(module) and 'modules/'..module..'/'..get_module_name(module)..'/' or 'modules/'..module..'/'
+  local dir = get_module_name(module) and 'src/'..module..'/'..get_module_name(module)..'/' or 'src/'..module..'/'
   local file = load_resource_file(RESOURCE, dir..'shared.lua')
   dir = not file and dir..context..'.lua' or dir
   file = not file and load_resource_file(RESOURCE, dir) or file
