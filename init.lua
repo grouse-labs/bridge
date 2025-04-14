@@ -1,20 +1,27 @@
 local RES_NAME <const> = GetCurrentResourceName()
-local RESOURCE <const> = 'bridge'
-local get_res_meta = GetResourceMetadata
-local VERSION <const>, URL <const>, DES <const> = get_res_meta(RESOURCE, 'version', 0), get_res_meta(RESOURCE, 'url', 0), get_res_meta(RESOURCE, 'description', 0)
-local DEBUG_MODE <const> = GetConvar('bridge:debug', 'false') == 'true'
-local FRAMEWORK <const> = GetConvar('bridge:framework', 'qb-core')
-local CALLBACK <const> = GetConvar('bridge:callback', 'ox_lib')
-local TARGET <const> = GetConvar('bridge:target', 'ox_target')
-local MENU <const> = GetConvar('bridge:menu', 'ox_lib')
-local NOTIFY <const> = GetConvar('bridge:notify', 'native')
-local load, load_resource_file = load, LoadResourceFile
--- local export = exports[res]
-local is_server = IsDuplicityVersion() == 1
-local context = is_server and 'server' or 'client'
-if not IsResourceValid then load(load_resource_file(RESOURCE, 'shared/main.lua'), '@bridge/shared/main.lua', 't', _ENV)() end
+local BRIDGE <const> = 'bridge'
 
-local module_names = {
+local get_res_meta = GetResourceMetadata
+local VERSION <const> = get_res_meta(BRIDGE, 'version', 0)
+local URL <const> = get_res_meta(BRIDGE, 'url', 0)
+local DES <const> = get_res_meta(BRIDGE, 'description', 0)
+
+local get_convar = GetConvar
+local DEBUG_MODE <const> = get_convar('bridge:debug', 'false') == 'true'
+local FRAMEWORK <const> = get_convar('bridge:framework', 'qb-core')
+local CALLBACK <const> = get_convar('bridge:callback', 'ox_lib')
+local TARGET <const> = get_convar('bridge:target', 'ox_target')
+local MENU <const> = get_convar('bridge:menu', 'ox_lib')
+local NOTIFY <const> = get_convar('bridge:notify', 'native')
+
+local load, load_resource_file = load, LoadResourceFile
+local get_resource_state = GetResourceState
+-- local export = exports[res]
+
+local CONTEXT <const> = IsDuplicityVersion() == 1 and 'server' or 'client'
+
+---@enum (key) module_types
+local module_names <const> = {
   core = FRAMEWORK,
   callback = CALLBACK,
   target = TARGET,
@@ -22,7 +29,23 @@ local module_names = {
   notify = NOTIFY
 }
 
----@param module_type 'core'|'callback'|'target'|'menu'|'notify'
+local resource_states <const> = {
+  ---@enum (key) valid_states
+  valid = {['started'] = true, ['starting'] = true},
+  ---@enum (key) invalid_states
+  invalid = {['missing'] = true, ['unknown'] = true, ['stopped'] = true, ['stopping'] = true}
+}
+
+local job_types <const> = {
+  ---@enum (key) leo_jobs
+  [GetResourceMetadata('bridge', 'job_types', 0)--[[@as 'leo']]] = json.decode(GetResourceMetadata('bridge', 'job_types_extra', 0)),
+  ---@enum (key) ems_jobs
+  [GetResourceMetadata('bridge', 'job_types', 1)--[[@as 'ems']]] = json.decode(GetResourceMetadata('bridge', 'job_types_extra', 1))
+}
+
+--------------------- FUNCTIONS ---------------------
+
+---@param module_type module_types
 ---@return string?
 local function get_module_name(module_type)
   return module_names[module_type]
@@ -33,11 +56,13 @@ end
 ---@return function?
 local function import(bridge, module)
   local dir = get_module_name(module) and 'src/'..module..'/'..get_module_name(module)..'/' or 'src/'..module..'/'
-  local file = load_resource_file(RESOURCE, dir..'shared.lua')
-  dir = not file and dir..context..'.lua' or dir
-  file = not file and load_resource_file(RESOURCE, dir) or file
+  local file = load_resource_file(BRIDGE, dir..CONTEXT..'.lua')
+  local shared = load_resource_file(BRIDGE, dir..'shared.lua')
+
+  file = shared and file and string.format('%s\n%s', shared, file) or shared or file
+
   if not file then return end
-  local result, err = load(file, '@@'..RESOURCE..'/'..dir, 't', _ENV)
+  local result, err = load(file, '@@'..BRIDGE..'/'..dir, 't', _ENV)
   if not result or err then return error('error occured loading module \''..module..'\''..(err and '\n\t'..err or ''), 3) end
   bridge[module] = result()
   if DEBUG_MODE then print('^3[bridge]^7 - ^2loaded `bridge` module^7 ^5\''..module..'\'^7') end
@@ -59,12 +84,99 @@ local function call(bridge, index, ...)
   return module
 end
 
+---@param tbl table<any, any>|any? The table to iterate over.
+---@param fn fun(key: any, value: any?): boolean The evaluation function.
+---@return any key, any value The key-value pair that matches the evaluation function.
+local function for_each(tbl, fn)
+  tbl = type(tbl) ~= 'table' and {tbl} or tbl
+  for k, v in pairs(tbl) do
+    if fn(k, v) then return k, v end
+  end
+end
+
+---@param job_name string The name of the job to check for.
+---@return string? job_type
+local function get_job_type(job_name)
+  return for_each(job_types, function(_, v) return v[job_name] end)
+end
+
+---@param resource_name string
+---@return boolean valid
+function IsResourceValid(resource_name)
+  local state = get_resource_state(resource_name)
+  return resource_states.valid[state] and not resource_states.invalid[state]
+end
+
+---@param data {name: string?, label: string, grade: {name: string, level: integer}|integer, grade_name: string?, grade_label: string?, salary: integer?, payment: integer?}? The job data to convert.
+---@return {name: string, label: string, grade: number, grade_name: string, grade_label: string, job_type: string, salary: number}? job_data The converted job data.
+function ConvertPlayerJobData(data)
+  if not data then return end
+  local grade_type = type(data.grade)
+  local name = data.name or data.label:lower()
+  return {
+    name = name,
+    label = data.label,
+    grade = grade_type ~= 'table' and data.grade or data.grade.level,
+    grade_name = grade_type ~= 'table' and data.grade_name or data.grade.name,
+    grade_label = grade_type ~= 'table' and data.grade_label or data.grade.name,
+    job_type = for_each(job_types, function(k, v) return v[name] and k end),
+    salary = data.salary or data.payment
+  }
+end
+
+---@param data {name: string?, label: string, grade: {name: string, level: integer}|integer?, grade_name: string?} The gang data to convert.
+---@return {name: string, label: string, grade: number, grade_name: string}? gang_data The gang data for the `player`.
+function ConvertGangData(data)
+  if not data then return end
+  local grade_type = type(data.grade)
+  return {
+    name = data.name or 'none',
+    label = data.label,
+    grade = grade_type ~= 'table' and data.grade or data.grade.level or 0,
+    grade_name = grade_type ~= 'table' and data.grade_name or data.grade.name
+  }
+end
+
+---@param name string The name of the job.
+---@param data {name: string?, label: string, payment: number?, salary: integer?, type: string?, grades: table<string|integer, {name: string?, label: string, salary: integer?, payment: integer}>?, grade: table<string|integer, {name: string?, label: string, salary: integer?, payment: integer}>} The job data to convert.
+---@return {name: string, label: string, _type: string, grades: {[number]: {label: string, salary: number}}}? job_data The converted job data.
+function ConvertJobData(name, data)
+  if not data then return end
+  local grades = {}
+  local fnd_grades = data.grades or data.grade
+  for k, v in pairs(fnd_grades) do
+    local new_key = type(k) ~= 'number' and tonumber(k) and tonumber(k) or k
+    grades[new_key] = {label = v.name or v.label, salary = v.salary or v.payment}
+  end
+  name = name or data.label:lower()
+  return {
+    name = name,
+    label = data.label,
+    _type = data.type or get_job_type(name),
+    grades = grades
+  }
+end
+
+if CONTEXT == 'server' then
+
+  ---@param src integer|string? The source to check.
+  ---@return boolean? valid
+  function IsSrcAPlayer(src)
+    src = src or source
+    return tonumber(src) and tonumber(src) > 0
+  end
+
+end
+
+--------------------- OBJECT ---------------------
+
 ---@class CBridge
 ---@field _VERSION string
 ---@field _URL string
 ---@field _DESCRIPTION string
 ---@field _DEBUG boolean
----@field _CURRENT_RESOURCE string
+---@field _RESOURCE string
+---@field _CONTEXT string
 ---@field core CFramework
 ---@field callback CCallback
 ---@field target CTarget
@@ -72,12 +184,13 @@ end
 ---@field notify CNotify
 ---@field print fun(...): msg: string Prints a message to the console. <br> If `bridge:debug` is set to `false`, it will not print the message. <br> Returns the message that was printed.
 ---@field require fun(module_name: string): module: unknown Returns the module if it was found and could be loaded. <br> `mod_name` needs to be a dot seperated path from resource to module. <br> Credits to [Lua Modules Loader](http://lua-users.org/wiki/LuaModulesLoader) by @lua-users & ox_lib's [`require`](https://github.com/overextended/ox_lib/blob/cdf840fc68ace1f4befc78555a7f4f59d2c4d020/imports/require/shared.lua#L149).
-local bridge = {
+local bridge = setmetatable({
   _VERSION = VERSION,
   _URL = URL,
   _DESCRIPTION = DES,
   _DEBUG = DEBUG_MODE,
-  _CURRENT_RESOURCE = RES_NAME,
+  _RESOURCE = RES_NAME,
+  _CONTEXT = CONTEXT,
   print = function(...)
     local msg = '^3['..RES_NAME..']^7 - '..(...)
     if DEBUG_MODE then
@@ -85,8 +198,13 @@ local bridge = {
     end
     return msg
   end
-}
-setmetatable(bridge, {__index = call, __call = call})
+}, {
+  __name = 'bridge',
+  __version = VERSION,
+  __index = call,
+  __call = call
+})
+
 _ENV.bridge = bridge
 _ENV.require = bridge.require
 
