@@ -1,38 +1,27 @@
-local NOTIFY <const> = 'qb-core'
-if NOTIFY ~= GetConvar('bridge:notify', 'native') then error('invalid notify resource name', 0) end
-if not IsResourceValid(NOTIFY) and IsResourceValid('qbx_core') then error('notify resource `'..NOTIFY..'` not valid', 0) end
-
-local VERSION <const> = GetResourceMetadata(NOTIFY, 'version', 0)
-if VERSION:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..NOTIFY..' detected (expected 1.3.0 or higher, got '..VERSION..')', 0) end
-
-local QBCore = exports[NOTIFY]:GetCoreObject({'Functions', 'Shared'})
-
+---@diagnostic disable: duplicate-set-field
 --------------------- FUNCTIONS ---------------------
 
----@param text string
----@param notify_type 'error'|'success'|'primary'? @default 'primary'
----@param time integer? @default 5000
-local function text_notify(text, notify_type, time)
-  if not text or type(text) ~= 'string' then error('bad argument #1 to \'TextNotify\' (string expected, got '..type(text)..')', 2) end
-  QBCore.Functions.Notify(text, notify_type, time)
+---@param text string The notify `text` as a string.
+---@param _type 'error'|'success'|'primary'? The notify type. <br> Defaults to `'primary'`.
+---@param time integer? The notify `time` in milliseconds.
+function notify.text(text, _type, time)
+  if not text or type(text) ~= 'string' then error('bad argument #1 to \'text\' (string expected, got '..type(text)..')', 2) end
+  QBCore.Functions.Notify(text, _type, time)
 end
 
----@param item string
----@param amount integer?
----@param text string?
-local function item_notify(item, amount, text)
-  if not item or type(item) ~= 'string' then error('bad argument #1 to \'ItemNotify\' (string expected, got '..type(item)..')', 2) end
-  if amount and type(amount) ~= 'number' then error('bad argument #2 to \'ItemNotify\' (number expected, got '..type(amount)..')', 2) end
-  if text and type(text) ~= 'string' then error('bad argument #3 to \'ItemNotify\' (string expected, got '..type(text)..')', 2) end
+---@param item string The item name as a string.
+---@param amount integer? The item `amount` as a number. <br> Defaults to `1`.
+---@param text string? The notify `text` as a string.
+function notify.item(item, amount, text)
+  if not item or type(item) ~= 'string' then error('bad argument #1 to \'item\' (string expected, got '..type(item)..')', 2) end
+  if amount and type(amount) ~= 'number' then error('bad argument #2 to \'item\' (number expected, got '..type(amount)..')', 2) end
+  if text and type(text) ~= 'string' then error('bad argument #3 to \'item\' (string expected, got '..type(text)..')', 2) end
   amount = amount or 1
   TriggerEvent('qb-inventory:client:ItemNotify', QBCore.Shared.Items[item:lower()], amount >= 1 and 'add' or 'remove', amount)
-  if text then text_notify(text) end
+  if text then notify.text(text) end
 end
 
 --------------------- OBJECT ---------------------
+getmetatable(notify).__newindex = function() error('attempt to edit a read-only object', 2) end
 
-return {
-  _TYPE = NOTIFY,
-  text = text_notify,
-  item = item_notify
-}
+return notify
