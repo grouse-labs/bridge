@@ -205,6 +205,19 @@ local bridge = setmetatable({
 }, {
   __name = BRIDGE,
   __version = VERSION,
+  __tostring = function(t)
+    local address = string.format('%s: %p', BRIDGE, t)
+    if DEBUG_MODE then
+      local msg = string.format('^3[%s]^7 - ^2bridge library^7 ^5\'%s\'^7 v^5%s^7\n%s', RES_NAME, BRIDGE, VERSION, address)
+      for k, v in pairs(t) do
+        if type(v) == 'table' then
+          msg = msg..string.format('\n^3[%s]^7 - ^2`bridge` module^7 ^5\'%s\'^7 ^2is loaded^7\n%s: %p', RES_NAME, k, k, v)
+        end
+      end
+    return msg
+    end
+    return address
+  end,
   __index = call,
   __call = call
 })
