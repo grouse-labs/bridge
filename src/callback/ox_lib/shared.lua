@@ -6,7 +6,7 @@ if not IsResourceValid(CALLBACK) then error('callback resource `'..CALLBACK..'` 
 local VERSION <const> = GetResourceMetadata(CALLBACK, 'version', 0)
 if VERSION:gsub('%D', '') < ('3.29.0'):gsub('%D', '') then error('incompatible version of '..CALLBACK..' detected (expected 3.29.0 or higher, got '..VERSION..')', 0) end
 
-local lib = lib or bridge.require('ox_lib.init') and _ENV.lib
+local lib = lib or glib.require('ox_lib.init') and _ENV.lib
 
 ---@type CCallback
 ---@diagnostic disable-next-line: missing-fields
