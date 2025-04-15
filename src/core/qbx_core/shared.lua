@@ -13,7 +13,7 @@ local qbx = exports[FRAMEWORK]
 local core = {}
 
 --#TODO:
---#[X] Test which version (preferably the latest) of qbx_core this is compatible with and update the version check accordingly.
+--#[x] Test which version (preferably the latest) of qbx_core this is compatible with and update the version check accordingly.
 
 --------------------- FUNCTIONS ---------------------
 
