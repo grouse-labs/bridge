@@ -1,15 +1,6 @@
 ---@diagnostic disable: duplicate-set-field
 --------------------- FUNCTIONS ---------------------
 
----@param name string The callback `name`.
----@param cb function The callback function.
--- Registers a callback with the given name and function.
-function callback.register(name, cb)
-  if not name or type(name) ~= 'string' then error('bad argument #1 to \'register\' (string expected, got '..type(name)..')', 2) end
-  if not cb or type(cb) ~= 'function' then error('bad argument #2 to \'register\' (function expected, got '..type(cb)..')', 2) end
-  lib.callback.register(name, cb)
-end
-
 ---@param player integer|string The `player` to trigger the callback for.
 ---@param name string The callback `name`.
 ---@param cb function The receiving callback function.
