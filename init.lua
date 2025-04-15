@@ -43,6 +43,9 @@ local job_types <const> = {
   [GetResourceMetadata('bridge', 'job_types', 1)--[[@as 'ems']]] = json.decode(GetResourceMetadata('bridge', 'job_types_extra', 1))
 }
 
+--#TODO:
+--#[ ] Make ConVar set constants mutable.
+
 --------------------- FUNCTIONS ---------------------
 
 ---@param module_type module_types
@@ -79,7 +82,7 @@ local function call(bridge, index, ...)
     -- local method = function(...) return export[index](nil, ...) end
     -- if not ... then bridge[index] = method end
     -- module = method
-    error('module \''..index..'\' not found', 2)
+    error('bridge module \''..index..'\' not found', 2)
   end
   return module
 end
@@ -170,6 +173,7 @@ end
 
 --------------------- OBJECT ---------------------
 
+---@version 5.4
 ---@class CBridge
 ---@field _VERSION string
 ---@field _URL string
@@ -199,7 +203,7 @@ local bridge = setmetatable({
     return msg
   end
 }, {
-  __name = 'bridge',
+  __name = BRIDGE,
   __version = VERSION,
   __index = call,
   __call = call
