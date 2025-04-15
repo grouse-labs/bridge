@@ -13,6 +13,7 @@ job_types 'leo' {
   ['fib'] = true,
   ['sheriff'] = true
 }
+
 job_types 'ems' {
   ['ambulance'] = true,
   ['doctor'] = true,
@@ -28,5 +29,7 @@ files {
   'src/**/**/shared.lua',
   'src/**/**/client.lua'
 }
+
+dependency 'gr_lib'
 
 lua54 'yes'
