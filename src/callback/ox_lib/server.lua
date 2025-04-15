@@ -20,7 +20,7 @@ end
 ---@return ...
 function callback.await(player, name, ...)
   local src = tonumber(player or source)
-  if not IsSrcAPlayer(player or source) then error('bad argument #1 to \'await\' (number or string expected, got '..player..')', 2) end
+  if not IsSrcAPlayer(src) then error('bad argument #1 to \'await\' (number or string expected, got '..player..')', 2) end
   if not name or type(name) ~= 'string' then error('bad argument #2 to \'await\' (string expected, got '..type(name)..')', 2) end
   if ... then
     local args = {...}
