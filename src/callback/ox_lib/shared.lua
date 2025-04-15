@@ -33,7 +33,7 @@ end
 
 --------------------- OBJECT ---------------------
 
-setmetatable(core, {
+setmetatable(callback, {
   __name = 'callback',
   __version = VERSION,
   __tostring = function(t)
