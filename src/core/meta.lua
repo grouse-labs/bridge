@@ -4,23 +4,15 @@
 ---@field getobject fun(): table `'qb-core'` - return: `QBCore` object. <br> `'es_extended'` - return: `ESX` object. <br> `'qbx_core'` & `qbx:enablebridge == 'true'` - return: `QBCore` object.
 ---@field getevent fun(event_type: 'load'|'unload'|'job'|'player'): event: core_events
 ---@field getplayer fun(player: integer|string): Player: table
----@field getplayerdata fun(): PlayerData: table
 ---@field getplayeridentifier fun(player: integer|string): identifier: string
----@field getplayeridentifier fun(): identifier: string
 ---@field getplayername fun(player: integer|string): name: string
----@field getplayername fun(): name: string
 ---@field getplayerjob fun(player: integer|string): job_data: {name: string, label: string, grade: number, grade_name: string, grade_label: string, job_type: string, salary: number}
----@field getplayerjob fun(): job_data: {name: string, label: string, grade: number, grade_name: string, grade_label: string, job_type: string, salary: number}
 ---@field getplayergang fun(player: integer|string): gang_data: {name: string, label: string, grade: number, grade_name: string}
----@field getplayergang fun(): gang_data: {name: string, label: string, grade: number, grade_name: string}
 ---@field doesplayerhavegroup fun(player: integer|string, group: string|string[]): has_group: boolean
----@field doesplayerhavegroup fun(group: string|string[]): has_group: boolean
 ---@field getplayermoney fun(player: integer|string, money_type: 'money'|'cash'|'bank'): money: integer
----@field getplayermoney fun(money_type: 'money'|'cash'|'bank'): money: integer
 ---@field addplayermoney fun(player: integer|string, money_type: 'money'|'cash'|'bank', amount: number): added: boolean
 ---@field removeplayermoney fun(player: integer|string, money_type: 'money'|'cash'|'bank', amount: number): removed: boolean
 ---@field isplayerdowned fun(player: integer|string): is_downed: boolean
----@field isplayerdowned fun(): is_downed: boolean
 ---@field getplayerinventory fun(player: integer|string): inventory: {[string]: {name: string, label: string, weight: number, useable: boolean, unique: boolean}}
 ---@field doesplayerhaveitem fun(player: integer|string, item_name: string, amount: number?): has_item: boolean
 ---@field addplayeritem fun(player: integer|string, item_name: string, amount: number?): added: boolean
@@ -30,3 +22,11 @@
 ---@field createusableitem fun(item_name: string, cb: fun(player: integer|string))
 ---@field getjobs fun(): {[string]: {name: string, label: string, _type: string, grades: {[number]: {label: string, salary: number}}}}
 ---@field getjob fun(job_name: string): job_data: {name: string, label: string, _type: string, grades: {[number]: {label: string, salary: number}}}
+---@field getplayerdata fun(): PlayerData: table
+---@field getplayeridentifier fun(): identifier: string
+---@field getplayername fun(): name: string
+---@field getplayerjob fun(): job_data: {name: string, label: string, grade: number, grade_name: string, grade_label: string, job_type: string, salary: number}
+---@field getplayergang fun(): gang_data: {name: string, label: string, grade: number, grade_name: string}
+---@field doesplayerhavegroup fun(group: string|string[]): has_group: boolean
+---@field getplayermoney fun(money_type: 'money'|'cash'|'bank'): money: integer
+---@field isplayerdowned fun(): is_downed: boolean
