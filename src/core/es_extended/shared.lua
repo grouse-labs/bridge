@@ -1,7 +1,7 @@
 ---@diagnostic disable: duplicate-set-field
 local FRAMEWORK <const> = 'es_extended'
 if FRAMEWORK ~= GetConvar('bridge:framework', 'qbx_core') then error('invalid framework resource name', 0) end
-if not IsResourceValid(FRAMEWORK) and IsResourceValid('qbx_core') then error('framework resource `'..FRAMEWORK..'` not valid', 0) end
+if not IsResourceValid(FRAMEWORK) then error('framework resource `'..FRAMEWORK..'` not valid', 0) end
 
 local VERSION <const> = GetResourceMetadata(FRAMEWORK, 'version', 0)
 if VERSION:gsub('%D', '') < ('1.12.4'):gsub('%D', '') then error('incompatible version of '..FRAMEWORK..' detected (expected 1.12.4 or higher, got '..VERSION..')', 0) end

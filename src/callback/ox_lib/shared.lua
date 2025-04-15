@@ -38,7 +38,7 @@ setmetatable(callback, {
   __version = VERSION,
   __tostring = function(t)
     local address = string.format('callback: %p', t)
-    return bridge._DEBUG and string.format('^3[%s]^7 - ^2core library^7 ^5\'%s\'^7 v^5%s^7\n%s', bridge._RESOURCE, CALLBACK, VERSION, address) or address
+    return bridge._DEBUG and string.format('^3[%s]^7 - ^2callback library^7 ^5\'%s\'^7 v^5%s^7\n%s', bridge._RESOURCE, CALLBACK, VERSION, address) or address
   end
 })
 
