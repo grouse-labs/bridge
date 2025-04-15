@@ -37,8 +37,9 @@ end
 setmetatable(core, {
   __name = 'core',
   __version = VERSION,
-  __tostring = function()
-    return string.format('^3[%s]^7 - ^2core library^7 ^5\'%s\'^7 v^5%s^7', bridge._RESOURCE, FRAMEWORK, VERSION)
+  __tostring = function(t)
+    local address = string.format('core: %p', t)
+    return bridge._DEBUG and string.format('^3[%s]^7 - ^2core library^7 ^5\'%s\'^7 v^5%s^7\n%s', bridge._RESOURCE, FRAMEWORK, VERSION, address) or address
   end
 })
 
