@@ -1,3 +1,5 @@
+if _VERSION:gsub('%D', '') < ('5.4'):gsub('%D', '') then error('Lua version 5.4 is required', 0) end
+
 local RES_NAME <const> = GetCurrentResourceName()
 local BRIDGE <const> = 'bridge'
 
@@ -30,8 +32,10 @@ local module_names <const> = {
 }
 
 local resource_states <const> = {
+  ---@diagnostic disable-next-line: duplicate-doc-alias
   ---@enum (key) valid_states
   valid = {['started'] = true, ['starting'] = true},
+  ---@diagnostic disable-next-line: duplicate-doc-alias
   ---@enum (key) invalid_states
   invalid = {['missing'] = true, ['unknown'] = true, ['stopped'] = true, ['stopping'] = true}
 }
@@ -65,7 +69,7 @@ local function import(bridge, module)
   file = shared and file and string.format('%s\n%s', shared, file) or shared or file
 
   if not file then return end
-  local result, err = load(file, '@@'..BRIDGE..'/'..dir, 't', _ENV)
+  local result, err = load(file, '@@'..BRIDGE..'/'..dir..CONTEXT, 't', _ENV)
   if not result or err then return error('error occured loading module \''..module..'\''..(err and '\n\t'..err or ''), 3) end
   bridge[module] = result()
   if DEBUG_MODE then print('^3[bridge]^7 - ^2loaded `bridge` module^7 ^5\''..module..'\'^7') end
@@ -222,6 +226,8 @@ end
 
 --------------------- OBJECT ---------------------
 
+local glib = glib or load(LoadResourceFile('gr_lib', 'init.lua'), '@@gr_lib/shared/init.lua', 't', _ENV)()
+
 ---@version 5.4
 ---@class CBridge
 ---@field _VERSION string
@@ -236,7 +242,6 @@ end
 ---@field menu CMenu
 ---@field notify CNotify
 ---@field print fun(...): msg: string Prints a message to the console. <br> If `bridge:debug` is set to `false`, it will not print the message. <br> Returns the message that was printed.
----@field require fun(module_name: string): module: unknown Returns the module if it was found and could be loaded. <br> `mod_name` needs to be a dot seperated path from resource to module. <br> Credits to [Lua Modules Loader](http://lua-users.org/wiki/LuaModulesLoader) by @lua-users & ox_lib's [`require`](https://github.com/overextended/ox_lib/blob/cdf840fc68ace1f4befc78555a7f4f59d2c4d020/imports/require/shared.lua#L149).
 local bridge = setmetatable({
   _VERSION = VERSION,
   _URL = URL,
@@ -272,6 +277,6 @@ local bridge = setmetatable({
 })
 
 _ENV.bridge = bridge
-_ENV.require = bridge.require
+_ENV.glib = glib
 
 return bridge
