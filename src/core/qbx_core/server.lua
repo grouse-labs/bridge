@@ -23,7 +23,7 @@ function core.getplayername(player)
   if not IsSrcAPlayer(player) then error('bad argument #1 to \'getplayername\' (number or string expected, got '..player..')', 2) end
   local Player = core.getplayer(player)
   if not Player then error('error calling \'getplayername\' (player not found)', 2) end
-  return Player.PlayerData.firstname..' '..Player.PlayerData.lastname
+  return Player.PlayerData.charinfo.firstname..' '..Player.PlayerData.charinfo.lastname
 end
 
 ---@param player integer|string The `player` server ID or src.
