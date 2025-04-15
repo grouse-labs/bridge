@@ -166,7 +166,7 @@ if CONTEXT == 'server' then
   ---@return boolean? valid
   function IsSrcAPlayer(src)
     src = src or source
-    return tonumber(src) and tonumber(src) > 0
+    return tonumber(src) and tonumber(src) > 0 and DoesPlayerExist(src)
   end
 
 end
