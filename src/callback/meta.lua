@@ -1,10 +1,8 @@
 ---@class CCallback
----@field _CALLBACK 'ox_lib'|'native'
----@field _VERSION string
----@field getcallback fun(): 'ox_lib'|'native'
+---@field getname fun(): 'ox_lib'|'native'
 ---@field getversion fun(): string
 ---@field register fun(name: string, cb: fun(...): any)
----@field trigger fun(name: string, cb: (fun(...): any), ...: any) @client-side only
----@field await fun(name: string, ...: any): ... @client-side only
----@field trigger fun(player: integer|string, name: string, cb: (fun(...): any), ...: any) @server-side only
----@field await fun(player: integer|string, name: string, ...: any): ... @server-side only
+---@field trigger fun(name: string, delay: integer|false?, cb: (fun(...): any), ...: any)
+---@field await fun(name: string, delay: integer|false?, ...: any): ...
+---@field trigger fun(player: integer|string, name: string, cb: (fun(...): any), ...: any)
+---@field await fun(player: integer|string, name: string, ...: any): ...
