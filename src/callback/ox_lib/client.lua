@@ -1,54 +1,29 @@
-local CALLBACK <const> = 'ox_lib'
-if CALLBACK ~= GetConvar('bridge:callback', 'ox_lib') then error('invalid callback resource name', 0) end
-if not IsResourceValid(CALLBACK) then error('callback resource `'..CALLBACK..'` not valid', 0) end
-
-local load, load_resource_file = load, LoadResourceFile
-if not lib then load(load_resource_file('ox_lib', 'init.lua'), '@ox_lib/init.lua', 't', _ENV)() end
-local lib = _ENV.lib
-local VERSION <const> = GetResourceMetadata(CALLBACK, 'version', 0)
-if VERSION:gsub('%D', '') < ('3.29.0'):gsub('%D', '') then error('incompatible version of '..CALLBACK..' detected (expected 3.29.0 or higher, got '..VERSION..')', 0) end
-
+---@diagnostic disable: duplicate-set-field
 --------------------- FUNCTIONS ---------------------
 
----@return 'ox_lib'
-local function get_callback() return CALLBACK end
-
----@return string version
-local function get_version() return VERSION end
-
----@param name string The name of the callback to create.
----@param cb function The function to call when the callback is triggered.
-local function register_callback(name, cb)
-  if not name or type(name) ~= 'string' then error('bad argument #1 to \'RegisterCallback\' (string expected, got '..type(name)..')', 2) end
-  if not cb or type(cb) ~= 'function' then error('bad argument #2 to \'RegisterCallback\' (function expected, got '..type(cb)..')', 2) end
-  lib.callback.register(name, cb)
+---@param name string The callback `name`.
+---@param delay integer? The delay in milliseconds before the callback is triggered.
+---@param cb function The receiving callback function.
+---@param ... any Additional arguments to pass to the callback.
+-- Triggers a callback with the given name and calls back the data through the given function.
+function callback.trigger(name, delay, cb, ...)
+  if not name or type(name) ~= 'string' then error('bad argument #1 to \'trigger\' (string expected, got '..type(name)..')', 2) end
+  if delay and type(delay) ~= 'number' then error('bad argument #2 to \'trigger\' (number or false expected, got '..type(delay)..')', 2) end
+  if not cb or type(cb) ~= 'function' then error('bad argument #3 to \'trigger\' (function expected, got '..type(cb)..')', 2) end
+  lib.callback(name, delay and delay or false, cb, ...)
 end
 
----@param name string The name of the callback to trigger.
----@param cb function The function to call when the callback is received.
+---@param name string The callback `name`.
+---@param delay integer? The delay in milliseconds before the callback is triggered.
 ---@param ... any Additional arguments to pass to the callback.
-local function trigger_callback(name, cb, ...)
-  if not name or type(name) ~= 'string' then error('bad argument #1 to \'TriggerCallback\' (string expected, got '..type(name)..')', 2) end
-  if not cb or type(cb) ~= 'function' then error('bad argument #2 to \'TriggerCallback\' (function expected, got '..type(cb)..')', 2) end
-  return lib.callback(name, false, cb, ...)
-end
-
----@param name string The name of the callback to trigger.
----@param ... any Additional arguments to pass to the callback.
----@return ... result
-local function await_callback(name, ...)
+---@return ...
+function callback.await(name, delay, ...)
   if not name or type(name) ~= 'string' then error('bad argument #1 to \'AwaitCallback\' (string expected, got '..type(name)..')', 2) end
-  return lib.callback.await(name, false, ...)
+  if delay and type(delay) ~= 'number' then error('bad argument #2 to \'trigger\' (number or false expected, got '..type(delay)..')', 2) end
+  return lib.callback.await(name, delay and delay or false, ...)
 end
 
 --------------------- OBJECT ---------------------
+getmetatable(callback).__newindex = function() error('attempt to edit a read-only object', 2) end
 
-return {
-  _CALLBACK = CALLBACK,
-  _VERSION = VERSION,
-  getcallback = get_callback,
-  getversion = get_version,
-  register = register_callback,
-  trigger = trigger_callback,
-  await = await_callback
-}
+return callback
