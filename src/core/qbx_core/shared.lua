@@ -4,7 +4,7 @@ if FRAMEWORK ~= GetConvar('bridge:framework', 'qbx_core') then error('invalid fr
 if not IsResourceValid(FRAMEWORK) and IsResourceValid('qb-core') then error('framework resource `'..FRAMEWORK..'` not valid', 0) end
 
 local VERSION <const> = GetResourceMetadata(FRAMEWORK, 'version', 0)
--- if VERSION:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..framework..' detected (expected 1.3.0 or higher, got '..VERSION..')', 0) end
+if VERSION:gsub('%D', '') < ('1.22.6'):gsub('%D', '') then error('incompatible version of '..FRAMEWORK..' detected (expected 1.22.6 or higher, got '..VERSION..')', 0) end
 
 local qbx = exports[FRAMEWORK]
 
@@ -13,7 +13,7 @@ local qbx = exports[FRAMEWORK]
 local core = {}
 
 --#TODO:
---#[ ] Test which version (preferably the latest) of qbx_core this is compatible with and update the version check accordingly.
+--#[X] Test which version (preferably the latest) of qbx_core this is compatible with and update the version check accordingly.
 
 --------------------- FUNCTIONS ---------------------
 
