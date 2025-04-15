@@ -1,7 +1,5 @@
 ---@class CTarget
----@field _TARGET 'ox_target'|'qb-target'
----@field _VERSION string
----@field gettarget fun(): 'ox_target'|'qb-target'
+---@field getname fun(): 'ox_target'|'qb-target'
 ---@field getversion fun(): string
 ---@field getobject fun(): table
 ---@field addlocalentity fun(entities: integer|integer[], options: {name: string?, label: string, icon: string?, distance: number?, item: string?, canInteract: (fun(entity: integer, distance: number): boolean?)?, onSelect: fun()?, event_type: string?, event: string?, jobs: string|string[]?, gangs: string|string[]?}[])
