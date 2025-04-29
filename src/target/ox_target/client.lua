@@ -43,9 +43,25 @@ function target.removelocalentity(entities, options)
   ox_target:removeLocalEntity(entities, options)
 end
 
+---@param data {center: vector3, radius: number?, debug: boolean?} The data for the sphere zone.
+---@param options {name: string?, label: string, icon: string?, distance: number?, item: string?, canInteract: (fun(entity: integer, distance: number): boolean?)?, onSelect: fun()?, event_type: string?, event: string?, jobs: string|string[]?, gangs: string|string[]?}[] The options for the target.
+---@return integer|string? box_zone The ID of the sphere zone. <br> If using ox_target, the integer ID of the zone is returned. <br> If using qb-target, the string name of the zone is returned.
+function target.addspherezone(data, options)
+  if not data then error('bad argument #1 to \'addboxzone\' (table expected, got nil)', 2) end
+  if not options then error('bad argument #2 to \'addboxzone\' (table expected, got nil)', 2) end
+  local converted_options = ConvertTargetOptions(options)
+  if not converted_options then error('bad argument #2 to \'addboxzone\' (options invalid)', 2) end
+  return ox_target:addSphereZone({
+    coords = data.center,
+    radius = data.radius,
+    debug = data.debug or false,
+    options = converted_options
+  })
+end
+
 ---@param data {center: vector3, size: vector3, heading: number?, debug: boolean?} The data for the box zone.
 ---@param options {name: string?, label: string, icon: string?, distance: number?, item: string?, canInteract: (fun(entity: integer, distance: number): boolean?)?, onSelect: fun()?, event_type: string?, event: string?, jobs: string|string[]?, gangs: string|string[]?}[] The options for the target.
----@return integer|string? box_zone The ID of the box zone. <br> If using ox_target, the integer ID of the box zone is returned. <br> If using qb-target, the string name of the box zone is returned.
+---@return integer|string? box_zone The ID of the box zone. <br> If using ox_target, the integer ID of the zone is returned. <br> If using qb-target, the string name of the zone is returned.
 function target.addboxzone(data, options)
   if not data then error('bad argument #1 to \'addboxzone\' (table expected, got nil)', 2) end
   if not options then error('bad argument #2 to \'addboxzone\' (table expected, got nil)', 2) end
@@ -61,7 +77,7 @@ function target.addboxzone(data, options)
 end
 
 ---@param box_zone integer|string The ID of the box zone to remove.
-function target.removeboxzone(box_zone) ox_target:removeZone(box_zone) end
+function target.removezone(box_zone) ox_target:removeZone(box_zone) end
 
 --------------------- OBJECT ---------------------
 
