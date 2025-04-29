@@ -6,7 +6,7 @@ if not IsResourceValid(NOTIFY) and IsResourceValid('qbx_core') then error('notif
 local VERSION <const> = GetResourceMetadata(NOTIFY, 'version', 0)
 if VERSION:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..NOTIFY..' detected (expected 1.3.0 or higher, got '..VERSION..')', 0) end
 
-local QBCore = exports[NOTIFY]:GetCoreObject({'Shared'})
+local QBCore = exports[NOTIFY]:GetCoreObject({'Functions', 'Shared'})
 
 ---@type CNotify
 ---@diagnostic disable-next-line: missing-fields

@@ -21,7 +21,7 @@ function notify.item(player, item, amount, text)
   if amount and type(amount) ~= 'number' then error('bad argument #3 to \'item\' (number expected, got '..type(amount)..')', 2) end
   if text and type(text) ~= 'string' then error('bad argument #4 to \'item\' (string expected, got '..type(text)..')', 2) end
   amount = amount or 1
-  TriggerClientEvent('qb-inventory:client:ItemNotify', player, QBCore.Shared.Items[item:lower()], amount >= 1 and 'add' or 'remove', amount)
+  TriggerClientEvent('qb-inventory:client:ItemBox', player, QBCore.Shared.Items[item:lower()], amount >= 1 and 'add' or 'remove', amount)
   if text then notify.text(player, text) end
 end
 
