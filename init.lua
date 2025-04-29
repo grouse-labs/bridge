@@ -31,26 +31,10 @@ local module_names <const> = {
   notify = NOTIFY
 }
 
-local resource_states <const> = {
-  ---@diagnostic disable-next-line: duplicate-doc-alias
-  ---@enum (key) valid_states
-  valid = {['started'] = true, ['starting'] = true},
-  ---@diagnostic disable-next-line: duplicate-doc-alias
-  ---@enum (key) invalid_states
-  invalid = {['missing'] = true, ['unknown'] = true, ['stopped'] = true, ['stopping'] = true}
-}
-
-local job_types <const> = {
-  ---@enum (key) leo_jobs
-  [GetResourceMetadata('bridge', 'job_types', 0)--[[@as 'leo']]] = json.decode(GetResourceMetadata('bridge', 'job_types_extra', 0)),
-  ---@enum (key) ems_jobs
-  [GetResourceMetadata('bridge', 'job_types', 1)--[[@as 'ems']]] = json.decode(GetResourceMetadata('bridge', 'job_types_extra', 1))
-}
-
 --#TODO:
 --#[ ] Make ConVar set constants mutable.
 
---------------------- FUNCTIONS ---------------------
+--------------------- BRIDGE ---------------------
 
 ---@param module_type module_types
 ---@return string?
@@ -91,6 +75,71 @@ local function call(bridge, index, ...)
   return module
 end
 
+--------------------- OBJECT ---------------------
+
+local glib = glib or load(LoadResourceFile('gr_lib', 'init.lua'), '@@gr_lib/shared/init.lua', 't', _ENV)()
+
+---@version 5.4
+---@class CBridge
+---@field _VERSION string
+---@field _URL string
+---@field _DESCRIPTION string
+---@field _DEBUG boolean
+---@field _RESOURCE string
+---@field _CONTEXT string
+---@field core CFramework
+---@field callback CCallback
+---@field target CTarget
+---@field menu CMenu
+---@field notify CNotify
+---@field print fun(...): msg: string Prints a message to the console. <br> If `bridge:debug` is set to `false`, it will not print the message. <br> Returns the message that was printed.
+local bridge = setmetatable({
+  _VERSION = VERSION,
+  _URL = URL,
+  _DESCRIPTION = DES,
+  _DEBUG = DEBUG_MODE,
+  _RESOURCE = RES_NAME,
+  _CONTEXT = CONTEXT,
+  print = function(...)
+    local msg = '^3['..RES_NAME..']^7 - '..(...)
+    if DEBUG_MODE then
+      print(msg)
+    end
+    return msg
+  end
+}, {
+  __name = BRIDGE,
+  __version = VERSION,
+  __tostring = function(t)
+    local address = string.format('%s: %p', BRIDGE, t)
+    if DEBUG_MODE then
+      local msg = string.format('^3[%s]^7 - ^2bridge library^7 ^5\'%s\'^7 v^5%s^7\n%s', RES_NAME, BRIDGE, VERSION, address)
+      for k, v in pairs(t) do
+        if type(v) == 'table' then
+          msg = msg..string.format('\n^3[%s]^7 - ^2`bridge` module^7 ^5\'%s\'^7 ^2is loaded^7\n%s: %p', RES_NAME, k, k, v)
+        end
+      end
+    return msg
+    end
+    return address
+  end,
+  __index = call,
+  __call = call
+})
+
+_ENV.bridge = bridge
+
+local resource_states = enum('resource_states')
+
+local job_types = enum 'job_types' {
+  ---@enum (key) leo_jobs
+  [GetResourceMetadata('bridge', 'job_types', 0)--[[@as 'leo']]] = json.decode(GetResourceMetadata('bridge', 'job_types_extra', 0)),
+  ---@enum (key) ems_jobs
+  [GetResourceMetadata('bridge', 'job_types', 1)--[[@as 'ems']]] = json.decode(GetResourceMetadata('bridge', 'job_types_extra', 1))
+}
+
+--------------------- FUNCTIONS ---------------------
+
 ---@param tbl table<any, any>|any? The table to iterate over.
 ---@param fn fun(key: any, value: any?): boolean The evaluation function.
 ---@return any key, any value The key-value pair that matches the evaluation function.
@@ -108,10 +157,10 @@ local function get_job_type(job_name)
 end
 
 ---@param resource_name string
----@return boolean valid
+---@return boolean? valid
 function IsResourceValid(resource_name)
   local state = get_resource_state(resource_name)
-  return resource_states.valid[state] and not resource_states.invalid[state]
+  return resource_states:search(state) and resource_states:search(state) ~= 'invalid'
 end
 
 ---@param data {name: string?, label: string, grade: {name: string, level: integer}|integer, grade_name: string?, grade_label: string?, salary: integer?, payment: integer?}? The job data to convert.
@@ -126,7 +175,7 @@ function ConvertPlayerJobData(data)
     grade = grade_type ~= 'table' and data.grade or data.grade.level,
     grade_name = grade_type ~= 'table' and data.grade_name or data.grade.name,
     grade_label = grade_type ~= 'table' and data.grade_label or data.grade.name,
-    job_type = for_each(job_types, function(k, v) return v[name] and k end),
+    job_type = job_types:search(name),
     salary = data.salary or data.payment
   }
 end
@@ -159,7 +208,7 @@ function ConvertJobData(name, data)
   return {
     name = name,
     label = data.label,
-    _type = data.type or get_job_type(name),
+    _type = data.type or job_types:search(name),
     grades = grades
   }
 end
@@ -223,60 +272,5 @@ else
   end
 
 end
-
---------------------- OBJECT ---------------------
-
-local glib = glib or load(LoadResourceFile('gr_lib', 'init.lua'), '@@gr_lib/shared/init.lua', 't', _ENV)()
-
----@version 5.4
----@class CBridge
----@field _VERSION string
----@field _URL string
----@field _DESCRIPTION string
----@field _DEBUG boolean
----@field _RESOURCE string
----@field _CONTEXT string
----@field core CFramework
----@field callback CCallback
----@field target CTarget
----@field menu CMenu
----@field notify CNotify
----@field print fun(...): msg: string Prints a message to the console. <br> If `bridge:debug` is set to `false`, it will not print the message. <br> Returns the message that was printed.
-local bridge = setmetatable({
-  _VERSION = VERSION,
-  _URL = URL,
-  _DESCRIPTION = DES,
-  _DEBUG = DEBUG_MODE,
-  _RESOURCE = RES_NAME,
-  _CONTEXT = CONTEXT,
-  print = function(...)
-    local msg = '^3['..RES_NAME..']^7 - '..(...)
-    if DEBUG_MODE then
-      print(msg)
-    end
-    return msg
-  end
-}, {
-  __name = BRIDGE,
-  __version = VERSION,
-  __tostring = function(t)
-    local address = string.format('%s: %p', BRIDGE, t)
-    if DEBUG_MODE then
-      local msg = string.format('^3[%s]^7 - ^2bridge library^7 ^5\'%s\'^7 v^5%s^7\n%s', RES_NAME, BRIDGE, VERSION, address)
-      for k, v in pairs(t) do
-        if type(v) == 'table' then
-          msg = msg..string.format('\n^3[%s]^7 - ^2`bridge` module^7 ^5\'%s\'^7 ^2is loaded^7\n%s: %p', RES_NAME, k, k, v)
-        end
-      end
-    return msg
-    end
-    return address
-  end,
-  __index = call,
-  __call = call
-})
-
-_ENV.bridge = bridge
-_ENV.glib = glib
 
 return bridge
