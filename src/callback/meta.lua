@@ -2,7 +2,7 @@
 ---@field getname fun(): 'ox_lib'|'native'
 ---@field getversion fun(): string
 ---@field register fun(name: string, cb: fun(...): any)
----@field trigger fun(player: integer|string, name: string, cb: (fun(...): any), ...: any)
+---@field trigger fun(player: integer|string, name: string, cb: (fun(...): ...), ...: any)
 ---@field await fun(player: integer|string, name: string, ...: any): ...
----@field trigger fun(name: string, delay: integer|false?, cb: (fun(...): any), ...: any)
+---@field trigger fun(name: string, delay: integer|false?, cb: (fun(...): ...), ...: any)
 ---@field await fun(name: string, delay: integer|false?, ...: any): ...
