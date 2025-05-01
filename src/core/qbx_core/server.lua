@@ -83,7 +83,7 @@ function core.addplayermoney(player, money_type, amount)
   local Player = core.getplayer(player)
   if not Player then error('error calling \'addplayermoney\' (player not found)', 2) end
   local prev = core.getplayermoney(player, money_type)
-  qbx:AddMoney(money_type, amount, 'bridge added money: '..amount)
+  qbx:AddMoney(player, money_type, amount, 'bridge added money: '..amount)
   return qbx:GetMoney(player, money_type) == prev + amount
 end
 
@@ -99,7 +99,7 @@ function core.removeplayermoney(player, money_type, amount)
   local Player = core.getplayer(player)
   if not Player then error('error calling \'removeplayermoney\' (player not found)', 2) end
   local prev = core.getplayermoney(player, money_type)
-  qbx:RemoveMoney(money_type, amount, 'bridge removed money: '..amount)
+  qbx:RemoveMoney(player, money_type, amount, 'bridge removed money: '..amount)
   return qbx:GetMoney(player, money_type) == prev - amount
 end
 
