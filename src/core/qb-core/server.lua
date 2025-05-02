@@ -170,8 +170,7 @@ function core.addplayeritem(player, item_name, amount)
   local Player = core.getplayer(player)
   if not Player then error('error calling \'addplayeritem\' (player not found)', 2) end
   amount = amount or 1
-  Player.Functions.AddItem(item_name, amount)
-  return core.doesplayerhaveitem(player, item_name, amount)
+  return Player.Functions.AddItem(item_name, amount)
 end
 
 ---@param player integer|string The `player` server ID or src.
