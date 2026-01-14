@@ -84,19 +84,22 @@ end
 
 --------------------- EVENTS ---------------------
 
+AddEventHandler(EVENTS.player, function(key, val, _)
+  PlayerData[key] = val
+end)
+
 for event, name in pairs(EVENTS) do
   RegisterNetEvent(name, function(...)
+    local args = {...}
     if event == 'load' then
-      PlayerData = ESX.GetPlayerData()
+      PlayerData = args[1]
     elseif event == 'unload' then
       PlayerData = {}
     elseif event == 'job' then
-      local args = {...}
       PlayerData.job = args[1]
       JobData = ConvertPlayerJobData(args[1]) or JobData
-    elseif event == 'player' then
-      local args = {...}
-      PlayerData[args[1]] = args[2]
+    -- elseif event == 'player' then
+    --   PlayerData[args[1]] = args[2]
     end
   end)
 end
