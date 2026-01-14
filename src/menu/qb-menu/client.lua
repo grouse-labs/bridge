@@ -26,7 +26,7 @@ local function register_menu(menu_id, title, options)
   if not menu_id or type(menu_id) ~= 'string' then error('bad argument #1 to \'RegisterMenu\' (string expected, got '..type(menu_id)..')', 2) end
   if not title or type(title) ~= 'string' then error('bad argument #2 to \'RegisterMenu\' (string expected, got '..type(title)..')', 2) end
   if not options then error('bad argument #3 to \'RegisterMenu\' (table expected, got nil)', 2) end
-  RegisteredMenus[menu_id] = ConvertMenuOptions(MergeArrays({{header = title, description = '', icon = '', istitle = true}}, options))
+  RegisteredMenus[menu_id] = ConvertMenuOptions({header = title, description = '', icon = '', istitle = true}, options)
 end
 
 ---@param menu_id string The ID of the menu to update.
