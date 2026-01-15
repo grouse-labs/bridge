@@ -1,9 +1,9 @@
 fx_version 'cerulean'
 game 'gta5'
 
-version '0'
 author 'Grouse Labs'
 description 'A modular bridge framework for FiveM that simplifies cross-resource integration and reduces framework coupling.'
+version '1.0.0'
 url 'https://github.com/grouse-labs/bridge'
 
 -- If the framework is ESX, the job_types below is used to determine the job type of the player.
