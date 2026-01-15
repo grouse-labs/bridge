@@ -1,5 +1,5 @@
 ---@class CCallback
----@field getname fun(): 'ox_lib'|'native'
+---@field getname fun(): 'ox_lib'|'gr_lib'
 ---@field getversion fun(): string
 ---@field register fun(name: string, cb: fun(...): ...)
 ---@field trigger fun(player: integer|string, name: string, cb: (fun(...): ...), ...: any)
