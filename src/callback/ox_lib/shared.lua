@@ -4,7 +4,8 @@ if CALLBACK ~= GetConvar('bridge:callback', 'ox_lib') then error('invalid callba
 if not IsResourceValid(CALLBACK) then error('callback resource `'..CALLBACK..'` not valid', 0) end
 
 local VERSION <const> = GetResourceMetadata(CALLBACK, 'version', 0)
-if VERSION:gsub('%D', '') < ('3.29.0'):gsub('%D', '') then error('incompatible version of '..CALLBACK..' detected (expected 3.29.0 or higher, got '..VERSION..')', 0) end
+local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('callback')[CALLBACK]
+if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then error(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(CALLBACK, MIN_VERSION, VERSION), 0) end
 
 if not lib then load(LoadResourceFile('ox_lib', 'init.lua'), '@ox_lib/init.lua', 't', _ENV)() end
 local lib = _ENV.lib

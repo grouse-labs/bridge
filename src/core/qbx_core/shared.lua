@@ -4,16 +4,14 @@ if FRAMEWORK ~= GetConvar('bridge:framework', 'qbx_core') then error('invalid fr
 if not IsResourceValid(FRAMEWORK) and IsResourceValid('qb-core') then error('framework resource `'..FRAMEWORK..'` not valid', 0) end
 
 local VERSION <const> = GetResourceMetadata(FRAMEWORK, 'version', 0)
-if VERSION:gsub('%D', '') < ('1.22.6'):gsub('%D', '') then error('incompatible version of '..FRAMEWORK..' detected (expected 1.22.6 or higher, got '..VERSION..')', 0) end
+local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('framework')[FRAMEWORK]
+if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then error(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(FRAMEWORK, MIN_VERSION, VERSION), 0) end
 
 local qbx = exports[FRAMEWORK]
 
 ---@type CFramework
 ---@diagnostic disable-next-line: missing-fields
 local core = {}
-
---#TODO:
---#[x] Test which version (preferably the latest) of qbx_core this is compatible with and update the version check accordingly.
 
 --------------------- FUNCTIONS ---------------------
 

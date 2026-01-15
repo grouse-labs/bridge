@@ -4,7 +4,8 @@ if FRAMEWORK ~= GetConvar('bridge:framework', 'qbx_core') then error('invalid fr
 if not IsResourceValid(FRAMEWORK) then error('framework resource `'..FRAMEWORK..'` not valid', 0) end
 
 local VERSION <const> = GetResourceMetadata(FRAMEWORK, 'version', 0)
-if VERSION:gsub('%D', '') < ('1.12.4'):gsub('%D', '') then error('incompatible version of '..FRAMEWORK..' detected (expected 1.12.4 or higher, got '..VERSION..')', 0) end
+local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('framework')[FRAMEWORK]
+if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then error(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(FRAMEWORK, MIN_VERSION, VERSION), 0) end
 
 local ESX = exports[FRAMEWORK]:getSharedObject()
 

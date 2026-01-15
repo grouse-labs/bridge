@@ -4,7 +4,8 @@ if CALLBACK ~= GetConvar('bridge:callback', 'ox_lib') then error('invalid callba
 if not IsResourceValid(CALLBACK) then error('callback resource `'..CALLBACK..'` not valid', 0) end
 
 local VERSION <const> = GetResourceMetadata(CALLBACK, 'version', 0)
--- if VERSION:gsub('%D', '') < ('0.0.0'):gsub('%D', '') then error('incompatible version of '..CALLBACK..' detected (expected 0.0.0 or higher, got '..VERSION..')', 0) end
+local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('callback')[CALLBACK]
+if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then error(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(CALLBACK, MIN_VERSION, VERSION), 0) end
 
 ---@type CCallback
 ---@diagnostic disable-next-line: missing-fields

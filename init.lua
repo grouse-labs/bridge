@@ -1,4 +1,32 @@
-if _VERSION:gsub('%D', '') < ('5.4'):gsub('%D', '') then error('Lua version 5.4 is required', 0) end
+BRIDGE_VERSIONS = enum 'eBridgeVersions'
+
+--[[{
+  lua = '5.4',
+  framework = {
+    ['es_extended'] = '1.13.4',
+    ['qb-core'] = '1.3.0',
+    ['qbx_core'] = '1.23.0'
+  },
+  callback = {
+    ['gr_lib'] = '1.0.0',
+    ['ox_lib'] = '3.30.6'
+  },
+  target = {
+    ['ox_target'] = '1.17.2',
+    ['qb-target'] = '5.5.0'
+  },
+  menu = {
+    ['ox_lib'] = '3.30.6',
+    ['qb-menu'] = '1.2.0'
+  },
+  notify = {
+    ['es_extended'] = '1.13.4',
+    ['qb-core'] = '1.3.0'
+  }
+}]]
+
+local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('lua') --[[@as string]]
+if _VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then error(('Lua version `%s` is required'):format(MIN_VERSION), 0) end
 
 local RES_NAME <const> = GetCurrentResourceName()
 local BRIDGE <const> = 'bridge'

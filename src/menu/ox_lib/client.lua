@@ -5,8 +5,10 @@ if not IsResourceValid(MENU) then error('menu resource `'..MENU..'` not valid', 
 local load, load_resource_file = load, LoadResourceFile
 if not lib then load(load_resource_file('ox_lib', 'init.lua'), '@ox_lib/init.lua', 't', _ENV)() end
 local lib = _ENV.lib
+
 local VERSION <const> = GetResourceMetadata(MENU, 'version', 0)
-if VERSION:gsub('%D', '') < ('3.29.0'):gsub('%D', '') then error('incompatible version of '..MENU..' detected (expected 3.29.0 or higher, got '..VERSION..')', 0) end
+local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('menu')[MENU]
+if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then error(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(MENU, MIN_VERSION, VERSION), 0) end
 
 --------------------- FUNCTIONS ---------------------
 

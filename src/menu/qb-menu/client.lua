@@ -3,8 +3,10 @@ if MENU ~= GetConvar('bridge:menu', 'ox_lib') then error('invalid menu resource 
 if not IsResourceValid(MENU) then error('menu resource `'..MENU..'` not valid', 0) end
 
 local qb_menu = exports[MENU]
+
 local VERSION <const> = GetResourceMetadata(MENU, 'version', 0)
-if VERSION:gsub('%D', '') < ('1.2.0'):gsub('%D', '') then error('incompatible version of '..MENU..' detected (expected 1.2.0 or higher, got '..VERSION..')', 0) end
+local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('menu')[MENU]
+if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then error(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(MENU, MIN_VERSION, VERSION), 0) end
 
 local RegisteredMenus = {}
 

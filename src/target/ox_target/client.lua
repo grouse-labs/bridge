@@ -4,8 +4,10 @@ if TARGET ~= GetConvar('bridge:target', 'ox_target') then error('invalid target 
 if not IsResourceValid(TARGET) and IsResourceValid('qb-target') then error('target resource `'..TARGET..'` not valid', 0) end
 
 local ox_target = exports[TARGET] --[[@as ox_target]]
+
 local VERSION <const> = GetResourceMetadata(TARGET, 'version', 0)
-if VERSION:gsub('%D', '') < ('1.17.1'):gsub('%D', '') then error('incompatible version of '..TARGET..' detected (expected 1.17.1 or higher, got '..VERSION..')', 0) end
+local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('target')[TARGET]
+if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then error(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(TARGET, MIN_VERSION, VERSION), 0) end
 
 ---@type CTarget
 ---@diagnostic disable-next-line: missing-fields

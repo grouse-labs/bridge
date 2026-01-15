@@ -4,7 +4,8 @@ if NOTIFY ~= GetConvar('bridge:notify', 'native') then error('invalid notify res
 if not IsResourceValid(NOTIFY) and IsResourceValid('qbx_core') then error('notify resource `'..NOTIFY..'` not valid', 0) end
 
 local VERSION <const> = GetResourceMetadata(NOTIFY, 'version', 0)
-if VERSION:gsub('%D', '') < ('1.3.0'):gsub('%D', '') then error('incompatible version of '..NOTIFY..' detected (expected 1.3.0 or higher, got '..VERSION..')', 0) end
+local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('notify')[NOTIFY]
+if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then error(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(NOTIFY, MIN_VERSION, VERSION), 0) end
 
 local QBCore = exports[NOTIFY]:GetCoreObject({'Functions', 'Shared'})
 
