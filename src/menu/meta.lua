@@ -1,7 +1,7 @@
 ---@class CMenu
 ---@field _MENU 'ox_lib'|'qb-menu'
 ---@field _VERSION string
----@field getmenu fun(): 'ox_lib'|'qb-menu'
+---@field getname fun(): 'ox_lib'|'qb-menu'
 ---@field getversion fun(): string
 ---@field getobject fun(): table
 ---@field registermenu fun(menu_id: string, title: string, options: {header: string, description: string, icon: string, istitle: boolean?, disabled: boolean?, hasSubMenu: boolean?, onSelect: fun()?, event_type: string?, event: string?, args: table?}[])
