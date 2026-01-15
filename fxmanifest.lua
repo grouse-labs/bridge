@@ -1,10 +1,10 @@
 fx_version 'cerulean'
 game 'gta5'
 
-author ''
-description ''
 version '0'
-url ''
+author 'Grouse Labs'
+description 'A modular bridge framework for FiveM that simplifies cross-resource integration and reduces framework coupling.'
+url 'https://github.com/grouse-labs/bridge'
 
 -- If the framework is ESX, the job_types below is used to determine the job type of the player.
 -- Add the job type to the job_types if it is not already present, as well as any additional jobs that should be considered part of that job type.
@@ -24,7 +24,6 @@ client_script 'client/main.lua'
 
 files {
   'init.lua',
-  'shared/*.lua',
   'src/**/shared.lua',
   'src/**/**/shared.lua',
   'src/**/**/client.lua'
