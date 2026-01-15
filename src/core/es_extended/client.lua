@@ -35,7 +35,7 @@ function core.getplayeridentifier()
 end
 
 ---@return string name The name of the `player`.
-local function get_name()
+function core.getplayername()
   return core.getplayerdata().firstname..' '..core.getplayerdata().lastname
 end
 
