@@ -1,6 +1,6 @@
 ---@diagnostic disable: duplicate-set-field
 local FRAMEWORK <const> = 'qb-core'
-if FRAMEWORK ~= GetConvar('bridge:framework', 'qbx_core') then error('invalid framework resource name', 0) end
+if FRAMEWORK ~= MODULE_NAMES.core then return end
 if not IsResourceValid(FRAMEWORK) and IsResourceValid('qbx_core') then error('framework resource `'..FRAMEWORK..'` not valid', 0) end
 
 local VERSION <const> = GetResourceMetadata(FRAMEWORK, 'version', 0)

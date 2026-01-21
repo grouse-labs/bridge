@@ -1,6 +1,6 @@
 ---@diagnostic disable: duplicate-set-field
 local TARGET <const> = 'qb-target'
-if TARGET ~= GetConvar('bridge:target', 'ox_target') then error('invalid target resource name', 0) end
+if TARGET ~= MODULE_NAMES.target then return end
 if not IsResourceValid(TARGET) and IsResourceValid('ox_target') then error('target resource `'..TARGET..'` not valid', 0) end
 
 local qb_target = exports[TARGET]

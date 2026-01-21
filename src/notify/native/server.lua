@@ -1,5 +1,5 @@
 local NOTIFY <const> = 'native'
-if NOTIFY ~= GetConvar('bridge:notify', 'native') then error('invalid notify resource name', 0) end
+if NOTIFY ~= MODULE_NAMES.notify then return end
 
 --------------------- FUNCTIONS ---------------------
 

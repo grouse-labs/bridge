@@ -1,5 +1,5 @@
 local NOTIFY <const> = 'native'
-if NOTIFY ~= GetConvar('bridge:notify', 'native') then error('invalid notify resource name', 0) end
+if NOTIFY ~= MODULE_NAMES.notify then return end
 
 local txd = CreateRuntimeTxd('bridge_notify')
 local IMAGE_PATH <const> = 'qb-inventory/html/images/?.png;ox_inventory/web/images/?.png'

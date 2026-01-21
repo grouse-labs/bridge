@@ -1,6 +1,6 @@
 ---@diagnostic disable: duplicate-set-field
 local CALLBACK <const> = 'gr_lib'
-if CALLBACK ~= GetConvar('bridge:callback', 'ox_lib') then error('invalid callback resource name', 0) end
+if CALLBACK ~= MODULE_NAMES.callback then return end
 if not IsResourceValid(CALLBACK) then error('callback resource `'..CALLBACK..'` not valid', 0) end
 
 local VERSION <const> = GetResourceMetadata(CALLBACK, 'version', 0)

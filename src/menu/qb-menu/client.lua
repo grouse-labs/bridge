@@ -1,6 +1,6 @@
 ---@diagnostic disable: duplicate-set-field
 local MENU <const> = 'qb-menu'
-if MENU ~= GetConvar('bridge:menu', 'ox_lib') then error('invalid menu resource name', 0) end
+if MENU ~= GetConvar('bridge:menu', '') then error('invalid menu resource name', 0) end
 if not IsResourceValid(MENU) then error('menu resource `'..MENU..'` not valid', 0) end
 
 local qb_menu = exports[MENU]

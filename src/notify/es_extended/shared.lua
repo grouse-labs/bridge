@@ -1,6 +1,6 @@
 ---@diagnostic disable: duplicate-set-field
 local NOTIFY <const> = 'es_extended'
-if NOTIFY ~= GetConvar('bridge:framework', 'qbx_core') then error('invalid notify resource name', 0) end
+if NOTIFY ~= MODULE_NAMES.notify then return end
 if not IsResourceValid(NOTIFY) then error('notify resource `'..NOTIFY..'` not valid', 0) end
 
 local VERSION <const> = GetResourceMetadata(NOTIFY, 'version', 0)
