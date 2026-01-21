@@ -72,19 +72,19 @@ Function completion is available for all functions, enums and classes. This mean
 
 #### Server CFG
 
-The following is how to change bridged resources.
+The following is how to manually change bridge resources and set debug mode.
+**Note: Most users will not need this as bridge autodetects your framework and others resources.**
 
 ```cfg
 ##############
 ### BRIDGE ###
 ##############
 
-setr bridge:debug true # Set to true to enable debug mode for bridge, which will log all events and prints to the console.
-setr bridge:framework "qbx_core" # Set the framework to use for bridge. Options are "qb-core", "qbx_core" or "esx".
+setr bridge:framework "qbx_core" # Set the framework to use for bridge. Options are "qb-core", "qbx_core" or "es_extended".
 setr bridge:callback "gr_lib" # Set the callback to use for bridge. Currently the only options are "ox_lib" or "gr_lib".
 setr bridge:target "ox_target" # Set the target to use for bridge. Options are "qb-target" or "ox_target".
 setr bridge:menu "ox_lib" # Set the menu to use for bridge. Options are "qb-menu" or "ox_lib".
-setr bridge:notify "qb-core" # Set the notification to use for bridge. Options are "qb-core" "es_extended" or "native".
+setr bridge:notify "qb-core" # Set the notification to use for bridge. Options are "qb-core", "es_extended" or "native".
 ```
 
 | Framework   | Callback | Target    | Menu    | Notify      |
