@@ -110,7 +110,7 @@ local load, load_resource_file = load, LoadResourceFile
 local CONTEXT <const> = IsDuplicityVersion() == 1 and 'server' or 'client'
 
 ---@enum (key) module_types
-local module_names <const> = {
+MODULE_NAMES = {
   core = FRAMEWORK,
   callback = CALLBACK,
   target = TARGET,
@@ -118,16 +118,17 @@ local module_names <const> = {
   notify = NOTIFY
 }
 
---#TODO:
---#[X] Make ConVar set constants mutable.
---#[ ] Make an update listener so developers can change module dynamically.
+AddConvarChangeListener('', function(name, _)
+  if not MODULE_NAMES[name:gsub('bridge:')] then return end
+  MODULE_NAMES[name:gsub('bridge:')] = get_convar(name, '')
+end)
 
 --------------------- BRIDGE ---------------------
 
 ---@param module_type module_types
 ---@return string?
 local function get_module_name(module_type)
-  return module_names[module_type]
+  return MODULE_NAMES[module_type]
 end
 
 ---@param bridge CBridge
