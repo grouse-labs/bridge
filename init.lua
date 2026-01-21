@@ -38,11 +38,71 @@ local DES <const> = get_res_meta(BRIDGE, 'description', 0)
 
 local get_convar = GetConvar
 local DEBUG_MODE <const> = get_convar('bridge:debug', 'false') == 'true'
-local FRAMEWORK <const> = get_convar('bridge:framework', 'qb-core')
-local CALLBACK <const> = get_convar('bridge:callback', 'ox_lib')
-local TARGET <const> = get_convar('bridge:target', 'ox_target')
-local MENU <const> = get_convar('bridge:menu', 'ox_lib')
-local NOTIFY <const> = get_convar('bridge:notify', 'native')
+
+--------------------- RESOURCE DETECTION ---------------------
+
+local FRAMEWORK do
+  FRAMEWORK = get_convar('bridge:framework', '')
+  if FRAMEWORK == '' then
+    local frameworks = BRIDGE_VERSIONS:lookup('framework') --[[@as table]]
+    for resource in pairs(frameworks) do
+      if IsResourceValid(resource) then
+        FRAMEWORK = resource
+        break
+      end
+    end
+  end
+end
+local CALLBACK do
+  CALLBACK = get_convar('bridge:callback', '')
+  if CALLBACK == '' then
+    local callback = BRIDGE_VERSIONS:lookup('callback') --[[@as table]]
+    for resource in pairs(callback) do
+      if IsResourceValid(resource) then
+        CALLBACK = resource
+        break
+      end
+    end
+  end
+end
+local TARGET do
+  TARGET = get_convar('bridge:target', '')
+  if TARGET == '' then
+    local target = BRIDGE_VERSIONS:lookup('target') --[[@as table]]
+    for resource in pairs(target) do
+      if IsResourceValid(resource) then
+        TARGET = resource
+        break
+      end
+    end
+  end
+end
+local MENU do
+  MENU = get_convar('bridge:menu', '')
+  if MENU == '' then
+    local menu = BRIDGE_VERSIONS:lookup('menu') --[[@as table]]
+    for resource in pairs(menu) do
+      if IsResourceValid(resource) then
+        MENU = resource
+        break
+      end
+    end
+  end
+end
+local NOTIFY do
+  NOTIFY = get_convar('bridge:notify', '')
+  if NOTIFY == '' then
+    local notify = BRIDGE_VERSIONS:lookup('notify') --[[@as table]]
+    for resource in pairs(notify) do
+      if IsResourceValid(resource) then
+        NOTIFY = resource
+        break
+      end
+    end
+  end
+end
+
+------------------------------------------
 
 local load, load_resource_file = load, LoadResourceFile
 -- local export = exports[res]
@@ -59,7 +119,8 @@ local module_names <const> = {
 }
 
 --#TODO:
---#[ ] Make ConVar set constants mutable.
+--#[X] Make ConVar set constants mutable.
+--#[ ] Make an update listener so developers can change module dynamically.
 
 --------------------- BRIDGE ---------------------
 
@@ -159,9 +220,9 @@ _ENV.bridge = bridge
 --------------------- ENV FUNCTIONS ---------------------
 local job_types = enum 'job_types' {
   ---@enum (key) leo_jobs
-  [GetResourceMetadata('bridge', 'job_types', 0)--[[@as 'leo']]] = json.decode(GetResourceMetadata('bridge', 'job_types_extra', 0)),
+  [get_res_meta('bridge', 'job_types', 0)--[[@as 'leo']]] = json.decode(get_res_meta('bridge', 'job_types_extra', 0)),
   ---@enum (key) ems_jobs
-  [GetResourceMetadata('bridge', 'job_types', 1)--[[@as 'ems']]] = json.decode(GetResourceMetadata('bridge', 'job_types_extra', 1))
+  [get_res_meta('bridge', 'job_types', 1)--[[@as 'ems']]] = json.decode(get_res_meta('bridge', 'job_types_extra', 1))
 }
 
 ---@param data {name: string?, label: string, grade: {name: string, level: integer}|integer, grade_name: string?, grade_label: string?, salary: integer?, payment: integer?}? The job data to convert.
