@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'Grouse Labs'
 description 'A modular bridge framework for FiveM that simplifies cross-resource integration and reduces framework coupling.'
-version '1.0.1'
+version '1.0.2'
 url 'https://github.com/grouse-labs/bridge'
 
 -- If the framework is ESX, the job_types below is used to determine the job type of the player.
@@ -19,8 +19,6 @@ job_types 'ems' {
   ['doctor'] = 2,
   ['ems'] = 3
 }
-
-client_script 'client/main.lua'
 
 files {
   'init.lua',
