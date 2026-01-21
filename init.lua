@@ -99,6 +99,7 @@ local NOTIFY do
         break
       end
     end
+    NOTIFY = 'native'
   end
 end
 
@@ -279,6 +280,11 @@ end
 if CONTEXT == 'server' then
 
 else
+
+  if NOTIFY == 'native' then
+    RegisterNetEvent('bridge:client:Notify', bridge.notify.text)
+    RegisterNetEvent('bridge:client:ItemNotify', bridge.notify.item)
+  end
 
   ---@param arr1 any[]|any? The first array to merge.
   ---@param arr2 any[]|any? The second array to merge.
