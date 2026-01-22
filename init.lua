@@ -41,8 +41,10 @@ local DEBUG_MODE <const> = get_convar('bridge:debug', 'false') == 'true'
 
 --------------------- RESOURCE DETECTION ---------------------
 
+local FALLBACKS <const> = {qbx = 'qbx_core', qb = 'qb-core', esx = 'es_extended'}
+
 local FRAMEWORK do
-  FRAMEWORK = get_convar('bridge:framework', '')
+  FRAMEWORK = get_convar('bridge:framework', ''):lower()
   if FRAMEWORK == '' then
     local frameworks = BRIDGE_VERSIONS:lookup('framework') --[[@as table]]
     for resource in pairs(frameworks) do
@@ -51,10 +53,11 @@ local FRAMEWORK do
         break
       end
     end
+    FRAMEWORK = FALLBACKS[FRAMEWORK] or FRAMEWORK
   end
 end
 local CALLBACK do
-  CALLBACK = get_convar('bridge:callback', '')
+  CALLBACK = get_convar('bridge:callback', ''):lower()
   if CALLBACK == '' then
     local callback = BRIDGE_VERSIONS:lookup('callback') --[[@as table]]
     for resource in pairs(callback) do
@@ -66,7 +69,7 @@ local CALLBACK do
   end
 end
 local TARGET do
-  TARGET = get_convar('bridge:target', '')
+  TARGET = get_convar('bridge:target', ''):lower()
   if TARGET == '' then
     local target = BRIDGE_VERSIONS:lookup('target') --[[@as table]]
     for resource in pairs(target) do
@@ -78,7 +81,7 @@ local TARGET do
   end
 end
 local MENU do
-  MENU = get_convar('bridge:menu', '')
+  MENU = get_convar('bridge:menu', ''):lower()
   if MENU == '' then
     local menu = BRIDGE_VERSIONS:lookup('menu') --[[@as table]]
     for resource in pairs(menu) do
@@ -90,7 +93,7 @@ local MENU do
   end
 end
 local NOTIFY do
-  NOTIFY = get_convar('bridge:notify', '')
+  NOTIFY = get_convar('bridge:notify', ''):lower()
   if NOTIFY == '' then
     local notify = BRIDGE_VERSIONS:lookup('notify') --[[@as table]]
     for resource in pairs(notify) do
@@ -278,7 +281,7 @@ function ConvertJobData(name, data)
 end
 
 if CONTEXT == 'server' then
-
+  glib.github.check(BRIDGE, 'grouse-labs', BRIDGE)
 else
 
   if NOTIFY == 'native' then
