@@ -7,7 +7,7 @@ local qb_menu = exports[MENU]
 
 local VERSION <const> = GetResourceMetadata(MENU, 'version', 0)
 local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('menu')[MENU]
-if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then error(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(MENU, MIN_VERSION, VERSION), 0) end
+if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then warn(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(MENU, MIN_VERSION, VERSION)) end
 
 ---@type CMenu
 ---@diagnostic disable-next-line: missing-fields

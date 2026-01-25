@@ -5,7 +5,7 @@ if not IsResourceValid(NOTIFY) and IsResourceValid('qbx_core') then error('notif
 
 local VERSION <const> = GetResourceMetadata(NOTIFY, 'version', 0)
 local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('notify')[NOTIFY]
-if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then error(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(NOTIFY, MIN_VERSION, VERSION), 0) end
+if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then warn(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(NOTIFY, MIN_VERSION, VERSION)) end
 
 local QBCore = exports[NOTIFY]:GetCoreObject({'Functions', 'Shared'})
 

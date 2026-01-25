@@ -5,7 +5,7 @@ if not IsResourceValid(FRAMEWORK) and IsResourceValid('qb-core') then error('fra
 
 local VERSION <const> = GetResourceMetadata(FRAMEWORK, 'version', 0)
 local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('framework')[FRAMEWORK]
-if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then error(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(FRAMEWORK, MIN_VERSION, VERSION), 0) end
+if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then warn(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(FRAMEWORK, MIN_VERSION, VERSION)) end
 
 local qbx = exports[FRAMEWORK]
 

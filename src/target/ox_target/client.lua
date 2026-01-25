@@ -7,7 +7,7 @@ local ox_target = exports[TARGET] --[[@as ox_target]]
 
 local VERSION <const> = GetResourceMetadata(TARGET, 'version', 0)
 local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('target')[TARGET]
-if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then error(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(TARGET, MIN_VERSION, VERSION), 0) end
+if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then warn(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(TARGET, MIN_VERSION, VERSION)) end
 
 ---@type CTarget
 ---@diagnostic disable-next-line: missing-fields
