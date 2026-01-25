@@ -73,7 +73,7 @@ Function completion is available for all functions, enums and classes. This mean
 #### Server CFG
 
 The following is how to manually change bridge resources and set debug mode.
-**Note: Most users will not need this as bridge autodetects your framework and others resources.**
+**Note: Most users will not need this as bridge autodetects your framework and other resources.**
 
 ```cfg
 ##############
