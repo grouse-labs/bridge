@@ -37,14 +37,14 @@ local URL <const> = get_res_meta(BRIDGE, 'url', 0)
 local DES <const> = get_res_meta(BRIDGE, 'description', 0)
 
 local get_convar = GetConvar
-local DEBUG_MODE <const> = get_convar('bridge:debug', 'false') == 'true'
+local DEBUG_MODE <const> = get_convar('grinch:debug', 'false') == 'true'
 
 --------------------- RESOURCE DETECTION ---------------------
 
 local FALLBACKS <const> = {qbx = 'qbx_core', qb = 'qb-core', esx = 'es_extended'}
 
 local FRAMEWORK do
-  FRAMEWORK = get_convar('bridge:framework', 'null'):lower()
+  FRAMEWORK = get_convar('grinch:framework', 'null'):lower()
   if FRAMEWORK == 'null' then
     local frameworks = {'qbx_core', 'es_extended', 'qb-core'}
     for i = 1, 3 do
@@ -58,7 +58,7 @@ local FRAMEWORK do
   FRAMEWORK = FALLBACKS[FRAMEWORK] or FRAMEWORK
 end
 local CALLBACK do
-  CALLBACK = get_convar('bridge:callback', 'null'):lower()
+  CALLBACK = get_convar('grinch:callback', 'null'):lower()
   if CALLBACK == 'null' then
     local callbacks = {'ox_lib', 'gr_lib'}
     for i = 1, 2 do
@@ -71,7 +71,7 @@ local CALLBACK do
   end
 end
 local TARGET do
-  TARGET = get_convar('bridge:target', 'null'):lower()
+  TARGET = get_convar('grinch:target', 'null'):lower()
   if TARGET == 'null' then
     local targets = {'ox_target', 'qb-target'}
     for i = 1, 2 do
@@ -84,7 +84,7 @@ local TARGET do
   end
 end
 local MENU do
-  MENU = get_convar('bridge:menu', 'null'):lower()
+  MENU = get_convar('grinch:menu', 'null'):lower()
   if MENU == 'null' then
     local menus = {'ox_lib', 'qb-menu'}
     for i = 1, 2 do
@@ -97,7 +97,7 @@ local MENU do
   end
 end
 local NOTIFY do
-  NOTIFY = get_convar('bridge:notify', 'null'):lower()
+  NOTIFY = get_convar('grinch:notify', 'null'):lower()
   if NOTIFY == 'null' then
     local notifies = {'es_extended', 'qb-core'}
     for i = 1, 2 do
@@ -128,8 +128,8 @@ MODULE_NAMES = {
 }
 
 AddConvarChangeListener('', function(name, _)
-  if not MODULE_NAMES[name:gsub('bridge:')] then return end
-  MODULE_NAMES[name:gsub('bridge:')] = get_convar(name, '')
+  if not MODULE_NAMES[name:gsub('grinch:')] then return end
+  MODULE_NAMES[name:gsub('grinch:')] = get_convar(name, '')
 end)
 
 --------------------- BRIDGE ---------------------
@@ -190,7 +190,7 @@ local glib = glib or load(LoadResourceFile('gr_lib', 'init.lua'), '@@gr_lib/shar
 ---@field target CTarget
 ---@field menu CMenu
 ---@field notify CNotify
----@field print fun(...): msg: string Prints a message to the console. <br> If `bridge:debug` is set to `false`, it will not print the message. <br> Returns the message that was printed.
+---@field print fun(...): msg: string Prints a message to the console. <br> If `grinch:debug` is set to `false`, it will not print the message. <br> Returns the message that was printed.
 local bridge = setmetatable({
   _VERSION = VERSION,
   _URL = URL,
@@ -290,8 +290,8 @@ if CONTEXT == 'server' then
 else
 
   if NOTIFY == 'native' then
-    RegisterNetEvent('bridge:client:Notify', bridge.notify.text)
-    RegisterNetEvent('bridge:client:ItemNotify', bridge.notify.item)
+    RegisterNetEvent('grinch:client:Notify', bridge.notify.text)
+    RegisterNetEvent('grinch:client:ItemNotify', bridge.notify.item)
   end
 
   ---@param arr1 any[]|any? The first array to merge.

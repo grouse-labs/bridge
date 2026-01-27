@@ -8,7 +8,7 @@
 function notify.text(player, text, _type, time)
   if not IsSrcAPlayer(player) then error('bad argument #1 to \'text\' (number or string expected, got '..player..')', 2) end
   if not text or type(text) ~= 'string' then error('bad argument #2 to \'text\' (string expected, got '..type(text)..')', 2) end
-  TriggerClientEvent('bridge:client:notify_text', player, text, _type, time)
+  TriggerClientEvent('grinch:client:notify_text', player, text, _type, time)
 end
 
 ---@param player string|integer  The `player` server ID or src.
@@ -21,7 +21,7 @@ function notify.item(player, item, amount, text)
   if amount and type(amount) ~= 'number' then error('bad argument #3 to \'item\' (number expected, got '..type(amount)..')', 2) end
   if text and type(text) ~= 'string' then error('bad argument #4 to \'item\' (string expected, got '..type(text)..')', 2) end
   amount = amount or 1
-  TriggerClientEvent('bridge:client:notify_item', player, ESX.Items[item].label, amount >= 1 and 'add' or 'remove', amount, text)
+  TriggerClientEvent('grinch:client:notify_item', player, ESX.Items[item].label, amount >= 1 and 'add' or 'remove', amount, text)
 end
 
 --------------------- OBJECT ---------------------

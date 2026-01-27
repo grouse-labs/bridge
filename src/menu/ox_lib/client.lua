@@ -1,6 +1,6 @@
 ---@diagnostic disable: duplicate-set-field
 local MENU <const> = 'ox_lib'
-if MENU ~= GetConvar('bridge:menu', '') then error('invalid menu resource name', 0) end
+if MENU ~= GetConvar('grinch:menu', '') then error('invalid menu resource name', 0) end
 if not IsResourceValid(MENU) then error('menu resource `'..MENU..'` not valid', 0) end
 
 local load, load_resource_file = load, LoadResourceFile

@@ -80,11 +80,11 @@ The following is how to manually change bridge resources and set debug mode.
 ### BRIDGE ###
 ##############
 
-setr bridge:framework "qbx_core" # Set the framework to use for bridge. Options are "qb-core", "qbx_core" or "es_extended".
-setr bridge:callback "gr_lib" # Set the callback to use for bridge. Currently the only options are "ox_lib" or "gr_lib".
-setr bridge:target "ox_target" # Set the target to use for bridge. Options are "qb-target" or "ox_target".
-setr bridge:menu "ox_lib" # Set the menu to use for bridge. Options are "qb-menu" or "ox_lib".
-setr bridge:notify "qb-core" # Set the notification to use for bridge. Options are "qb-core", "es_extended" or "native".
+setr grinch:framework "qbx_core" # Set the framework to use for bridge. Options are "qb-core", "qbx_core" or "es_extended".
+setr grinch:callback "gr_lib" # Set the callback to use for bridge. Currently the only options are "ox_lib" or "gr_lib".
+setr grinch:target "ox_target" # Set the target to use for bridge. Options are "qb-target" or "ox_target".
+setr grinch:menu "ox_lib" # Set the menu to use for bridge. Options are "qb-menu" or "ox_lib".
+setr grinch:notify "qb-core" # Set the notification to use for bridge. Options are "qb-core", "es_extended" or "native".
 ```
 
 | Framework   | Callback | Target    | Menu    | Notify      |

@@ -23,8 +23,8 @@ end
 
 --------------------- EVENTS ---------------------
 
-RegisterNetEvent('bridge:client:notify_text', notify.text)
-RegisterNetEvent('bridge:client:notify_item', notify.item)
+RegisterNetEvent('grinch:client:notify_text', notify.text)
+RegisterNetEvent('grinch:client:notify_item', notify.item)
 
 --------------------- OBJECT ---------------------
 getmetatable(notify).__newindex = function() error('attempt to edit a read-only object', 2) end
