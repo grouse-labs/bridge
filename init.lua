@@ -43,70 +43,48 @@ local DEBUG_MODE <const> = get_convar('grinch:debug', 'false') == 'true'
 
 local FALLBACKS <const> = {qbx = 'qbx_core', qb = 'qb-core', esx = 'es_extended'}
 
+---@param resources string[]
+---@return string
+local function detect_resource(resources)
+  local lim = #resources
+  for i = 1, lim do
+    local resource = resources[i]
+    if IsResourceValid(resource) then
+      return resource
+    end
+  end
+  return 'null'
+end
+
 local FRAMEWORK do
   FRAMEWORK = get_convar('grinch:framework', 'null'):lower()
   if FRAMEWORK == 'null' then
-    local frameworks = {'qbx_core', 'es_extended', 'qb-core'}
-    for i = 1, 3 do
-      local resource = frameworks[i]
-      if IsResourceValid(resource) then
-        FRAMEWORK = resource
-        break
-      end
-    end
+    FRAMEWORK = detect_resource({'qbx_core', 'es_extended', 'qb-core'})
   end
   FRAMEWORK = FALLBACKS[FRAMEWORK] or FRAMEWORK
 end
 local CALLBACK do
   CALLBACK = get_convar('grinch:callback', 'null'):lower()
   if CALLBACK == 'null' then
-    local callbacks = {'ox_lib', 'gr_lib'}
-    for i = 1, 2 do
-      local callback = callbacks[i]
-      if IsResourceValid(callback) then
-        CALLBACK = callback
-        break
-      end
-    end
+    CALLBACK = detect_resource({'ox_lib', 'gr_lib'})
   end
 end
 local TARGET do
   TARGET = get_convar('grinch:target', 'null'):lower()
   if TARGET == 'null' then
-    local targets = {'ox_target', 'qb-target'}
-    for i = 1, 2 do
-      local target = targets[i]
-      if IsResourceValid(target) then
-        TARGET = target
-        break
-      end
-    end
+    TARGET = detect_resource({'ox_target', 'qb-target'})
   end
 end
 local MENU do
   MENU = get_convar('grinch:menu', 'null'):lower()
   if MENU == 'null' then
-    local menus = {'ox_lib', 'qb-menu'}
-    for i = 1, 2 do
-      local menu = menus[i]
-      if IsResourceValid(menu) then
-        MENU = menu
-        break
-      end
-    end
+    MENU = detect_resource({'ox_lib', 'qb-menu'})
   end
 end
 local NOTIFY do
   NOTIFY = get_convar('grinch:notify', 'null'):lower()
   if NOTIFY == 'null' then
-    local notifies = {'es_extended', 'qb-core'}
-    for i = 1, 2 do
-      local notify = notifies[i]
-      if IsResourceValid(notify) then
-        NOTIFY = notify
-        break
-      end
-    end
+    NOTIFY = detect_resource({'es_extended', 'qb-core'})
   end
   NOTIFY = NOTIFY ~= 'null' and NOTIFY or 'native'
 end
