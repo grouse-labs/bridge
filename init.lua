@@ -88,6 +88,12 @@ local NOTIFY do
   end
   NOTIFY = NOTIFY ~= 'null' and NOTIFY or 'native'
 end
+local DOORLOCK do
+  DOORLOCK = get_convar('grinch:doorlock', 'null'):lower()
+  if DOORLOCK == 'null' then
+    DOORLOCK = detect_resource({'ox_doorlock', 'qb-doorlock'})
+  end
+end
 
 ------------------------------------------
 
@@ -102,7 +108,8 @@ MODULE_NAMES = {
   callback = CALLBACK,
   target = TARGET,
   menu = MENU,
-  notify = NOTIFY
+  notify = NOTIFY,
+  doorlock = DOORLOCK
 }
 
 AddConvarChangeListener('', function(name, _)
@@ -168,6 +175,7 @@ local glib = glib or load(LoadResourceFile('gr_lib', 'init.lua'), '@@gr_lib/shar
 ---@field target CTarget
 ---@field menu CMenu
 ---@field notify CNotify
+---@field doorlock CDoorlock
 ---@field print fun(...): msg: string Prints a message to the console. <br> If `grinch:debug` is set to `false`, it will not print the message. <br> Returns the message that was printed.
 local bridge = setmetatable({
   _VERSION = VERSION,
