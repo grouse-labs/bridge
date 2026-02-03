@@ -94,6 +94,12 @@ local DOORLOCK do
     DOORLOCK = detect_resource({'ox_doorlock', 'qb-doorlock'})
   end
 end
+local WEATHER do
+  WEATHER = get_convar('grinch:doorlock', 'null'):lower()
+  if WEATHER == 'null' then
+    WEATHER = detect_resource({'qb-weathersync'})
+  end
+end
 
 ------------------------------------------
 
@@ -109,7 +115,8 @@ MODULE_NAMES = {
   target = TARGET,
   menu = MENU,
   notify = NOTIFY,
-  doorlock = DOORLOCK
+  doorlock = DOORLOCK,
+  weather = WEATHER
 }
 
 AddConvarChangeListener('', function(name, _)
@@ -176,6 +183,7 @@ local glib = glib or load(LoadResourceFile('gr_lib', 'init.lua'), '@@gr_lib/shar
 ---@field menu CMenu
 ---@field notify CNotify
 ---@field doorlock CDoorlock
+---@field weather CWeather
 ---@field print fun(...): msg: string Prints a message to the console. <br> If `grinch:debug` is set to `false`, it will not print the message. <br> Returns the message that was printed.
 local bridge = setmetatable({
   _VERSION = VERSION,
