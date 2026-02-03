@@ -25,7 +25,7 @@ function target.getversion() return VERSION end
 function target.getobject() return qb_target end
 
 ---@param entities integer|integer[] The entity or entities to add a target to.
----@param options {name: string?, label: string, icon: string?, distance: number?, item: string?, canInteract: fun(entity: integer, distance: number)?, onSelect: fun()?, event_type: string?, event: string?, jobs: string|string[]?, gangs: string|string[]?}[] The options for the target.
+---@param options target_options[] The options for the target.
 function target.addlocalentity(entities, options)
   if type(entities) == 'number' then entities = {entities} end
   if type(entities) ~= 'table' then error('bad argument #1 to \'addlocalentity\' (number or table expected, got '..type(entities)..')', 2) end
@@ -46,7 +46,7 @@ function target.removelocalentity(entities, options)
 end
 
 ---@param data {center: vector3, radius: number?, debug: boolean?} The data for the sphere zone.
----@param options {name: string?, label: string, icon: string?, distance: number?, item: string?, canInteract: (fun(entity: integer, distance: number): boolean?)?, onSelect: fun()?, event_type: string?, event: string?, jobs: string|string[]?, gangs: string|string[]?}[] The options for the target.
+---@param options target_options[] The options for the target.
 ---@return integer|string? box_zone The ID of the sphere zone. <br> If using ox_target, the integer ID of the zone is returned. <br> If using qb-target, the string name of the zone is returned.
 function target.addspherezone(data, options)
   if not data then error('bad argument #1 to \'addboxzone\' (table expected, got nil)', 2) end
@@ -65,7 +65,7 @@ function target.addspherezone(data, options)
 end
 
 ---@param data {center: vector3, size: vector3, heading: number?, debug: boolean?} The data for the box zone.
----@param options {name: string?, label: string, icon: string?, distance: number?, item: string?, canInteract: (fun(entity: integer, distance: number): boolean?)?, onSelect: fun()?, event_type: string?, event: string?, jobs: string|string[]?, gangs: string|string[]?}[] The options for the target.
+---@param options target_options[] The options for the target.
 ---@return integer|string? box_zone The ID of the box zone. <br> If using ox_target, the integer ID of the zone is returned. <br> If using qb-target, the string name of the zone is returned.
 function target.addboxzone(data, options)
   if not data then error('bad argument #1 to \'addboxzone\' (table expected, got nil)', 2) end

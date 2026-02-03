@@ -1,9 +1,22 @@
+---@class target_options
+---@field name string?
+---@field label string
+---@field icon string?
+---@field distance number?
+---@field item string|string[]?
+---@field canInteract (fun(entity: integer, distance: number): boolean?)?
+---@field onSelect fun()?
+---@field event_type string?
+---@field event string?
+---@field jobs string|string[]?
+---@field gangs string|string[]?
+
 ---@class CTarget
 ---@field getname fun(): 'ox_target'|'qb-target'
 ---@field getversion fun(): string
 ---@field getobject fun(): table
----@field addlocalentity fun(entities: integer|integer[], options: {name: string?, label: string, icon: string?, distance: number?, item: string?, canInteract: (fun(entity: integer, distance: number): boolean?)?, onSelect: fun()?, event_type: string?, event: string?, jobs: string|string[]?, gangs: string|string[]?}[])
+---@field addlocalentity fun(entities: integer|integer[], options: target_options[])
 ---@field removelocalentity fun(entities: integer|integer[], options: string|string[])
----@field addspherezone fun(data: {center: vector3, radius: number?, debug: boolean?}, options: {name: string?, label: string, icon: string?, distance: number?, item: string?, canInteract: (fun(entity: integer, distance: number): boolean?)?, onSelect: fun()?, event_type: string?, event: string?, jobs: string|string[]?, gangs: string|string[]?}[]): integer|string?
----@field addboxzone fun(data: {center: vector3, size: vector3, heading: number?, debug: boolean?}, options: {name: string?, label: string, icon: string?, distance: number?, item: string?, canInteract: (fun(entity: integer, distance: number): boolean?)?, onSelect: fun()?, event_type: string?, event: string?, jobs: string|string[]?, gangs: string|string[]?}[]): integer|string?
+---@field addspherezone fun(data: {center: vector3, radius: number?, debug: boolean?}, options: target_options[]): integer|string?
+---@field addboxzone fun(data: {center: vector3, size: vector3, heading: number?, debug: boolean?}, options: target_options[]): integer|string?
 ---@field removezone fun(box_zone: integer|string)

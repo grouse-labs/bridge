@@ -272,7 +272,7 @@ function ConvertJobData(name, data)
 end
 
 if CONTEXT == 'server' then
-  glib.github.check(BRIDGE, 'grouse-labs', BRIDGE)
+  -- glib.github.check(BRIDGE, 'grouse-labs', BRIDGE)
 else
 
   if NOTIFY == 'native' then
@@ -291,7 +291,7 @@ else
     return arr1
   end
 
-  ---@param options {name: string?, label: string, icon: string?, distance: number?, item: string?, canInteract: fun(entity: integer, distance: number)?, onSelect: fun()?, event_type: string?, event: string?, jobs: string|string[]?, gangs: string|string[]?}[] The options for the target.
+  ---@param options target_options[] The options for the target.
   ---@return table[]? converted_options The converted options for the target.
   function ConvertTargetOptions(options)
     if not options then return end
