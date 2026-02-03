@@ -1,4 +1,4 @@
 ---@class CDoorlock
 ---@field getname fun(): 'ox_doorlock'|'qb-doorlock'
 ---@field getversion fun(): string
----@field setstate fun(player: integer|string, door_id: string, state: 0|1|boolean, picked: boolean?)
+---@field setstate fun(player: integer|string, door_id: string, state: boolean, picked: boolean?)
