@@ -45,6 +45,27 @@ function target.removelocalentity(entities, options)
   ox_target:removeLocalEntity(entities, options)
 end
 
+---@param models string|number|(string|number)[] The model or models to add a target to.
+---@param options target_options[] The options for the target.
+function target.addmodel(models, options)
+  if type(models) == 'string' then models = {models} end
+  if type(models) ~= 'table' then error('bad argument #1 to \'addmodel\' (string or table expected, got '..type(models)..')', 2) end
+  if not options then error('bad argument #2 to \'addmodel\' (table expected, got nil)', 2) end
+  local converted_options = ConvertTargetOptions(options)
+  if not converted_options then error('bad argument #2 to \'addmodel\' (options invalid)', 2) end
+  ox_target:addModel(models, converted_options)
+end
+
+---@param models string|number|(string|number)[] The entity or entities to remove a target from.
+---@param options string|string[] The target or targets to remove from the entity.
+function target.removemodel(models, options)
+  if type(models) == 'string' then models = {models} end
+  if type(models) ~= 'table' then error('bad argument #1 to \'removemodel\' (string or table expected, got '..type(models)..')', 2) end
+  if type(options) == 'string' then options = {options} end
+  if type(options) ~= 'table' then error('bad argument #2 to \'removemodel\' (string or table expected, got '..type(options)..')', 2) end
+  ox_target:removeModel(models, options)
+end
+
 ---@param data {center: vector3, radius: number?, debug: boolean?} The data for the sphere zone.
 ---@param options target_options[] The options for the target.
 ---@return integer|string? box_zone The ID of the sphere zone. <br> If using ox_target, the integer ID of the zone is returned. <br> If using qb-target, the string name of the zone is returned.
