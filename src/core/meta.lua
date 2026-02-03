@@ -30,3 +30,4 @@
 ---@field doesplayerhavegroup fun(group: string|string[]): has_group: boolean
 ---@field getplayermoney fun(money_type: 'money'|'cash'|'bank'): money: integer
 ---@field isplayerdowned fun(): is_downed: boolean
+---@field isplayergloved fun(): gloved: boolean

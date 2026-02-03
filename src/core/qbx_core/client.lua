@@ -74,6 +74,11 @@ function core.isplayerdowned()
   return core.getplayerdata().metadata.inlaststand or core.getplayerdata().metadata.isdead
 end
 
+---@return boolean gloved Whether the `player` is wearing gloves.
+function core.isplayergloved()
+  return qbx:isWearingGloves()
+end
+
 --------------------- EVENTS ---------------------
 
 AddEventHandler(EVENTS.load, function()

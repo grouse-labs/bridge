@@ -153,10 +153,7 @@ function core.doesplayerhaveitem(player, item_name, amount)
   if amount and type(amount) ~= 'number' then error('bad argument #3 to \'doesplayerhaveitem\' (number expected, got '..type(amount)..')', 2) end
   local Player = core.getplayer(player)
   if not Player then error('error calling \'doesplayerhaveitem\' (player not found)', 2) end
-  local item = Player.PlayerData.items[item_name]
-  if not item then return false end
-  amount = amount or 1
-  return item.amount >= amount
+  return QBCore.Functions.HasItem(player, item_name, amount or 1)
 end
 
 ---@param player integer|string The `player` server ID or src.
