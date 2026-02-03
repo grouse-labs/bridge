@@ -16,9 +16,9 @@
 ---@field getversion fun(): string
 ---@field getobject fun(): table
 ---@field addlocalentity fun(entities: integer|integer[], options: target_options[])
----@field removelocalentity fun(entities: integer|integer[], options: string|string[])
+---@field removelocalentity fun(entities: integer|integer[], options: string|string[]?)
 ---@field addmodel fun(models: string|number|(string|number)[], options: target_options[])
----@field removemodel fun(models: string|number|(string|number)[], options: string|string[])
+---@field removemodel fun(models: string|number|(string|number)[], options: string|string[]?)
 ---@field addspherezone fun(data: {center: vector3, radius: number?, debug: boolean?}, options: target_options[]): integer|string?
 ---@field addboxzone fun(data: {center: vector3, size: vector3, heading: number?, debug: boolean?}, options: target_options[]): integer|string?
 ---@field removezone fun(box_zone: integer|string)

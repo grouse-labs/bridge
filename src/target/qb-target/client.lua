@@ -36,12 +36,12 @@ function target.addlocalentity(entities, options)
 end
 
 ---@param entities integer|integer[] The entity or entities to remove a target from.
----@param options string|string[] The target or targets to remove from the entity.
+---@param options string|string[]? The target or targets to remove from the entity.
 function target.removelocalentity(entities, options)
   if type(entities) == 'number' then entities = {entities} end
   if type(entities) ~= 'table' then error('bad argument #1 to \'removelocalentity\' (number or table expected, got '..type(entities)..')', 2) end
   if type(options) == 'string' then options = {options} end
-  if type(options) ~= 'table' then error('bad argument #2 to \'removelocalentity\' (string or table expected, got '..type(options)..')', 2) end
+  if options and type(options) ~= 'table' then error('bad argument #2 to \'removelocalentity\' (string or table expected, got '..type(options)..')', 2) end
   qb_target:RemoveTargetEntity(entities, options)
 end
 
@@ -57,12 +57,12 @@ function target.addmodel(models, options)
 end
 
 ---@param models string|number|(string|number)[] The entity or entities to remove a target from.
----@param options string|string[] The target or targets to remove from the entity.
+---@param options string|string[]? The target or targets to remove from the entity.
 function target.removemodel(models, options)
   if type(models) == 'string' then models = {models} end
   if type(models) ~= 'table' then error('bad argument #1 to \'removemodel\' (string or table expected, got '..type(models)..')', 2) end
   if type(options) == 'string' then options = {options} end
-  if type(options) ~= 'table' then error('bad argument #2 to \'removemodel\' (string or table expected, got '..type(options)..')', 2) end
+  if options and type(options) ~= 'table' then error('bad argument #2 to \'removemodel\' (string or table expected, got '..type(options)..')', 2) end
   qb_target:RemoveTargetModel(models, options)
 end
 
