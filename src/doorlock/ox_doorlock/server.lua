@@ -7,7 +7,7 @@
 ---@param picked boolean? Whether the door was lockpicked by a player.
 function doorlock.setstate(player, door_id, state, picked)
   local src = tonumber(player or source)
-  if not IsSrcAPlayer(src) then error('bad argument #1 to \'setstate\' (number or string expected, got '..player..')', 2) end
+  if not IsSrcAPlayer(src) then error('bad argument #1 to \'setstate\' (number or string expected, got '..type(player)..')', 2) end
   if not door_id or type(door_id) ~= 'string' then error('bad argument #2 to \'setstate\' (string expected, got '..type(door_id)..')', 2) end
   if state == nil or type(state) ~= 'boolean' then error('bad argument #3 to \'setstate\' (boolean expected, got '..type(state)..')', 2) end
   local door = ox_doorlock:getDoorFromName(door_id)
