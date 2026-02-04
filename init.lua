@@ -325,6 +325,7 @@ else
         type = option.event_type,
         event = option.event,
         icon = option.icon,
+        name = option.name,
         label = label,
         item = option.item,
         canInteract = option.canInteract,
