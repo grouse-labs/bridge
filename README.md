@@ -27,25 +27,32 @@ A modular bridge framework for FiveM that simplifies cross-resource integration 
       - [menu](#menu)
       - [notify](#notify)
       - [target](#target)
+      - [doorlock](#doorlock)
+      - [weather](#weather)
+    - [Support](#support)
 
 ### Supported Resources
 
-| Framework   | Callback | Target    | Menu    | Notify      |
-| ----------- | -------- | --------- | ------- | ----------- |
-| qb-core     | ox_lib   | ox_target | ox_lib  | qb-core     |
-| es_extended | gr_lib   | qb-target | qb-menu | es_extended |
-| qbx_core    |          |           |         |             |
+| Framework   | Callback | Target    | Menu    | Notify      | Doorlock    | Weather             |
+| ----------- | -------- | --------- | ------- | ----------- | ----------- | ------------------- |
+| qb-core     | ox_lib   | ox_target | ox_lib  | qb-core     | ox_doorlock | Renewed-Weathersync |
+| es_extended | gr_lib   | qb-target | qb-menu | es_extended | qb-doorlock | qb-weathersync      |
+| qbx_core    |          |           |         |             |             |                     |
 
-| Resource    | Version |
-| :---------- | :-----: |
-| qb-core     | 1.3.0   |
-| es_extended | 1.13.4  |
-| qbx_core    | 1.23.0  |
-| ox_lib      | 3.30.6  |
-| gr_lib      | 1.0.0   |
-| ox_target   | 1.17.2  |
-| qb-target   | 5.5.0   |
-| qb-menu     | 1.2.0   |
+| Resource            | Version |
+| :------------------ | :-----: |
+| qb-core             | 1.3.0   |
+| es_extended         | 1.13.4  |
+| qbx_core            | 1.23.0  |
+| ox_lib              | 3.30.6  |
+| gr_lib              | 1.0.0   |
+| ox_target           | 1.17.2  |
+| qb-target           | 5.5.0   |
+| qb-menu             | 1.2.0   |
+| ox_doorlock         | 1.17.2  |
+| qb-doorlock         | 2.0.0   |
+| Renewed-Weathersync | 1.1.8   |
+| qb-weathersync      | 2.1.1   |
 
 ### Installation
 
@@ -85,13 +92,15 @@ setr grinch:callback "gr_lib" # Set the callback to use for bridge. Currently th
 setr grinch:target "ox_target" # Set the target to use for bridge. Options are "qb-target" or "ox_target".
 setr grinch:menu "ox_lib" # Set the menu to use for bridge. Options are "qb-menu" or "ox_lib".
 setr grinch:notify "qb-core" # Set the notification to use for bridge. Options are "qb-core", "es_extended" or "native".
+setr grinch:doorlock "ox_doorlock" # Set the doorlock to use for bridge. Options are "ox_doorlock" or "qb-doorlock".
+setr grinch:weather "Renewed-Weathersync" # Set the weather to use for bridge. Options are "Renewed-Weathersync" or "qb-weathersync".
 ```
 
-| Framework   | Callback | Target    | Menu    | Notify      |
-| ----------- | -------- | --------- | ------- | ----------- |
-| qb-core     | ox_lib   | ox_target | ox_lib  | qb-core     |
-| es_extended | gr_lib   | qb-target | qb-menu | es_extended |
-| qbx_core    |          |           |         | native      |
+| Framework   | Callback | Target    | Menu    | Notify      | Doorlock    | Weather             |
+| ----------- | -------- | --------- | ------- | ----------- | ----------- | ------------------- |
+| qb-core     | ox_lib   | ox_target | ox_lib  | qb-core     | ox_doorlock | Renewed-Weathersync |
+| es_extended | gr_lib   | qb-target | qb-menu | es_extended | qb-doorlock | qb-weathersync      |
+| qbx_core    |          |           |         |             |             |                     |
 
 ### Documentation
 
@@ -366,3 +375,41 @@ function target.addboxzone(data, options)
 ---@param box_zone integer|string The ID of the box zone to remove.
 function target.removezone(box_zone)
 ```
+
+#### doorlock
+
+This module is server only.
+
+```lua
+---@return 'ox_doorlock'|'qb-doorlock'
+function doorlock.getname()
+
+---@return string version
+function doorlock.getversion()
+
+---@param player integer|string The `player` who is changing the door state.
+---@param door_id string The `door_id` to change the state of.
+---@param state boolean Locks `door_id` if state is true.
+---@param picked boolean? Whether the door was lockpicked by a player.
+function doorlock.setstate(player, door_id, state, picked)
+```
+
+#### weather
+
+This module is server only.
+
+```lua
+---@return 'Renewed-Weathersync'|'qb-weathersync'
+function weather.getname()
+
+---@return string version
+function weather.getversion()
+
+---@return integer hour, integer minute
+function weather.gettime()
+```
+
+### Support
+
+- Join the [Grouse Labs 🐀 discord](https://discord.gg/pmywChNQ5m).
+- Use the appropriate support forum!
