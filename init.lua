@@ -323,6 +323,7 @@ else
         icon = option.icon,
         distance = option.distance or 2.5,
         items = option.item,
+        anyItem  = type(option.item) == 'table' and #option.item > 0,
         canInteract = option.canInteract,
         onSelect = option.onSelect,
         event = option.event_type == 'client' and option.event or nil,
