@@ -4,8 +4,8 @@ if DOORLOCK ~= MODULE_NAMES.doorlock then return end
 if not IsResourceValid(DOORLOCK) then error('doorlock resource `'..DOORLOCK..'` not valid', 0) end
 
 local VERSION <const> = GetResourceMetadata(DOORLOCK, 'version', 0)
--- local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('doorlock')[DOORLOCK]
--- if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then warn(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(DOORLOCK, MIN_VERSION, VERSION)) end
+local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('doorlock')[DOORLOCK]
+if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then warn(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(DOORLOCK, MIN_VERSION, VERSION)) end
 
 ---@type CDoorlock
 ---@diagnostic disable-next-line: missing-fields

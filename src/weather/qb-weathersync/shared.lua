@@ -4,8 +4,8 @@ if WEATHER ~= MODULE_NAMES.weather then return end
 if not IsResourceValid(WEATHER) then error('weather resource `'..WEATHER..'` not valid', 0) end
 
 local VERSION <const> = GetResourceMetadata(WEATHER, 'version', 0)
--- local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('weather')[WEATHER]
--- if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then warn(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(WEATHER, MIN_VERSION, VERSION)) end
+local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('weather')[WEATHER]
+if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then warn(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(WEATHER, MIN_VERSION, VERSION)) end
 
 local qb_weather = exports[WEATHER]
 _ENV.qb_weather = qb_weather
