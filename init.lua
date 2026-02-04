@@ -23,6 +23,13 @@ BRIDGE_VERSIONS = enum 'eBridgeVersions'
     ['es_extended'] = '1.13.4',
     ['qb-core'] = '1.3.0'
   }
+  doorlock = {
+		['ox_doorlock'] = '1.17.2',
+		['qb-doorlock'] = '2.0.0'
+	},
+	weather = {
+		['qb-weathersync'] = '2.1.1'
+	}
 }]]
 
 local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('lua') --[[@as string]]
