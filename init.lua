@@ -28,6 +28,7 @@ BRIDGE_VERSIONS = enum 'eBridgeVersions'
 		['qb-doorlock'] = '2.0.0'
 	},
 	weather = {
+    ['Renewed-Weathersync'] = '1.1.8',
 		['qb-weathersync'] = '2.1.1'
 	}
 }]]
@@ -104,7 +105,7 @@ end
 local WEATHER do
   WEATHER = get_convar('grinch:doorlock', 'null'):lower()
   if WEATHER == 'null' then
-    WEATHER = detect_resource({'qb-weathersync'})
+    WEATHER = detect_resource({'Renewed-Weathersync', 'qb-weathersync'})
   end
 end
 
