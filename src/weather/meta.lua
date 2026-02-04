@@ -1,4 +1,4 @@
 ---@class CWeather
----@field getname fun(): 'qb-weathersync'
+---@field getname fun(): 'Renewed-Weathersync'|'qb-weathersync'
 ---@field getversion fun(): string
 ---@field gettime fun(): hour: integer, minute: integer

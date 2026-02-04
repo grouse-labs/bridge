@@ -1,6 +1,7 @@
 ---@diagnostic disable: duplicate-set-field
 --------------------- FUNCTIONS ---------------------
 
+---@return integer hour, integer minute
 function weather.gettime()
   local time = GlobalState.currentTime
   return time.hour, time.minute
