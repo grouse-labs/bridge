@@ -7,7 +7,11 @@ local VERSION <const> = GetResourceMetadata(FRAMEWORK, 'version', 0)
 local MIN_VERSION <const> = BRIDGE_VERSIONS:lookup('framework')[FRAMEWORK]
 if VERSION:gsub('%D', '') < MIN_VERSION:gsub('%D', '') then warn(('incompatible version of `%s` detected (expected `%s` or higher, got `%s`)'):format(FRAMEWORK, MIN_VERSION, VERSION)) end
 
-local qbx = exports[FRAMEWORK]
+if not lib then load(LoadResourceFile('ox_lib', 'init.lua'), '@ox_lib/init.lua', 't', _ENV)() end
+local lib = _ENV.lib
+if not qbx then load(LoadResourceFile('qbx_core', 'modules/lib.lua'), '@qbx_core/modules/lib.lua', 't', _ENV)() end
+local qbx = _ENV.qbx
+local qbxport = exports[FRAMEWORK]
 
 ---@type CFramework
 ---@diagnostic disable-next-line: missing-fields
@@ -42,4 +46,4 @@ setmetatable(core, {
 })
 
 _ENV.core = core
-_ENV.qbx = qbx
+_ENV.qbxport = qbxport

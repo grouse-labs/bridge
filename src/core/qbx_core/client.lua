@@ -25,7 +25,7 @@ end
 
 ---@return table PlayerData The player data of the `player`.
 function core.getplayerdata()
-  PlayerData = not next(PlayerData) and qbx:GetPlayerData() or PlayerData
+  PlayerData = not next(PlayerData) and qbxport:GetPlayerData() or PlayerData
   return PlayerData
 end
 
@@ -58,7 +58,7 @@ end
 function core.doesplayerhavegroup(groups)
   local group_type = type(groups)
   if group_type ~= 'string' and group_type ~= 'table' then error('bad argument #1 to \'doesplayerhavegroup\' (string or table expected, got '..group_type..')', 2) end
-  return qbx:HasPrimaryGroup(player, groups)
+  return qbxport:HasPrimaryGroup(groups)
 end
 
 ---@param money_type 'money'|'cash'|'bank' The type of money to check for. <br> If `money_type` is 'cash', the player's cash is checked. <br> If `money_type` is 'bank', the player's bank is checked.
@@ -76,13 +76,13 @@ end
 
 ---@return boolean gloved Whether the `player` is wearing gloves.
 function core.isplayergloved()
-  return qbx:isWearingGloves()
+  return qbx.isWearingGloves()
 end
 
 --------------------- EVENTS ---------------------
 
 AddEventHandler(EVENTS.load, function()
-  PlayerData = qbx:GetPlayerData()
+  PlayerData = qbxport:GetPlayerData()
 end)
 
 for event, name in pairs(EVENTS) do

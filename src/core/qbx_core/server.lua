@@ -5,7 +5,7 @@
 ---@return table Player The player object.
 function core.getplayer(player)
   if not IsSrcAPlayer(player) then error('bad argument #1 to \'getplayer\' (number or string expected, got '..player..')', 2) end
-  return qbx:GetPlayer(player)
+  return qbxport:GetPlayer(player)
 end
 
 ---@param player integer|string The `player` server ID or src.
@@ -56,7 +56,7 @@ function core.doesplayerhavegroup(player, groups)
   if not core.getplayer(player) then error('error calling \'doesplayerhavegroup\' (player not found)', 2) end
   local group_type = type(groups)
   if group_type ~= 'string' and group_type ~= 'table' then error('bad argument #2 to \'doesplayerhavegroup\' (string or table expected, got '..group_type..')', 2) end
-  return qbx:HasPrimaryGroup(player, groups)
+  return qbxport:HasPrimaryGroup(tonumber(player), groups)
 end
 
 ---@param player integer|string The `player` server ID or src.
@@ -68,7 +68,7 @@ function core.getplayermoney(player, money_type)
   money_type = money_type == 'money' and 'cash' or money_type:lower()
   local Player = core.getplayer(player)
   if not Player then error('error calling \'getplayermoney\' (player not found)', 2) end
-  return qbx:GetMoney(player, money_type)
+  return qbxport:GetMoney(player, money_type)
 end
 
 ---@param player integer|string The `player` server ID or src.
@@ -83,8 +83,8 @@ function core.addplayermoney(player, money_type, amount)
   local Player = core.getplayer(player)
   if not Player then error('error calling \'addplayermoney\' (player not found)', 2) end
   local prev = core.getplayermoney(player, money_type)
-  qbx:AddMoney(player, money_type, amount, 'bridge added money: '..amount)
-  return qbx:GetMoney(player, money_type) == prev + amount
+  qbxport:AddMoney(player, money_type, amount, 'bridge added money: '..amount)
+  return qbxport:GetMoney(player, money_type) == prev + amount
 end
 
 ---@param player integer|string The `player` server ID or src.
@@ -99,8 +99,8 @@ function core.removeplayermoney(player, money_type, amount)
   local Player = core.getplayer(player)
   if not Player then error('error calling \'removeplayermoney\' (player not found)', 2) end
   local prev = core.getplayermoney(player, money_type)
-  qbx:RemoveMoney(player, money_type, amount, 'bridge removed money: '..amount)
-  return qbx:GetMoney(player, money_type) == prev - amount
+  qbxport:RemoveMoney(player, money_type, amount, 'bridge removed money: '..amount)
+  return qbxport:GetMoney(player, money_type) == prev - amount
 end
 
 ---@param player integer|string The `player` server ID or src.
@@ -237,7 +237,7 @@ end
 
 ---@return {[string]: {name: string, label: string, _type: string, grades: {[number]: {label: string, salary: number}}}}
 function core.getjobs()
-  local found_jobs = qbx:GetJobs()
+  local found_jobs = qbxport:GetJobs()
   local jobs = {}
   for k, v in pairs(found_jobs) do
     jobs[k] = ConvertJobData(k, v)
