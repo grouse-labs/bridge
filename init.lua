@@ -103,7 +103,7 @@ local DOORLOCK do
   end
 end
 local WEATHER do
-  WEATHER = get_convar('grinch:doorlock', 'null'):lower()
+  WEATHER = get_convar('grinch:weather', 'null'):lower()
   if WEATHER == 'null' then
     WEATHER = detect_resource({'Renewed-Weathersync', 'qb-weathersync'})
   end
