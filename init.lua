@@ -237,6 +237,19 @@ local job_types = enum 'job_types' {
   [get_res_meta('bridge', 'job_types', 1)--[[@as 'ems']]] = json.decode(get_res_meta('bridge', 'job_types_extra', 1))
 }
 
+---@param job string
+---@return string
+function GetJobType(job) return job_types:search(job) --[[@as string]] end
+
+---@param _type string
+---@return string[] jobs
+function GetTypeJobs(_type)
+  local _, result = job_types:search(_type)
+  local jobs = {}
+  for job in pairs(result--[[@as table]]) do jobs[#jobs + 1] = job end
+  return jobs
+end
+
 ---@param data {name: string?, label: string, grade: {name: string, level: integer}|integer, grade_name: string?, grade_label: string?, salary: integer?, payment: integer?}? The job data to convert.
 ---@return {name: string, label: string, grade: number, grade_name: string, grade_label: string, job_type: string, salary: number}? job_data The converted job data.
 function ConvertPlayerJobData(data)
