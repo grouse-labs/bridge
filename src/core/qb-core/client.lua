@@ -59,7 +59,7 @@ function core.doesplayerhavegroup(groups)
   if type(groups) == 'string' then groups = {groups} end
   if type(groups) ~= 'table' then error('bad argument #1 to \'doesplayerhavegroup\' (string or table expected, got '..type(groups)..')', 2) end
   local player = core.getplayerdata()
-  local job = JobData
+  local job = core.getplayerjob()
   local gang = ConvertGangData(player.gang)
   for i = 1, #groups do
     local group = groups[i]
