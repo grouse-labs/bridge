@@ -39,20 +39,22 @@ A modular bridge framework for FiveM that simplifies cross-resource integration 
 | es_extended | gr_lib   | qb-target | qb-menu | es_extended | qb-doorlock | qb-weathersync      |
 | qbx_core    |          |           |         |             |             |                     |
 
-| Resource            | Version |
-| :------------------ | :-----: |
-| qb-core             | 1.3.0   |
-| es_extended         | 1.13.4  |
-| qbx_core            | 1.23.0  |
-| ox_lib              | 3.30.6  |
-| gr_lib              | 1.0.0   |
-| ox_target           | 1.17.2  |
-| qb-target           | 5.5.0   |
-| qb-menu             | 1.2.0   |
-| ox_doorlock         | 1.17.2  |
-| qb-doorlock         | 2.0.0   |
-| Renewed-Weathersync | 1.1.8   |
-| qb-weathersync      | 2.1.1   |
+| Resource                                                                      | Version |
+| :---------------------------------------------------------------------------- | :-----: |
+| [qb-core](https://github.com/qbcore-framework/qb-core)                        | 1.3.0   |
+| [es_extended](https://github.com/esx-framework/esx_core)                      | 1.13.4  |
+| [qbx_core](https://github.com/Qbox-project/qbx_core)                          | 1.23.0  |
+| [ox_lib](https://github.com/CommunityOx/ox_lib)                               | 3.30.6  |
+| [gr_lib](https://github.com/grouse-labs/gr_lib)                               | 1.1.1   |
+| [ox_inventory](https://github.com/CommunityOx/ox_inventory)                   | 2.44.8  |
+| [qb-inventory](https://github.com/qbcore-framework/qb-inventory)              | 2.0.0   |
+| [qb-menu](https://github.com/qbcore-framework/qb-menu)                        | 1.2.0   |
+| [ox_target](https://github.com/CommunityOx/ox_target)                         | 1.17.2  |
+| [qb-target](https://github.com/qbcore-framework/qb-target)                    | 5.5.0   |
+| [ox_doorlock](https://github.com/CommunityOx/ox_doorlock)                     | 1.21.0  |
+| [qb-doorlock](https://github.com/qbcore-framework/qb-doorlock)                | 2.0.0   |
+| [Renewed-Weathersync](https://github.com/Renewed-Scripts/Renewed-Weathersync) | 1.1.8   |
+| [qb-weathersync](https://github.com/qbcore-framework/qb-weathersync)          | 2.1.1   |
 
 ### Installation
 
