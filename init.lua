@@ -246,6 +246,7 @@ function GetJobType(job) return job_types:search(job) --[[@as string]] end
 function GetTypeJobs(_type)
   local _, result = job_types:search(_type)
   local jobs = {}
+  if not result then return jobs end
   for job in pairs(result--[[@as table]]) do jobs[#jobs + 1] = job end
   return jobs
 end
