@@ -21,7 +21,8 @@ BRIDGE_VERSIONS = enum 'eBridgeVersions'
   },
   notify = {
     ['es_extended'] = '1.13.4',
-    ['qb-core'] = '1.3.0'
+    ['qb-core'] = '1.3.0',
+    ['qbx_core'] = '1.23.0'
   }
   doorlock = {
 		['ox_doorlock'] = '1.17.2',
@@ -92,7 +93,7 @@ end
 local NOTIFY do
   NOTIFY = get_convar('grinch:notify', 'null'):lower()
   if NOTIFY == 'null' then
-    NOTIFY = detect_resource({'es_extended', 'qb-core'})
+    NOTIFY = detect_resource({'es_extended', 'qbx_core', 'qb-core'})
   end
   NOTIFY = NOTIFY ~= 'null' and NOTIFY or 'native'
 end
