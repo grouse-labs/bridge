@@ -82,6 +82,12 @@ function core.isplayerdowned()
   return core.getplayerdata().dead
 end
 
+---@return boolean gloved Whether the `player` is wearing gloves.
+function core.isplayergloved()
+  glib.print('warning: \'isplayergloved\' is not implemented in ESX Legacy, returning false by default')
+  return false
+end
+
 --------------------- EVENTS ---------------------
 
 AddEventHandler(EVENTS.player, function(key, val, _)
