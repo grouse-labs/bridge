@@ -2,10 +2,10 @@
 --------------------- PLAYER ---------------------
 
 ---@param player integer|string The `player` server ID or src.
----@return table Player The player object.
+---@return xPlayer? Player The player object.
 function core.getplayer(player)
   if not IsSrcAPlayer(player) then error('bad argument #1 to \'getplayer\' (number or string expected, got '..player..')', 2) end
-  return ESX.GetPlayerFromId(player)
+  return ESX.GetPlayerFromId(tonumber(player)--[[@as number]])
 end
 
 ---@param player integer|string The `player` server ID or src.
@@ -32,7 +32,7 @@ function core.getplayerjob(player)
   if not IsSrcAPlayer(player) then error('bad argument #1 to \'getplayerjob\' (number or string expected, got '..player..')', 2) end
   local Player = core.getplayer(player)
   if not Player then error('error calling \'getplayerjob\' (player not found)', 2) end
-  local data = ConvertPlayerJobData(Player.PlayerData.job)
+  local data = ConvertPlayerJobData(Player.job)
   if not data or not next(data) then error('error calling \'getplayerjob\' (job data not found)', 2) end
   return data
 end
