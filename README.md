@@ -45,7 +45,7 @@ A modular bridge framework for FiveM that simplifies cross-resource integration 
 | [es_extended](https://github.com/esx-framework/esx_core)                      | 1.13.4  |
 | [qbx_core](https://github.com/Qbox-project/qbx_core)                          | 1.23.0  |
 | [ox_lib](https://github.com/CommunityOx/ox_lib)                               | 3.30.6  |
-| [gr_lib](https://github.com/grouse-labs/gr_lib)                               | 1.1.1   |
+| [gr_lib](https://github.com/grouse-labs/gr_lib)                               | 1.1.3   |
 | [ox_inventory](https://github.com/CommunityOx/ox_inventory)                   | 2.44.8  |
 | [qb-inventory](https://github.com/qbcore-framework/qb-inventory)              | 2.0.0   |
 | [qb-menu](https://github.com/qbcore-framework/qb-menu)                        | 1.2.0   |
