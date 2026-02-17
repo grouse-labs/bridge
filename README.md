@@ -56,6 +56,8 @@ A modular bridge framework for FiveM that simplifies cross-resource integration 
 | [Renewed-Weathersync](https://github.com/Renewed-Scripts/Renewed-Weathersync) | 1.1.8   |
 | [qb-weathersync](https://github.com/qbcore-framework/qb-weathersync)          | 2.1.1   |
 
+**Note:** [TheOrderFiveM](https://github.com/TheOrderFivem)'s version of [ox_doorlock](https://github.com/TheOrderFivem/ox_doorlock) has been tested and is also **compatible**, regardless of version warnings.
+
 ### Installation
 
 - Always use the reccomended FiveM artifacts, last tested on [23683](https://runtime.fivem.net/artifacts/fivem/build_server_windows/master/).
