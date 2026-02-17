@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'Grouse Labs'
 description 'A modular bridge framework for FiveM that simplifies cross-resource integration and reduces framework coupling.'
-version '1.1.24'
+version '1.1.25'
 url 'https://github.com/grouse-labs/bridge'
 
 -- If the framework is ESX, the job_types below is used to determine the job type of the player.
