@@ -17,7 +17,7 @@ function notify.item(item, amount, text)
   if amount and type(amount) ~= 'number' then error('bad argument #2 to \'item\' (number expected, got '..type(amount)..')', 2) end
   if text and type(text) ~= 'string' then error('bad argument #3 to \'item\' (string expected, got '..type(text)..')', 2) end
   amount = amount or 1
-  ESX.UI.ShowInventoryItemNotification(amount >= 1 and 'add' or 'remove', ESX.Items[item].label, amount)
+  ESX.UI.ShowInventoryItemNotification(amount >= 1 and true or false, ESX.Items[item].label, amount)
   if text then notify.text(text) end
 end
 

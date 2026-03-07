@@ -21,7 +21,7 @@ function notify.item(player, item, amount, text)
   if amount and type(amount) ~= 'number' then error('bad argument #3 to \'item\' (number expected, got '..type(amount)..')', 2) end
   if text and type(text) ~= 'string' then error('bad argument #4 to \'item\' (string expected, got '..type(text)..')', 2) end
   amount = amount or 1
-  TriggerClientEvent('grinch:client:notify_item', player, ESX.Items[item].label, amount >= 1 and 'add' or 'remove', amount, text)
+  TriggerClientEvent('grinch:client:notify_item', player, ESX.Items[item].label, amount, amount, text)
 end
 
 --------------------- OBJECT ---------------------
